@@ -7,7 +7,6 @@ include_once ($NETCAT_FOLDER."vars.inc.php");
 // запрет прямого обращения
 if (!function_exists('nc_strlen')) die("Unable to load file.");
 
-
 // include need classes
 include_once ($SYSTEM_FOLDER."nc_system.class.php");
 include_once ($SYSTEM_FOLDER."nc_exception.class.php");
@@ -15,9 +14,22 @@ include_once ($SYSTEM_FOLDER."nc_core.class.php");
 include_once ($SYSTEM_FOLDER."nc_ezsqlcore.class.php");
 include_once ($SYSTEM_FOLDER."nc_essence.class.php");
 
-
 try {
     session_start();
+	
+	// utm parms +OPE
+	//if (preg_match("/^(utm_source|utm_medium|utm_campaign)\s+/i", serialize($_REQUEST))) {
+	if (!empty($_REQUEST)&&empty($_SESSION["UTM"])) {
+		foreach ($_REQUEST as $key => $value) {
+			if (!(strripos($key,"utm_")===false)) {
+				$_SESSION["UTM"][$key] = $value;
+			}
+		}
+		if (!empty($_SESSION["UTM"])) {
+			$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
+		}
+	}
+	
     // initialize superior system object
     $nc_core = nc_Core::get_object();
     // load default extensions

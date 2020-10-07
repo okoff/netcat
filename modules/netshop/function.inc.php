@@ -1095,9 +1095,16 @@ GROUP BY a.Message_ID ORDER BY a.AppliesTo, a.Priority DESC
 
         $delivery_method_info = $this->EligibleMethodsOf('delivery', 1);
         $delivery_method_info = $delivery_method_info[$_POST["f_DeliveryMethod"]];
-
 		
-		
+		$utm = ""; // +OPE
+		$href = "";
+		if (!empty($_SESSION["UTM"])) {
+			foreach ($_SESSION["UTM"] as $key => $value) {
+				$utm.=$key ."=".$value.";";
+			}
+			$href = $_SESSION["HREF"];
+			//error_log("utm:[".var_export($utm,true)."] ".var_export($href,true));
+		}
 		
 		// просто сохраняем заказ. 
 		q("UPDATE Message$this->order_table
@@ -1112,9 +1119,10 @@ GROUP BY a.Message_ID ORDER BY a.AppliesTo, a.Priority DESC
                 Flat='".htmlspecialchars($_POST['f_Flat'],ENT_QUOTES,"cp1251")."',
                 Comments='".htmlspecialchars($_POST['f_Comments'],ENT_QUOTES,"cp1251")."',
                 Phone='".htmlspecialchars($_POST['f_Phone'],ENT_QUOTES,"cp1251")."',
-                mphone='".htmlspecialchars($_POST['f_mphone'],ENT_QUOTES,"cp1251")."'
+                mphone='".htmlspecialchars($_POST['f_mphone'],ENT_QUOTES,"cp1251")."',
+				utm='".substr(htmlspecialchars($utm,ENT_QUOTES,"cp1251"),0,255)."',
+				href='".substr(htmlspecialchars($href,ENT_QUOTES,"cp1251"),0,255)."'
           WHERE Message_ID=".$order_id);
-		
 		
 		// проверяем с какого сайта идет заказ
         q("UPDATE Message$this->order_table
@@ -1126,6 +1134,7 @@ GROUP BY a.Message_ID ORDER BY a.AppliesTo, a.Priority DESC
 
 		$this->Order["PaymentCost"] = $payment_method_info["Sum"];
         $this->Order["DeliveryCost"] = $delivery_method_info["Sum"];
+		
 		// доставка по почте
 		if ($GLOBALS["f_DeliveryMethod"]==3) {
 			$postcost=$this->Order["DeliveryCost"];
