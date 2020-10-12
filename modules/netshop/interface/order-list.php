@@ -133,6 +133,8 @@ function printOrder($row) {
 	<td style='vertical-align:top;'>".getOrderCost($row['Message_ID'])."</td>
 	<td style='vertical-align:top;'>".$row['DeliveryCost']."</td>
 	<td style='vertical-align:top;'>".$row['couriercost']."</td>
+	<td style='vertical-align:top;'>".str_replace(";","<BR>",$row['utm'])."</td>
+	<td style='vertical-align:top;'>".$row['href']."</td>
 	</tr>";
 	
 	return $html;
@@ -199,7 +201,6 @@ function getOrderList($incoming) {
 		$where=" Message51.barcode=".intval($incoming['barcode']);
 	}
 	
-	
 	($closed) ? $where=" NOT  Message51.closed=1 AND ".$where : "";
 	($where!="") ? $where=" WHERE ".$where : $where=" WHERE Message51.Created BETWEEN '".date("Y-m-d 00:00:00")."' AND '".date("Y-m-d 23:59:59")."'";
 	//echo $where."<br>";
@@ -234,6 +235,8 @@ function getOrderList($incoming) {
 		<td>Сумма заказа</td>
 		<td>Сумма доставки</td>
 		<td>Оплата курьеру</td>
+		<td>UTM</td>
+		<td>HREF</td>
 	</tr>";
 		if ($result=mysql_query($sql)) {
 			$html="<p>Всего заказов: <b>".mysql_num_rows($result)."</b></p>".$html;
@@ -245,7 +248,6 @@ function getOrderList($incoming) {
 		
 		
 	}
-	
 	return $html;
 }
 // ------------------------------------------------------------------------------------------------
@@ -274,7 +276,6 @@ switch ($incoming['action']) {
 		$html=getOrderList($incoming);
 		break;
 }
-	
 
 ?>
 <!DOCTYPE html>
