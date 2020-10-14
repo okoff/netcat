@@ -1,5 +1,6 @@
 <?php
 // 12.11.2013 Elen
+// 14.10.2020 OPE
 // поиск и просмотр списка заказов
 include_once ("../../../../vars.inc.php");
 session_start();
@@ -134,7 +135,11 @@ function printOrder($row) {
 	<td style='vertical-align:top;'>".$row['DeliveryCost']."</td>
 	<td style='vertical-align:top;'>".$row['couriercost']."</td>
 	<td style='vertical-align:top;'>".str_replace(";","<BR>",$row['utm'])."</td>
-	<td style='vertical-align:top;'>".$row['href']."</td>
+	<td style='vertical-align:top;'>".
+	((strlen($row['href'])>24) 
+		? "<div class='tooltip'>".substr($row['href'],0,23)."<span class='tooltiptext'>".$row['href']."</span></div>"
+		: $row['href']
+	)."</td>
 	</tr>";
 	
 	return $html;
@@ -335,6 +340,28 @@ function checkAll() {
 		font-size:10pt;
 		font-family:Tahoma;
 	}
+	.tooltip {
+	  position: relative;
+	  display: inline-block;
+	  border-bottom: 1px dotted black;
+	}
+	.tooltip .tooltiptext {
+	  visibility: hidden;
+	  width: 480px;
+	  background-color: black;
+	  color: #fff;
+	  text-align: left;
+	  border-radius: 6px;
+	  padding: 5px 0;
+ 
+	  /* Position the tooltip */
+	  position: absolute;
+	  z-index: 1;
+	}
+	.tooltip:hover .tooltiptext {
+	  visibility: visible;
+	}
+</style>
 	</style>
 </head>
 <body>
