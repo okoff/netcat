@@ -17,13 +17,19 @@ include_once ($SYSTEM_FOLDER."nc_essence.class.php");
 try {
     session_start();
 	
+	if (!empty($_GET)) {
+		$qry = $_GET;
+	} else if (!empty($_SERVER['REDIRECT_QUERY_STRING'])) {
+		parse_str($_SERVER['REDIRECT_QUERY_STRING'],$qry);
+	}
+
+//	error_log('system index.php _qry='.var_export($qry,true));
+	
 	// utm parms +OPE
-	//if (preg_match("/^(utm_source|utm_medium|utm_campaign)\s+/i", serialize($_REQUEST))) {
-	if (!empty($_REQUEST)&&empty($_SESSION["UTM"])) {
-		foreach ($_REQUEST as $key => $value) {
+	if (!empty($qry)&&empty($_SESSION["UTM"])) {
+		foreach ($qry as $key => $value) {
 			if (!(strripos($key,"utm_")===false)) {
 				$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
-//				$_SESSION["UTM"][$key] = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $value);
 			}
 		}
 		if (!empty($_SESSION["UTM"])) {
