@@ -17,15 +17,8 @@ include_once ($SYSTEM_FOLDER."nc_essence.class.php");
 try {
     session_start();
 	
-	if (!empty($_GET)) {
-		$qry = $_GET;
-	} else if (!empty($_SERVER['REDIRECT_QUERY_STRING'])) {
-		parse_str($_SERVER['REDIRECT_QUERY_STRING'],$qry);
-	}
-
-//	error_log('system index.php _qry='.var_export($qry,true));
-	
-	// utm parms +OPE
+	// utm parms +OPE 2020.10.23
+	parse_str(parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY),$qry);
 	if (!empty($qry)&&empty($_SESSION["UTM"])) {
 		foreach ($qry as $key => $value) {
 			if (!(strripos($key,"utm_")===false)) {
