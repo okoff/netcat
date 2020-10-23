@@ -32,9 +32,9 @@ try {
 				$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
 			}
 		}
-		if (!empty($_SESSION["UTM"])) {
-			$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
-		}
+	}
+	if (!empty($_SERVER['HTTP_REFERER'])&&empty($_SESSION["HREF"])) {
+		$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
 	}
 	
     // initialize superior system object
