@@ -50,19 +50,43 @@ if (!Validator::isValidPhone($phone)) {
 		exit;
 	}
 	mysqli_set_charset($link, "utf8");
+
+	$utm = ""; // +OPE
+	if (!empty($_SESSION["UTM"])) {
+		foreach ($_SESSION["UTM"] as $key => $value) {
+			$utm.=$key ."=".$value.";";
+		}
+	}
+	$href = $_SESSION["HREF"];
 	
+//	error_log("handler.php utm:[".var_export($utm,true)."] ".var_export($href,true).
+//		"] REQUEST_URI={".$_SERVER['REQUEST_URI']."] HTTP_REFERER=[".$_SERVER['HTTP_REFERER']."]");	
 	
 	//mysql_set_charset("utf8", $con);
 	
-	$sql = "INSERT INTO Message51 (Subdivision_ID, Sub_Class_ID, User_ID, Created, ContactName, Email, Phone, Comments, Type, Status, DeliveryCost, PaymentCost)
-				VALUES (57, 53, 1,
-				'".$dte."',
-				'".$name."',
-				'".$email."',
-				'".$phone."',
-				'".$message."',
-				2, 5, 0, 0)";
-				//'".iconv("windows-1251//TRANSLIT", "UTF-8", htmlspecialchars($name))."',
+	$sql = 
+	"INSERT INTO Message51 (
+		Subdivision_ID, Sub_Class_ID, User_ID, 
+		Created, 
+		ContactName, 
+		Email, 
+		Phone, 
+		Comments, 
+		utm,
+		href,
+		Type, Status, DeliveryCost, PaymentCost)
+	VALUES (
+		57, 53, 1,
+		'".$dte."',
+		'".$name."',
+		'".$email."',
+		'".$phone."',
+		'".$message."',
+		'".substr(htmlspecialchars($utm,ENT_QUOTES,"cp1251"),0,255)."',
+		'".substr(htmlspecialchars($href,ENT_QUOTES,"cp1251"),0,255)."',		
+		2, 5, 0, 0)";
+
+	//'".iconv("windows-1251//TRANSLIT", "UTF-8", htmlspecialchars($name))."',
 	$result=mysqli_query($link,$sql);
 	if ($result==false) {
 		die("Error MySQL request: ".mysqli_error($link)."<br>Query: ".$sql);
