@@ -3,6 +3,19 @@ include "../vars.inc.php";
 
 session_start();
 
+// utm parms +OPE 2020.10.23
+parse_str(parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY),$qry);
+if (!empty($qry)&&empty($_SESSION["UTM"])) {
+	foreach ($qry as $key => $value) {
+		if (!(strripos($key,"utm_")===false)) {
+			$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
+		}
+	}
+}
+if (!empty($_SERVER['HTTP_REFERER'])&&empty($_SESSION["HREF"])) {
+	$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
+}
+
 require_once './mailer/Validator.php';
 require_once './mailer/ContactMailer.php';
 
