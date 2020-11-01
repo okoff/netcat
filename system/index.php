@@ -22,7 +22,11 @@ try {
 	if (!empty($qry)&&empty($_SESSION["UTM"])) {
 		foreach ($qry as $key => $value) {
 			if (!(strripos($key,"utm_")===false)) {
-				$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
+				$_SESSION["UTM"][$key] = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $value);
+				if (empty($_SESSION["UTM"][$key])) {
+					$_SESSION["UTM"][$key] = $value;
+				}
+//				$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
 			}
 		}
 	}
