@@ -3,22 +3,20 @@ include "../vars.inc.php";
 
 session_start();
 
-// utm parms +OPE 2020.10.23
-parse_str(parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY),$qry);
-if (!empty($qry)&&empty($_SESSION["UTM"])) {
-	foreach ($qry as $key => $value) {
-		if (!(strripos($key,"utm_")===false)) {
-			$_SESSION["UTM"][$key] = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $value);
-			if (empty($_SESSION["UTM"][$key])) {
-				$_SESSION["UTM"][$key] = $value;
+	// utm parms +OPE 2020.11.07
+	parse_str(parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY),$qry);
+	if (!empty($qry)&&empty($_SESSION["UTM"])) {
+	//	$_SESSION["QUERY(handler)"]=$qry;
+		foreach ($qry as $key => $value) {
+			if (!(strripos($key,"utm_")===false)) {
+				$win1251 = mb_convert_encoding($value, 'windows-1251', 'auto');
+				$_SESSION["UTM"][$key] = (strlen($win1251)==strlen($value)) ? $value : $win1251;
 			}
-//			$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
 		}
 	}
-}
-if (!empty($_SERVER['HTTP_REFERER'])&&empty($_SESSION["HREF"])) {
-	$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
-}
+	if (!empty($_SERVER['HTTP_REFERER'])&&empty($_SESSION["HREF"])) {
+		$_SESSION["HREF"] = $_SERVER['HTTP_REFERER'];
+	}
 
 require_once './mailer/Validator.php';
 require_once './mailer/ContactMailer.php';
@@ -27,11 +25,11 @@ if (!Validator::isAjax() || !Validator::isPost()) {
 	echo 'Доступ запрещен!';
 	exit;
 }
-//var_dump($_POST);
-$name = isset($_POST['name']) ? trim(strip_tags($_POST['name'])) : null;
+	// str_replace +OPE 2020.11.07
+$name = isset($_POST['name']) ? trim(strip_tags(str_replace("'",'`',$_POST['name']))) : null;
 $email = isset($_POST['email']) ? trim(strip_tags($_POST['email'])) : null;
 $phone = isset($_POST['phone']) ? trim(strip_tags($_POST['phone'])) : null;
-$message = isset($_POST['message']) ? trim(strip_tags($_POST['message'])) : null;
+$message = isset($_POST['message']) ? trim(strip_tags(str_replace("'",'`',$_POST['message']))) : null;
 $itemid = isset($_POST['itemid']) ? trim(strip_tags($_POST['itemid'])) : '1';
 $itemprice = isset($_POST['itemprice']) ? trim(strip_tags($_POST['itemprice'])) : '1';
 $itemorprice = isset($_POST['itemorprice']) ? trim(strip_tags($_POST['itemorprice'])) : '1';
@@ -76,10 +74,14 @@ if (!Validator::isValidPhone($phone)) {
 	}
 	$href = $_SESSION["HREF"];
 	
-//	error_log("handler.php utm:[".var_export($utm,true)."] ".var_export($href,true).
-//		"] REQUEST_URI={".$_SERVER['REQUEST_URI']."] HTTP_REFERER=[".$_SERVER['HTTP_REFERER']."]");	
-	
-	//mysql_set_charset("utf8", $con);
+//error_log("handler.php utm:[".var_export($utm,true)."]");
+//error_log("href:".var_export($href,true)."]");
+//error_log("REQUEST_URI={".$_SERVER['REQUEST_URI']."]");
+//error_log("HTTP_REFERER=[".$_SERVER['HTTP_REFERER']."]");
+//error_log('utm="'.iconv('windows-1251','utf-8',$utm).'"');		
+//error_log('href="'.iconv('windows-1251','utf-8',$href).'"');
+
+	// iconv +OPE 2020.11.07
 	
 	$sql = 
 	"INSERT INTO Message51 (
@@ -99,9 +101,11 @@ if (!Validator::isValidPhone($phone)) {
 		'".$email."',
 		'".$phone."',
 		'".$message."',
-		'".substr(htmlspecialchars($utm,ENT_QUOTES,"cp1251"),0,255)."',
-		'".substr(htmlspecialchars($href,ENT_QUOTES,"cp1251"),0,255)."',		
+		'".iconv('windows-1251','utf-8',str_replace("'",'`',$utm))."',		
+		'".iconv('windows-1251','utf-8',str_replace("'",'`',$href))."',		
 		2, 5, 0, 0)";
+
+//error_log("handler.php sql:[".$sql).
 
 	//'".iconv("windows-1251//TRANSLIT", "UTF-8", htmlspecialchars($name))."',
 	$result=mysqli_query($link,$sql);
@@ -172,11 +176,8 @@ if (!Validator::isValidPhone($phone)) {
 	mysqli_close($link);
 
 if (ContactMailer::send($name, $email, $phone, $message, $itemid, $itemart, $itemname, ceil($itemprice), $itemorprice, $order_id)) {
-		
-	echo iconv("UTF-8","windows-1251//TRANSLIT",htmlspecialchars($name) . ', ваш заказ №'.$order_id.' успешно отправлен. Наш менеджер свяжется с Вами в ближайшее время. ');
+	echo iconv("UTF-8","windows-1251//TRANSLIT",htmlspecialchars($name).', ваш заказ №'.$order_id.' успешно отправлен. Наш менеджер свяжется с Вами в ближайшее время. ');
 } else {
-//	echo iconv("UTF-8","windows-1251//TRANSLIT",'Произошла ошибка! Не удалось отправить сообщение.');
-	//echo "!!!!!!!!!!!!!";
 	echo 'Произошла ошибка! Не удалось отправить сообщение.';
 }
 exit;

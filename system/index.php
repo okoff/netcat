@@ -17,16 +17,14 @@ include_once ($SYSTEM_FOLDER."nc_essence.class.php");
 try {
     session_start();
 	
-	// utm parms +OPE 2020.10.23
+	// utm parms +OPE 2020.11.07
 	parse_str(parse_url($_SERVER['REQUEST_URI'],PHP_URL_QUERY),$qry);
 	if (!empty($qry)&&empty($_SESSION["UTM"])) {
+	//	$_SESSION["QUERY(index)"]=$qry;
 		foreach ($qry as $key => $value) {
 			if (!(strripos($key,"utm_")===false)) {
-				$_SESSION["UTM"][$key] = iconv('utf-8//IGNORE', 'windows-1251//IGNORE', $value);
-				if (empty($_SESSION["UTM"][$key])) {
-					$_SESSION["UTM"][$key] = $value;
-				}
-//				$_SESSION["UTM"][$key] = mb_convert_encoding($value, 'windows-1251', 'auto');
+				$win1251 = mb_convert_encoding($value, 'windows-1251', 'auto');
+				$_SESSION["UTM"][$key] = (strlen($win1251)==strlen($value)) ? $value : $win1251;
 			}
 		}
 	}
