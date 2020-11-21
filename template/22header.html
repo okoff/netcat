@@ -1,0 +1,459 @@
+%Header
+
+<div id='maincontent'>
+<table cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+		<td valign='top' width='172'>";
+
+echo "<div id='searchbox'>
+<strong>Поиск ножей template 22</strong>
+<br><br>
+<form action='".($admin_mode ? "".$HTTP_ROOT_PATH."index.php?" : "/searchres/" )."' method='get' name='frm_filter'>
+<input type='hidden' name='action' value='index' />
+<input type='hidden' name='admin_mode' value='".$admin_mode."' />
+ ".( $inside_admin ? "<input type='hidden' name='inside_admin' value='1' />
+<input type='hidden' name='cc' value='".$cc."' />
+" : "")." 
+	
+<div>
+	Название: <br><input type='text' name='srchPat[0]' size='20' maxlength='250' value=''>
+</div><br>
+<div>
+	Артикул: <br><input type='text' name='srchPat[2]' size='20' maxlength='250' value=''>
+</div><br>
+<div>Производитель: <br><select name='srchPat[1]' size='1'>
+	<option value=''>--------- Все ---------</option>";
+$query="SELECT Manufacturer_ID, Manufacturer_Name FROM Classificator_Manufacturer WHERE Checked=1 ORDER BY Manufacturer_Name ASC";
+$res = (array) $nc_core->db->get_results($query);
+for ($i=0; $i<count($res); $i++) { //>
+	echo "<option value='{$res[$i]->Manufacturer_ID}' ".(($_GET[srchPat][1]==$res[$i]->Manufacturer_ID) ? "selected" : "" ).">{$res[$i]->Manufacturer_Name}</option>";
+}
+echo "
+	</select></div>
+<br>
+
+<div>Марка стали клинка: <br><select name='srchPat[4]' size='1'>
+	<option value=''>--------- Все ---------</option>";
+$query="SELECT steel_ID,steel_Name FROM Classificator_steel WHERE Checked=1 ORDER BY steel_Name ASC";
+$res = (array) $nc_core->db->get_results($query);
+for ($i=0; $i<count($res); $i++) { //>
+	echo "<option value='{$res[$i]->steel_ID}' ".(($_GET[srchPat][4]==$res[$i]->steel_ID) ? "selected" : "" ).">{$res[$i]->steel_Name}</option>";
+}
+echo "	
+</select></div>
+<br>
+
+<div>Цена,&nbsp;р.:<input type='text' name='srchPat[10]' style='width:30px;' size='5' maxlength='16' value='".(($_GET[srchPat][10]) ? $_GET[srchPat][10] : "" )."'> - <input name='srchPat[11]' type='text' style='width:30px;'  size='5' maxlength='16' value='".(($_GET[srchPat][11]) ? $_GET[srchPat][11] : "" )."'></div>
+<br>
+<!--div>В наличии:<br><input type='radio' name='srchPat[15]' id='t15_2' value='2' ".(($_GET[srchPat][15]==2) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_2'>да</label> &nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_3' value='3' ".(($_GET[srchPat][15]==3) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_3'>нет</label>&nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_1' value='' ".(($_GET[srchPat][15]=="") ? "checked" : "" )." style='vertical-align:middle'><label for='t15_1'>все</label></div>
+<br-->
+	
+<input class='btn_find' value='".NETCAT_SEARCH_FIND_IT."' type='submit' onclick='return checkFilter();' />
+</form>
+</div><br>
+<!-- // форма поиска -->";
+
+echo "<table cellpadding='0' cellspacing='0' border='0' style='margin-top:30px;'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>Ножи по категориям</p>
+			<ul>
+			<li><a href='/additcharacter/men-present/'><strong>Подарки для мужчин, нож в подарок</strong></a>
+					<ul>
+						<li><a href='/additcharacter/military-present'>Подарки военному</a></li>
+						<li><a href='/additcharacter/hunter-present'>Подарки охотнику</a></li>
+						<li><a href='/additcharacter/fishermen-present'>Подарки рыбаку</a></li>
+						<li><a href='/additcharacter/boss-present'>Подарки руководителю</a></li>
+						<li><a href='/additcharacter/boyfriend-present'>Подарки парню</a></li>
+						<li><a href='/additcharacter/friend-present'>Подарки другу</a></li>
+						<li><a href='/additcharacter/dad-present'>Подарки папе и дедушке</a></li>
+						<li><a href='/additcharacter/set-present'>Подарочные наборы</a></li>
+					</ul>
+			</li>
+			<li><a href='/Netshop/catalogue/'><strong>Ножи</strong></a>
+			".s_browse_sub(81,$browse_sub[1])."</li>
+			<li><a href='/Netshop/catalogue/accessuar/'><strong>Все для заточки, аксессуары</strong></a>
+				<ul>
+					<li><a href='/additcharacter/diamond-hones/'>Алмазные бруски</a></li>
+					<li><a href='/additcharacter/water-stones/'>Водные камни</a></li>
+					<li><a href='/additcharacter/tochilki/'>Точилки и заточные устройства</a></li>
+				</ul>
+				</li>
+			<li><a href='/Netshop/klinok/'><strong>Клинки</strong></a>
+			<ul>
+					<li><a href='/Netshop/klinok/casting/'>Литье для ножей: гарды, навершии</a><br />
+					".s_browse_sub(154,$browse_sub[1])."</li>
+					<li><a href='/Netshop/klinok/wood/'>Дерево (бруски для рукоятей), стабилизированное дерево</a>
+						<br /></li>
+				</ul>
+			<li><a href='/Netshop/topor/'><strong>Топоры</strong></a></li>
+			<li><a href='/Netshop/sword/'><strong>Нагайки, дураки</strong></a></li>
+			<li><a href='/Netshop/armour/'><strong>Доспехи, кованые изделия</strong></a></li>
+			<li><a href='/Netshop/accessories/'><strong>Аксессуары</strong></a></li>
+			<li><a href='/Netshop/tools/'><strong>Средства обработки дерева и металла</strong></a></li>
+			<li><a href='/Netshop/cutlery/'><strong>Столовые приборы</strong></a></li>
+			<li><a href='/Netshop/multitool/'><strong>Мультитулы</strong></a></li>
+			<li><a href='/Netshop/instrumenti/'><strong>Инструменты</strong></a></li>
+			<li><a href='/Netshop/tourist/'><strong>Туристические товары</strong></a>
+				".s_browse_sub(2561,$browse_sub[1])."
+				<ul>
+				<li><a href='/additcharacter/tourist-knife/'>Туристические ножи</a></li>	
+				</ul>
+			</li>
+			<li><a href='/Netshop/snarajenie/'><strong>Снаряжение</strong></a>
+				".s_browse_sub(2710,$browse_sub[1])."
+			</li>
+				<li><a href='/Netshop/nojni-koja/'><strong>Ножны кожаные</strong></a>
+				".s_browse_sub(2751,$browse_sub[1])."
+			</li>
+			</ul>
+			<br />
+			<a href='/discount-knives/'><img src='/images/sale.png' alt='Ножи со скидкой'></a>
+			<br />
+			</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>По видам стали</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_steel  WHERE Checked=1
+			ORDER BY steel_Name ASC", "<li><a href='/steel/steel-\$data[steel_ID]'>\$data[steel_Name]</a></li>")."
+			</ul>
+			<br />
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3' style='margin-bottom:0;padding-bottom:0;'>Российские производители:</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_Manufacturer  WHERE Checked=1 AND Rus=1
+			ORDER BY Manufacturer_Name ASC", "<li><a href='/Manufacturer/Manufacturer-\$data[Manufacturer_ID]'>\$data[Manufacturer_Name]</a></li>")."
+			</ul>
+			<br>
+			<p class='hh3' style='margin-bottom:0;padding-bottom:0;'>Зарубежные производители:</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_Manufacturer  WHERE Checked=1 AND Rus=0
+			ORDER BY Manufacturer_Name ASC", "<li><a href='/Manufacturer/Manufacturer-\$data[Manufacturer_ID]'>\$data[Manufacturer_Name]</a></li>")."
+			</ul>
+			<br>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>Дополнительный каталог ножей</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_additcharacter  WHERE Checked=1  AND NOT additcharacter_ID=21 AND NOT additcharacter_ID=22
+			ORDER BY additcharacter_Name ASC", "<li><a href='/additcharacter/\$data[Value]'>\$data[additcharacter_Name]</a></li>")."
+			</ul>
+			<br />
+			<p class='hh3'>Для заточки ножей</p>
+			Бруски и устройства для заточки:
+			<a href='/Netshop/catalogue/accessuar/'><img class='img_preview' src='/netcat_files/195/229/4_1.jpg' alt='Заточный станок СКЛАДИШОК' width='145'></a> <br>
+			<a href='/Netshop/catalogue/accessuar/'>Купить бруски</a>  
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Работы мастеров</p>
+			<ul>
+			<li> <a href='https://russian-knife.ru/articles/articles_11.html'>Ножи Пампухи И.Ю.</a></li>
+			<li> <a href='https://russian-knife.ru/articles/articles_13.html'>Ножи Чебуркова А.И.</a></li>     
+			<li> <a href='https://russian-knife.ru/articles/articles_16.html'>Ножи ООО Булат - Бессонова Алексея</a></li>                                                  
+			</ul>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Новости</p>
+			<div class='nc_list nc_news'>";
+			$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=134 AND Sub_Class_ID=170
+			ORDER BY Priority DESC LIMIT 2";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+			echo "<div class='nc_row'>
+			<h3><a href='/news/news_{$r->Message_ID}.html'>{$r->Title}</a></h3>
+			{$r->Announce}
+			<div class='nc_datetime'><span class='nc_date'>".date("d.m.Y",strtotime($r->Date))."</span></div>
+			</div>";
+			}	
+			echo "<p><a href='/news/'>все новости</a></p>
+			</div>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br>
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Статьи</p>
+			<div class='nc_list nc_news'>";
+			$query = "SELECT * FROM Message23  WHERE Checked=1 AND Subdivision_ID=17 AND Sub_Class_ID=9
+			ORDER BY Date DESC LIMIT 2";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+			echo "<div class='nc_row'>
+			<h3><a href='/articles/articles_{$r->Message_ID}.html'>{$r->Title}</a></h3>
+			{$r->Announce}</div>";
+			}
+			echo "<p><a href='/articles/'>все статьи</a></p>
+			</div>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+		<tr><td class='leftcol_top'></td></tr>
+		<tr><td class='leftcol'>
+			<div id='lcol'>
+				<p class='hh2'>Технологии изготовления ножей</p>
+				<ul>
+				<li> <a href='https://russian-knife.ru/articles/articles_12.html'>Процесс изготовления булатных ножей - Игорь Пампуха</a></li>
+				</ul>
+			</div>
+		</td>
+		</tr>
+		<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr><td class='leftcol_top'></td></tr>
+<tr><td class='leftcol'>
+	<div id='lcol'>
+		<p class='hh2'>Фото отчеты с выставок</p>
+		<ul>
+			<li><a href='https://russian-knife.ru/articles/articles_27.html'>Выставка 'Охота. Рыбалка. Отдых' 20-23 февраля 2014г, Крокус</a></li>
+            <li><a href='https://russian-knife.ru/news/news_123.html'>Московская международная выставка «ARMS & Hunting»ARMS & Hunting. 10-13 октября 2013г, (Гостиный двор)</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_121.html'>Выставка 'Охота и рыболовство на Руси'. 3-6 октября 2013г, ВВЦ</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_108.html'>Выставка- продажа ножей Мастерской Чебуркова сентябрь 2013 в магазине 'Русские Ножи'</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_117.html'>Выставка- продажа ножей Мастерской Чебуркова июнь 2013 в магазине 'Русские Ножи'</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_103.html'>Выставка- продажа ножей Пампухи И.Ю. май 2013 в магазине 'Русские Ножи'</a></li>
+            <li><a href='https://russian-knife.ru/news/news_101.html'>27-я выставка «Клинок - традиции и современность» в Сокольниках! апрель 2013'</a></li>
+            <li><a href='https://russian-knife.ru/news/news_99.html'>Выставка- продажа ножей Мастерской Чебуркова март 2013 в магазине 'Русские Ножи'</a></li>
+			<li><a href='https://russian-knife.ru/articles/articles_22.html'>Выставка 'Охота и рыболовство на Руси'. 27 февраля - 3 марта 2013г, ВВЦ.</a></li>
+			<li><a href='https://russian-knife.ru/articles/articles_21.html'>Международная выставка 'Охота. Рыбалка. Отдых' 21-24 февраля 2013г</a></li>
+		</ul>
+	</div>
+</td></tr>
+<tr><td class='leftcol_btm'></td></tr>
+</table>
+		</td>
+		".
+(($action=="full") ? "
+		<td  valign='top'>
+			<p class='navbar'>
+				".s_browse_path_range (-1,$sub_level_count-1,$browse_global)."
+			</p>
+
+"
+: "
+		<td  valign='top'>
+			<p class='navbar'>
+				".s_browse_path_range (-1,$sub_level_count-1,$browse_global)."
+			</p>
+			<table cellpadding='0' cellspacing='0' border='0' style='margin-left:15px;'>
+				<tr><td class='maincol1_top'></td></tr>
+				<tr>
+					<td class='maincol1'>
+						<div id='lcol1'>
+						<p class='hh2'>".$current_sub[Subdivision_Name]."</p>
+
+
+
+".(($sub==81) ? "<p class='hh2'>Новинки</p>".
+							s_list_class(141,176,"&srchPat[6]=1").
+							s_list_class(103,136,"&srchPat[6]=1").
+							s_list_class(138,173,"&srchPat[6]=1").
+							s_list_class(102,135,"&srchPat[6]=1").
+							s_list_class(139,174,"&srchPat[6]=1").
+							s_list_class(106,139,"&srchPat[6]=1").
+							s_list_class(109,142,"&srchPat[6]=1").
+							s_list_class(147,182,"&srchPat[6]=1").
+							s_list_class(151,185,"&srchPat[6]=1").
+							s_list_class(153,187,"&srchPat[6]=1").
+							s_list_class(157,191,"&srchPat[6]=1").
+							s_list_class(161,195,"&srchPat[6]=1").
+							s_list_class(280,325,"&srchPat[6]=1").
+							s_list_class(108,141,"&srchPat[6]=1").
+							s_list_class(154,188,"&srchPat[6]=1").
+							s_list_class(155,189,"&srchPat[6]=1").
+							s_list_class(131,166,"&srchPat[6]=1").
+							s_list_class(149,183,"&srchPat[6]=1").
+							s_list_class(162,196,"&srchPat[6]=1").
+							s_list_class(195,229,"&srchPat[6]=1").
+							s_list_class(355,400,"&srchPat[6]=1").
+							s_list_class(289,334,"&srchPat[6]=1").
+							s_list_class(356,401,"&srchPat[6]=1").
+							s_list_class(1041,892,"&srchPat[6]=1").
+							s_list_class(2562,2152,"&srchPat[6]=1").
+							s_list_class(2563,2153,"&srchPat[6]=1").
+							s_list_class(2711,2181,"&srchPat[6]=1").
+							s_list_class(2712,2182,"&srchPat[6]=1").
+							s_list_class(2713,2183,"&srchPat[6]=1").
+							s_list_class(2747,2187,"&srchPat[6]=1").
+							s_list_class(2748,2188,"&srchPat[6]=1").
+							s_list_class(2749,2189,"&srchPat[6]=1").
+							s_list_class(2750,2190,"&srchPat[6]=1").
+							"<br clear='both'>" : "")."
+".(($sub==81) ? "<p class='hh2'>Специальные предложения</p>".s_list_class(102,135,"&srchPat[5]=1&recNum=1000").s_list_class(161,195,"&srchPat[5]=1&recNum=1000").s_list_class(153,187,"&srchPat[5]=1&recNum=1000").s_list_class(103,136,"&srchPat[5]=1&recNum=1000").s_list_class(106,139,"&srchPat[5]=1&recNum=1000").s_list_class(109,142,"&srchPat[5]=1&recNum=1000").s_list_class(149,183,"&srchPat[5]=1&recNum=1000")."<br clear='both'>" : "")."
+
+".(($sub==100)? s_list_class(101,134,"") : "")."
+".(($sub==2561) ? s_list_class(2562,2152,"").s_list_class(2563,2153,"") : "")."
+".(($sub==2710) ? s_list_class(2711,2181,"").s_list_class(2712,2182,"").s_list_class(2713,2183,"") : "")."
+".(($sub==2751) ? s_list_class(2747,2187,"").s_list_class(2748,2188,"").s_list_class(2749,2189,"").s_list_class(2750,2190,"") : "")."
+");
+if (($sub==2561)&&($sub_level_count!=2)) {
+	//print_r($current_sub);
+	//echo $sub_level_count;
+	$query="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+	FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+	LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+					WHERE  m.`Checked`=1 
+						AND s.`Subdivision_ID` = m.`Subdivision_ID`
+						AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+						AND u.`Subdivision_ID` = m.`Subdivision_ID`
+						AND m.additcharacter LIKE '%,24,%'  
+				ORDER BY m.StockUnits DESC, m.Name ASC";
+	//echo $query;
+	$res = (array) $nc_core->db->get_results($query);
+//echo "<p>Всего товаров: ".count($res)."</p>";
+	$strsearch="";
+	for ($i=0;$i<count($res); $i++) { // >	
+		echo printItemById($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);					
+	}
+
+}
+if ($action=="index") {
+	$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+                FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+                  LEFT JOIN Message57 as parent
+                    ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+                  
+							WHERE m.`Checked`=1 AND m.`Status`=2 AND m.showtop=1
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID={$sub} ORDER BY RAND() LIMIT 2";
+	$res = (array) $nc_core->db->get_results($query);
+	if (count($res)>0) { 
+		echo "<div class='showtop'><div>";
+		for ($i=0;$i<count($res); $i++) { // >	
+			echo printItemByIdb($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Image,$res[$i]->Price,$res[$i]->status);
+			
+		}
+		echo "</div></div><br clear='both'>";
+	}
+
+	if (($sub!=3)&&($sub!=98)&&($sub!=17)&&($sub!=204)&&($sub!=130)&&($sub!=134)&&($sub!=160)&&($sub!=2707)&&($sub!=2708)) {
+	echo "
+	<!--br>
+	<div class='showtopfiltr'>
+	<div style='width:20%;float:left;'>
+	<form name='filtr' id='filtr' action='' method='get'>
+		
+		<strong>Выбрать производителя:</strong><br>
+		<select name='manufacturer' id='manufacturer' style='margin-top:10px;'>
+			<option value='0'>Все производители</option>";
+			$query="SELECT * FROM Classificator_Manufacturer WHERE Checked=1 ORDER BY Manufacturer_Name";
+			$res = (array) $nc_core->db->get_results($query);
+			if (count($res)>0) { 
+				for ($i=0;$i<count($res); $i++) { // >	
+					echo "<option value='".$res[$i]->Manufacturer_ID."' ".(((isset($_GET['manufacturer']))&&(intval($_GET['manufacturer'])==$res[$i]->Manufacturer_ID)) ? "selected" : "" ).">".$res[$i]->Manufacturer_Name."</option>"; // "$res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Image,$res[$i]->Price,$res[$i]->status);
+							
+				}
+				
+			}
+		echo "
+		</select>
+	</div>
+	<div>
+		<strong>Выбрать сталь:</strong><br>
+		<select name='steel' id='steel' style='margin-top:10px;'> 
+			<option value='0'>Все стали</option>";
+			$query="SELECT * FROM Classificator_steel WHERE Checked=1 ORDER BY steel_Name";
+			$res = (array) $nc_core->db->get_results($query);
+			if (count($res)>0) { 
+				for ($i=0;$i<count($res); $i++) { // >	
+					echo "<option value='".$res[$i]->steel_ID."' ".(((isset($_GET['steel']))&&(intval($_GET['steel'])==$res[$i]->steel_ID)) ? "selected" : "" ).">".$res[$i]->steel_Name."</option>"; 
+							
+				}
+				
+			}
+		echo "
+		</select>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type='submit' value='Подобрать'>
+	</form>
+	</div>
+	</div-->";
+	}						
+}
+if ($action=="full") {
+	//var_dump($current_sub);
+	$sub=$current_sub['Subdivision_ID'];
+	$url=$_SERVER['REQUEST_URI'];
+	if (strpos($url, "Netshop")>0){
+		$tmp=explode("/",$url);
+		$urlstr=trim($tmp[count($tmp)-1]);		
+		$item_id=substr($urlstr, strpos($urlstr,"_")+1, -5);		
+		$query="SELECT Checked, Subdivision_ID, Sub_Class_ID FROM Message57 WHERE Message_ID=".intval($item_id);
+		$res=(array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res); $i++) { //>
+			if ($res[$i]->Checked==0) {
+				//http_response_code(404);
+				//header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+				echo "
+				<table cellpadding='0' cellspacing='0' border='0' style='margin-left:15px;'>
+					<tr><td class='maincol1_top'></td></tr>
+					<tr>
+						<td class='maincol1'>
+							<div id='lcol1'>
+							<p class='hh2'>".$current_sub[Subdivision_Name]."</p>
+	
+				<div style='padding:20px;'>
+				<h2>Данная позиция удалена из каталога. Предлагаем Вам ознакомится с другими изделиями нашего магазина.</h2>
+				</div>";
+				echo s_list_class($res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,"");
+								echo "</div>
+						</td>
+					</tr>
+				<tr><td class='maincol1_btm'></td></tr>
+				</table>";
+			}
+		}
+	}
+}
+echo "
+

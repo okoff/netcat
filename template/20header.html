@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 
+	'https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>
+
+<html xmlns='https://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv='content-type' content='text/html; charset=windows-1251' />
+<link type='text/css' rel='stylesheet' href='/images/template2/css/main.css' />
+<link type='text/css' rel='stylesheet' href='/images/template2/css/default.css' />
+".( $current_sub[Description] ? "<meta name='Description' content='$current_sub[Description]'>\n" : '' )
+.( $current_sub[Keywords] ? "<meta name='Keywords' content='$current_sub[Keywords]'>" : '' );
+	
+$f_browse_path=strip_tags(s_browse_path($browse_path,1));
+$titlearr=explode("—",$f_browse_path);
+	//print_r($titlearr);
+$titlesite="";
+for ($j=0;$j<count($titlearr);$j++) { // >
+	if ((trim($titlearr[$j])!="Магазин Русские Ножи")&&(trim($titlearr[$j])!="")) {
+		$titlesite=trim($titlearr[$j]).(($j>0) ? " - ".$titlesite : "");
+	}
+}
+	
+echo "<title>".(( $current_sub['ncTitle']!="") ? $current_sub['ncTitle'] : $titlesite)."</title>
+<style>%CSS</style>
+<link rel='icon' href='/favicon.ico' type='image/x-icon'> 
+<link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'> 
+".((($_SERVER['REQUEST_URI']=='/Netshop/add_Order.html')||($_SERVER['REQUEST_URI']=='/netcat/add.php')) ? 
+	"<link type='text/css' href='/calc/jquery-ui-1.8.21.custom.css' rel='stylesheet' />
+	<script src='/calc/jquery-1.7.2.min.js' type='text/javascript'></script>
+	<script src='/calc/jquery-ui-1.8.21.custom.min.js' type='text/javascript'></script>" : 
+	
+	"")."
+	".(($current_sub['Subdivision_ID']==1) ? "<meta name=\"yandex-verification\" content=\"109ce59b29206a9f\" />" : "")."
+	".(((strpos($_SERVER['REQUEST_URI'], '.html')>0)&&(strpos($_SERVER['REQUEST_URI'],"add_Order")==0)) ? 
+		"<link rel='stylesheet' href='/popup-win/modal.css'>" : "" )."
+	
+
+</head>
+	<body>
+<!-- Yandex.Metrika counter -->
+<script type=\"text/javascript\" >
+	window.dataLayer = window.dataLayer || [];
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, \"script\", \"https://mc.yandex.ru/metrika/tag.js\", \"ym\");
+
+   ym(2308948, \"init\", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true,
+        ecommerce:\"dataLayer\"
+   });
+	
+	function yaAddCart(id,name,price,brand,cat,q) {
+		dataLayer.push({
+			'ecommerce': {
+				'add': {
+					'products': [
+						{
+							'id': id,
+							'name': name,
+							'price': price,
+							'brand': brand,
+							'category':  cat,
+							'quantity': q
+						}
+					]
+				}
+			}
+		});
+	}
+	
+	function yaFastOrder(oid,id,name,price,q) {
+		//ym(2308948, 'reachGoal', 'fastorder');
+		dataLayer.push({
+			'ecommerce': {
+				'purchase': {
+					'actionField': {
+						'id' : 'TRX'+oid
+					},
+					'products': [
+						{
+							'id': id,
+							'name': name,
+							'price': price,
+							'quantity': 1
+						}
+					]
+				}
+			}
+		});
+	}
+</script>
+<noscript><div><img src=\"https://mc.yandex.ru/watch/2308948\" style=\"position:absolute; left:-9999px;\" alt=\"\" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+		
+
+<div id='wrapper'>
+			
+<div id='header14'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+<td valign='top' class='top1'>&nbsp;</td>
+<td valign='top' class='top2'><a class='logo' href='/'></a></td>
+<td valign='top' class='top3'></td>
+<td valign='top' class='top4'>
+	<div class='phone'>+7 495 225-54-92
+		<span style='font-size:18px;'><br>ПН.-ПТ.: 10.00-19.00; СБ.: 10.30-17.00</span></div>
+	<div class='info'>
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr>
+				<td valign='top' width='175'>
+					<div class='title' nowrap><a style='text-decoration:none;' href='$SUB_FOLDER/Netshop/Cart/'>Ваша корзина</a></div>
+					".($MODULE_VARS['netshop'] ? "
+					<br />Товаров: ".sizeof($Netshop_CartContents)."шт.<br />На сумму: ".$Netshop_TotalPrice."<br /><br />
+					".((sizeof($Netshop_CartContents)>0) ? "<a class='btn_order' style='color:#ffffff;' href='$SUB_FOLDER/Netshop/Cart/'>Оформить заказ</a>" : "")."
+					" : "<br />")."
+				</td>
+				<td valign='top'>
+					
+".($MODULE_VARS['auth'] ? 
+($AUTH_USER_ID ?
+"	<div class='title' nowrap><a style='text-decoration:none;' href='".nc_auth_profile_url($AUTH_USER_ID)."'>Личный кабинет</a></div>
+	Здравствуйте, <br /><b><a href='".nc_auth_profile_url($AUTH_USER_ID)."'>$PHP_AUTH_USER</a></b>!<br /><br>
+	<b><a href='".nc_auth_profile_url($AUTH_USER_ID)."'>Мои заказы</a></b><br /><br />
+	<a href='$SUB_FOLDER/netcat/modules/auth/?logoff=1&amp;REQUESTED_FROM=$REQUEST_URI&amp;REQUESTED_BY=$REQUEST_METHOD'><b>Завершить сеанс</b></a>
+"
+:
+"<div class='title' nowrap>Личный кабинет</div>
+<form action='/netcat/modules/auth/' method='POST'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<input type='hidden' name='AuthPhase' value='1'/>
+	<input type='hidden' name='REQUESTED_FROM' value='".htmlspecialchars($REQUESTED_FROM ? $REQUESTED_FROM : $REQUEST_URI, ENT_QUOTES)."'/>
+	<input type='hidden' name='REQUESTED_BY' value='$REQUEST_METHOD'/>
+	<input type='hidden' name='catalogue' value='$catalogue'/>
+	<input type='hidden' name='sub' value='$sub'/>
+	<input type='hidden' name='cc' value='$cc'/>
+	<tr><td colspan='2' class='td1'>
+		<table>
+		<tr><td>E-mail:</td><td><input type='text' name='AUTH_USER' value='".htmlspecialchars($AUTH_USER, ENT_QUOTES)."' style='width:100px;' class='auth_text' /></td></tr>
+		<tr><td>Пароль:</td><td><input type='password' name='AUTH_PW' style='width:100px;' class='auth_text' /></td></tr>
+		</table>
+	</td></tr>
+	<tr><td class='td1' width='100'><a href='$SUB_FOLDER/profile/registration/'>Регистрация</a><br />
+	<a href='$SUB_FOLDER/netcat/modules/auth/password_recovery.php'>Забыли&nbsp;пароль?</a>
+	</td><td valign='middle' align='left'><input type='submit' class='btn_enter' /></td></tr>
+	<!--input type='submit' class='auth_submit'  value='Вход' /-->
+</table>
+</form>")
+: '')."	</td>
+	</tr>
+	</table>
+</div>
+</td>
+<td valign='top' class='top5'>&nbsp;</td>
+</tr>
+</table>
+		
+</div>
+<div class='hdrline'></div>
+<div class='white_line'></div>	
+<div id='mainmenu'>
+<!-- MENU -->
+".s_browse_level(0,$browse_sub[0])."
+<!-- End MENU -->
+</div>

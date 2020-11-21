@@ -1,0 +1,86 @@
+$browse_path[active_link] = "<b>%NAME</b>";
+$browse_path[unactive] = "<a href=%URL>%NAME</a>";
+$browse_path[active] = "<a href=%URL><b>%NAME</b></a>";
+$browse_path[divider] = " — ";
+
+$isub2 = "\".s_browse_sub(\$data[\$i][Subdivision_ID],\$browse_sub[2]).\"";
+
+$browse_global[prefix] = "<div class='top_menu'><div class='width1 top_menu_bg'></div>
+<a href='/' class='go_home'><img src='$SUB_FOLDER/images/template2/i/layer/house.gif' /></a>";
+$browse_global[suffix] = "<span><img src='$SUB_FOLDER/images/template2/i/layer/menu_arrow_bottom.gif' /></span></div>";
+$browse_global[active] = "<b>%NAME</b>";
+$browse_global[unactive] = "<a href='%URL'>%NAME</a>";
+$browse_global[divider] = " ";
+
+$browse_cc[prefix] = "<ul>";
+$browse_cc[suffix] = "</ul>";
+$browse_cc[active] = "<li>%NAME";
+$browse_cc[unactive] = "<li><a href=%URL>%NAME</a>";
+$browse_cc[divider] = "";
+
+$browse_sub[2][prefix] = "<div class='this_menu_items'>";
+$browse_sub[2][suffix] = "</div>";
+$browse_sub[2][active] = "<a href='%URL'>%NAME</a><br />";
+$browse_sub[2][active_link] = "<span>%NAME</span><br />";
+$browse_sub[2][unactive] = "<a href='%URL'>%NAME</a><br />";
+$browse_sub[2][divider] = "";
+
+$browse_sub[1][prefix] = "<div class='this_sub_menu'>";
+$browse_sub[1][suffix] = "</div>";
+$browse_sub[1][active] = "<a href='%URL'>%NAME</a><br />".s_browse_level(2,$browse_sub[2]);
+$browse_sub[1][active_link] = "<span><b>%NAME</b></span><br />".s_browse_level(2,$browse_sub[2]);
+$browse_sub[1][unactive] = "<a href='%URL'>%NAME</a><br />";
+$browse_sub[1][divider] = "";
+
+$browse_sub[0][prefix] = "<ul>";
+$browse_sub[0][suffix] = "</ul>";
+$browse_sub[0][active] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[0][active_link] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[0][unactive] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[0][divider] = "<li class='sep'></li>";
+
+
+
+$browse_sub_ext[prefix] = "<ul><font size=-2>";
+$browse_sub_ext[suffix] = "</font></ul>";
+$browse_sub_ext[unactive] = "<li><a href=%URL>%NAME</a>";
+$browse_sub_ext[divider] = "";
+
+$browse_sub_list[prefix] = "<select onchange=\\\"window.open(this.value,'_top');\\\">";
+$browse_sub_list[suffix] = "</select>";
+$browse_sub_list[unactive] = "<option value='%URL'>%NAME";
+$browse_sub_list[active] = "<option value='%URL' selected>%NAME";
+$browse_sub_list[divider] = "";
+
+$browse_map[sub_prefix] = "<ul>";
+$browse_map[sub] = "<li><a href=%URL>%NAME</a>";
+$browse_map[sub_suffix] = "</ul>";
+$browse_map[catalogue] = "";
+
+$browse_msg[prefix] = "";
+$browse_msg[suffix] = "";
+$browse_msg[active] = "<b>%PAGE</b>";
+$browse_msg[unactive] = "<a href=%URL>%PAGE</a>";
+$browse_msg[divider] = " | ";
+
+$browse_catalogue[prefix] = "<b>";
+$browse_catalogue[suffix] = "</b>";
+$browse_catalogue[active] = "<b>%NAME</b>";
+$browse_catalogue[unactive] = "<a href=%URL>%NAME</a>";
+$browse_catalogue[divider] = " | ";
+
+
+$show_info_block[0] = "
+<div class='info_block corners'><div class='t'><div class='r'>
+<div class='b'><div class='l'><div class='c'>
+<div class='u'></div>";
+
+$show_info_block[1] = "
+</div></div></div>
+</div></div></div>";
+
+$browse_globalnl[prefix] = "";
+$browse_globalnl[suffix] = "";
+$browse_globalnl[active] = "";
+$browse_globalnl[unactive] = "%NAME";
+$browse_globalnl[divider] = " / ";
