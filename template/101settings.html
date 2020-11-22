@@ -1,0 +1,70 @@
+$browse_path[active_link] = "<b>%NAME</b>";
+$browse_path[unactive] = "<a href=%URL>%NAME</a>";
+$browse_path[active] = "<a href=%URL><b>%NAME</b></a>";
+$browse_path[divider] = " — ";
+
+$isub2 = "\".s_browse_sub(\$data[\$i][Subdivision_ID],\$browse_sub[2]).\"";
+
+$browse_global[prefix] = "";
+$browse_global[suffix] = "";
+$browse_global[active] = "<a href='%URL'>%NAME</a>";
+$browse_global[active_link] = "<span>%NAME</span> ";
+$browse_global[unactive] = "<a href='%URL'>%NAME</a>";
+$browse_global[divider] = " &gt; ";
+
+$browse_cc[prefix] = "<ul>";
+$browse_cc[suffix] = "</ul>";
+$browse_cc[active] = "<li>%NAME";
+$browse_cc[unactive] = "<li><a href=%URL>%NAME</a>";
+$browse_cc[divider] = "";
+
+$browse_sub[2][prefix] = "<div class='this_menu_items'>";
+$browse_sub[2][suffix] = "</div>";
+$browse_sub[2][active] = "<a href='%URL'>%NAME</a><br />";
+$browse_sub[2][active_link] = "<span>%NAME</span><br />";
+$browse_sub[2][unactive] = "<a href='%URL'>%NAME</a><br />";
+$browse_sub[2][divider] = "";
+
+$browse_sub[1][prefix] = "<ul>";
+$browse_sub[1][suffix] = "</ul>";
+$browse_sub[1][active] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[1][active_link] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[1][unactive] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[1][divider] = "";
+
+$browse_sub[0][prefix] = "<ul>";
+$browse_sub[0][suffix] = "</ul>";
+$browse_sub[0][active] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[0][active_link] = "<li><b>%NAME</b></li>";
+$browse_sub[0][unactive] = "<li><a href='%URL'>%NAME</a></li>";
+$browse_sub[0][divider] = "<li class='sep'></li>";
+
+
+
+$browse_sub_ext[prefix] = "<ul><font size=-2>";
+$browse_sub_ext[suffix] = "</font></ul>";
+$browse_sub_ext[unactive] = "<li><a href=%URL>%NAME</a>";
+$browse_sub_ext[divider] = "";
+
+$browse_sub_list[prefix] = "<select onchange=\\\"window.open(this.value,'_top');\\\">";
+$browse_sub_list[suffix] = "</select>";
+$browse_sub_list[unactive] = "<option value='%URL'>%NAME";
+$browse_sub_list[active] = "<option value='%URL' selected>%NAME";
+$browse_sub_list[divider] = "";
+
+$browse_map[sub_prefix] = "<ul>";
+$browse_map[sub] = "<li><a href=%URL>%NAME</a>";
+$browse_map[sub_suffix] = "</ul>";
+$browse_map[catalogue] = "";
+
+$browse_msg[prefix] = "";
+$browse_msg[suffix] = "";
+$browse_msg[active] = "<b>%PAGE</b>";
+$browse_msg[unactive] = "<a href=%URL>%PAGE</a>";
+$browse_msg[divider] = " | ";
+
+$browse_catalogue[prefix] = "<b>";
+$browse_catalogue[suffix] = "</b>";
+$browse_catalogue[active] = "<b>%NAME</b>";
+$browse_catalogue[unactive] = "<a href=%URL>%NAME</a>";
+$browse_catalogue[divider] = " | ";

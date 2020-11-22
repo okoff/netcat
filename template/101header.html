@@ -1,0 +1,305 @@
+%Header
+
+<div id='maincontent'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr><td valign='top' width='172'>";
+
+echo "<div id='searchbox'>
+<strong>Поиск ножей template 101</strong>
+<br><br>
+<form action='".($admin_mode ? "".$HTTP_ROOT_PATH."index.php?" : "/searchres/" )."' method='get' name='frm_filter'>
+<input type='hidden' name='action' value='index' />
+<input type='hidden' name='admin_mode' value='".$admin_mode."' />
+ ".( $inside_admin ? "<input type='hidden' name='inside_admin' value='1' />
+<input type='hidden' name='cc' value='".$cc."' />
+" : "")." 
+	
+<div>
+	Название: <br><input type='text' name='srchPat[0]' size='20' maxlength='250' value=''>
+</div><br>
+<div>
+	Артикул: <br><input type='text' name='srchPat[2]' size='20' maxlength='250' value=''>
+</div><br>
+<div>Производитель: <br><select name='srchPat[1]' size='1'>
+	<option value=''>--------- Все ---------</option>";
+$query="SELECT Manufacturer_ID, Manufacturer_Name FROM Classificator_Manufacturer WHERE Checked=1 ORDER BY Manufacturer_Name ASC";
+$res = (array) $nc_core->db->get_results($query);
+for ($i=0; $i<count($res); $i++) { //>
+	echo "<option value='{$res[$i]->Manufacturer_ID}' ".(($_GET[srchPat][1]==$res[$i]->Manufacturer_ID) ? "selected" : "" ).">{$res[$i]->Manufacturer_Name}</option>";
+}
+echo "
+	</select></div>
+<br>
+
+<div>Марка стали клинка: <br><select name='srchPat[4]' size='1'>
+	<option value=''>--------- Все ---------</option>";
+$query="SELECT steel_ID,steel_Name FROM Classificator_steel WHERE Checked=1 ORDER BY steel_Name ASC";
+$res = (array) $nc_core->db->get_results($query);
+for ($i=0; $i<count($res); $i++) { //>
+	echo "<option value='{$res[$i]->steel_ID}' ".(($_GET[srchPat][4]==$res[$i]->steel_ID) ? "selected" : "" ).">{$res[$i]->steel_Name}</option>";
+}
+echo "	
+</select></div>
+<br>
+
+<div>Цена,&nbsp;р.:<input type='text' name='srchPat[10]' style='width:30px;' size='5' maxlength='16' value='".(($_GET[srchPat][10]) ? $_GET[srchPat][10] : "" )."'> - <input name='srchPat[11]' type='text' style='width:30px;'  size='5' maxlength='16' value='".(($_GET[srchPat][11]) ? $_GET[srchPat][11] : "" )."'></div>
+<br>
+<!--div>В наличии:<br><input type='radio' name='srchPat[15]' id='t15_2' value='2' ".(($_GET[srchPat][15]==2) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_2'>да</label> &nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_3' value='3' ".(($_GET[srchPat][15]==3) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_3'>нет</label>&nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_1' value='' ".(($_GET[srchPat][15]=="") ? "checked" : "" )." style='vertical-align:middle'><label for='t15_1'>все</label></div>
+<br-->
+	
+<input class='btn_find' value='".NETCAT_SEARCH_FIND_IT."' type='submit' onclick='return checkFilter();' />
+</form>
+</div><br>
+<!-- // форма поиска -->";	
+	
+echo "
+	<table cellpadding='0' cellspacing='0' border='0' style='margin-top:30px;'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>Ножи по категориям</p>
+			<ul>
+				<li><a href='/additcharacter/men-present/'><strong>Подарки для мужчин, нож в подарок</strong></a>
+					<ul>
+						<li><a href='/additcharacter/military-present'>Подарки военному</a></li>
+						<li><a href='/additcharacter/hunter-present'>Подарки охотнику</a></li>
+						<li><a href='/additcharacter/fishermen-present'>Подарки рыбаку</a></li>
+						<li><a href='/additcharacter/boss-present'>Подарки руководителю</a></li>
+						<li><a href='/additcharacter/boyfriend-present'>Подарки парню</a></li>
+						<li><a href='/additcharacter/friend-present'>Подарки другу</a></li>
+						<li><a href='/additcharacter/dad-present'>Подарки папе и дедушке</a></li>
+						<li><a href='/additcharacter/set-present'>Подарочные наборы</a></li>
+					</ul>
+			</li>
+			<li><a href='/Netshop/catalogue/'><strong>Ножи</strong></a>
+			".s_browse_sub(81,$browse_sub[1])."</li>
+			<li><a href='/Netshop/catalogue/accessuar/'><strong>Все для заточки, аксессуары</strong></a>
+				<ul>
+					<li><a href='/additcharacter/diamond-hones/'>Алмазные бруски</a></li>
+					<li><a href='/additcharacter/water-stones/'>Водные камни</a></li>
+					<li><a href='/additcharacter/tochilki/'>Точилки и заточные устройства</a></li>
+				</ul>
+				</li>
+			<li><a href='/Netshop/klinok/'><strong>Клинки</strong></a>
+			<ul>
+					<li><a href='/Netshop/klinok/casting/'>Литье для ножей: гарды, навершии</a><br />
+					".s_browse_sub(154,$browse_sub[1])."</li>
+					<li><a href='/Netshop/klinok/wood/'>Дерево (бруски для рукоятей), стабилизированное дерево</a>
+						<br /></li>
+				</ul>
+			<li><a href='/Netshop/topor/'><strong>Топоры</strong></a></li>
+			<li><a href='/Netshop/sword/'><strong>Нагайки, дураки</strong></a></li>
+			<li><a href='/Netshop/armour/'><strong>Доспехи, кованые изделия</strong></a></li>
+			<li><a href='/Netshop/accessories/'><strong>Аксессуары</strong></a></li>
+			<li><a href='/Netshop/tools/'><strong>Средства обработки дерева и металла</strong></a></li>
+			<li><a href='/Netshop/cutlery/'><strong>Столовые приборы</strong></a></li>
+			<li><a href='/Netshop/multitool/'><strong>Мультитулы</strong></a></li>
+			<li><a href='/Netshop/instrumenti/'><strong>Инструменты</strong></a></li>
+			<li><a href='/Netshop/tourist/'><strong>Туристические товары</strong></a>
+				".s_browse_sub(2561,$browse_sub[1])."
+				<ul>
+				<li><a href='/additcharacter/tourist-knife/'>Туристические ножи</a></li>	
+				</ul>	
+			</li>
+			<li><a href='/Netshop/snarajenie/'><strong>Снаряжение</strong></a>
+				".s_browse_sub(2710,$browse_sub[1])."
+			</li>
+				<li><a href='/Netshop/nojni-koja/'><strong>Ножны кожаные</strong></a>
+				".s_browse_sub(2751,$browse_sub[1])."
+			</li>
+
+			</ul>
+			
+			<br />
+			<a href='/discount-knives/'><img src='/images/sale.png' alt='Ножи со скидкой'></a>
+			<br />
+			</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>По видам стали</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_steel  WHERE Checked=1
+			ORDER BY steel_Name ASC", "<li><a href='/steel/steel-\$data[steel_ID]'>\$data[steel_Name]</a></li>")."
+			</ul>
+			<br />
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3' style='margin-bottom:0;padding-bottom:0;'>Российские производители:</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_Manufacturer  WHERE Checked=1 AND Rus=1
+			ORDER BY Manufacturer_Name ASC", "<li><a href='/Manufacturer/Manufacturer-\$data[Manufacturer_ID]'>\$data[Manufacturer_Name]</a></li>")."
+			</ul>
+			<br>
+			<p class='hh3' style='margin-bottom:0;padding-bottom:0;'>Зарубежные производители:</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_Manufacturer  WHERE Checked=1 AND Rus=0
+			ORDER BY Manufacturer_Name ASC", "<li><a href='/Manufacturer/Manufacturer-\$data[Manufacturer_ID]'>\$data[Manufacturer_Name]</a></li>")."
+			</ul>
+			<br>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh3'>Дополнительный каталог ножей</p>
+			<ul>
+			".listQuery("SELECT *
+			FROM Classificator_additcharacter  WHERE Checked=1 AND NOT additcharacter_ID=21 AND NOT additcharacter_ID=22
+			ORDER BY additcharacter_Name ASC", "<li><a href='/additcharacter/\$data[Value]'>\$data[additcharacter_Name]</a></li>")."
+			</ul>
+			<br />
+			<p class='hh3'>Для заточки ножей</p>
+			Бруски и устройства для заточки:
+			<a href='/Netshop/catalogue/accessuar/'><img class='img_preview' src='/netcat_files/195/229/4_1.jpg' alt='Заточный станок СКЛАДИШОК' width='145'></a> <br>
+			<a href='/Netshop/catalogue/accessuar/'>Купить бруски</a> 
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Работы мастеров</p>
+			<ul>
+			<li> <a href='https://russian-knife.ru/articles/articles_11.html'>Ножи Пампухи И.Ю.</a></li>
+			<li> <a href='https://russian-knife.ru/articles/articles_13.html'>Ножи Чебуркова А.И.</a></li>     
+			<li> <a href='https://russian-knife.ru/articles/articles_16.html'>Ножи ООО Булат - Бессонова Алексея</a></li>                                                  
+			</ul>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Новости</p>
+			<div class='nc_list nc_news'>";
+			$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=134 AND Sub_Class_ID=170
+			ORDER BY Priority DESC LIMIT 2";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+			echo "<div class='nc_row'>
+			<h3><a href='/news/news_{$r->Message_ID}.html'>{$r->Title}</a></h3>
+			{$r->Announce}
+			<div class='nc_datetime'><span class='nc_date'>".date("d.m.Y",strtotime($r->Date))."</span></div>
+			</div>";
+			}	
+			echo "<p><a href='/news/'>все новости</a></p>
+			</div>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br>
+	<table cellpadding='0' cellspacing='0' border='0'>
+	<tr><td class='leftcol_top'></td></tr>
+	<tr><td class='leftcol'>
+		<div id='lcol'>
+			<p class='hh2'>Статьи</p>
+			<div class='nc_list nc_news'>";
+			$query = "SELECT * FROM Message23  WHERE Checked=1 AND Subdivision_ID=17 AND Sub_Class_ID=9
+			ORDER BY Date DESC LIMIT 2";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+			echo "<div class='nc_row'>
+			<h3><a href='/articles/articles_{$r->Message_ID}.html'>{$r->Title}</a></h3>
+			{$r->Announce}</div>";
+			}
+			echo "<p><a href='/articles/'>все статьи</a></p>
+			</div>
+		</div>
+	</td></tr>
+	<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br />
+	<table cellpadding='0' cellspacing='0' border='0'>
+		<tr><td class='leftcol_top'></td></tr>
+		<tr><td class='leftcol'>
+			<div id='lcol'>
+				<p class='hh2'>Технологии изготовления ножей</p>
+				<ul>
+				<li> <a href='https://russian-knife.ru/articles/articles_12.html'>Процесс изготовления булатных ножей - Игорь Пампуха</a></li>
+				</ul>
+			</div>
+		</td>
+		</tr>
+		<tr><td class='leftcol_btm'></td></tr>
+	</table>
+	<br>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr><td class='leftcol_top'></td></tr>
+<tr><td class='leftcol'>
+	<div id='lcol'>
+		<p class='hh2'>Фото отчеты с выставок</p>
+		<ul>
+			<li><a href='https://russian-knife.ru/articles/articles_27.html'>Выставка 'Охота. Рыбалка. Отдых' 20-23 февраля 2014г, Крокус</a></li>
+            <li><a href='https://russian-knife.ru/news/news_123.html'>Московская международная выставка «ARMS & Hunting»ARMS & Hunting. 10-13 октября 2013г, (Гостиный двор)</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_121.html'>Выставка 'Охота и рыболовство на Руси'. 3-6 октября 2013г, ВВЦ</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_108.html'>Выставка- продажа ножей Мастерской Чебуркова сентябрь 2013 в магазине 'Русские Ножи'</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_117.html'>Выставка- продажа ножей Мастерской Чебуркова июнь 2013 в магазине 'Русские Ножи'</a></li>                               
+			<li><a href='https://russian-knife.ru/news/news_103.html'>Выставка- продажа ножей Пампухи И.Ю. май 2013 в магазине 'Русские Ножи'</a></li>
+            <li><a href='https://russian-knife.ru/news/news_101.html'>27-я выставка «Клинок - традиции и современность» в Сокольниках! апрель 2013'</a></li>
+            <li><a href='https://russian-knife.ru/news/news_99.html'>Выставка- продажа ножей Мастерской Чебуркова март 2013 в магазине 'Русские Ножи'</a></li>
+			<li><a href='https://russian-knife.ru/articles/articles_22.html'>Выставка 'Охота и рыболовство на Руси'. 27 февраля - 3 марта 2013г, ВВЦ.</a></li>
+			<li><a href='https://russian-knife.ru/articles/articles_21.html'>Международная выставка 'Охота. Рыбалка. Отдых' 21-24 февраля 2013г</a></li>
+		</ul>
+	</div>
+</td></tr>
+<tr><td class='leftcol_btm'></td></tr>
+</table>
+</td>
+	
+<td  valign='top'>
+<p class='navbar'>";
+if ($current_sub['Subdivision_ID']==614) {
+	// models
+	$url=$_SERVER['REQUEST_URI'];
+	$tmp=explode("/",$url);
+	if (count($tmp)<4) { //>
+		echo "<a href='/models/'>Модели ножей</a>";
+	} else {
+	//print_r($tmp); 
+		$query="SELECT Classificator_model.*,Manufacturer_Name FROM Classificator_model 
+	INNER JOIN Classificator_Manufacturer ON (Classificator_Manufacturer.Manufacturer_ID=Classificator_model.manufacturer_id)
+	WHERE model_ID=".intval($tmp[4]);
+		//echo $query;
+		$res=(array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res); $i++) { //>
+			echo "<a href='/Manufacturer/'>Производители</a> &gt; <a href='/Manufacturer/manufacturer-{$res[0]->manufacturer_id}/'>{$res[0]->Manufacturer_Name}</a> &gt; <a href='/Manufacturer/manufacturer-{$res[0]->manufacturer_id}/models/'>Модели ножей {$res[0]->Manufacturer_Name}</a>";
+		}
+	}
+} else {
+	if ($current_sub['Parent_Sub_ID']!=982) {
+		echo s_browse_path_range (-1,$sub_level_count-1,$browse_global);	
+	}
+}	
+echo "</p>
+<table cellpadding='0' cellspacing='0' border='0' style='margin-left:15px;'>
+<tr><td class='maincol1_top'></td></tr>
+<tr>
+<td class='maincol1'>
+<div id='lcol1'>
