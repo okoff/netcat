@@ -1,0 +1,126 @@
+<?
+
+function your_func () {
+}
+
+
+function knifeShowUserOrders () {
+	global $db, $AUTH_USER_ID;
+	
+	$userID=0;
+	$j=0;
+	$result="";
+	$inorder="";
+	$orderSum=0;
+	
+	$userID=$AUTH_USER_ID;
+	
+	$result.="<p class='hh2'>Ваши заказы</p>\n";
+	
+	$result.="<script type='text/javascript'>
+	function showOrder(orderId) {
+		//alert(document.getElementById('ord'+orderId).style.display);
+		if (document.getElementById('ord'+orderId).style.display=='none') {
+			document.getElementById('ord'+orderId).style.display='block';
+		} else {
+			document.getElementById('ord'+orderId).style.display='none';
+		}
+	}
+	</script>
+	
+	<div id='order'>
+	
+	</div>";
+	
+	// get a secret key
+	$secret_key='GKoKoCxEDPBrHUSC';
+	
+	$res = $db->get_results("SELECT `Message51`.*, `Classificator_ShopOrderStatus`.`ShopOrderStatus_Name`, `Message56`.`Name` AS `DeliveryName`,
+				`Message55`.`Name` AS `PaymentName`
+				FROM `Message51`
+				LEFT JOIN `Message56` ON (`Message51`.`DeliveryMethod` = `Message56`.`Message_ID`)
+				LEFT JOIN `Message55` ON (`Message51`.`PaymentMethod` = `Message55`.`Message_ID`)
+				LEFT JOIN `Classificator_ShopOrderStatus` ON (`Message51`.`Status` = `Classificator_ShopOrderStatus`.`ShopOrderStatus_ID`)
+				WHERE `Message51`.`User_ID`=".$userID." ORDER BY Created DESC", ARRAY_A); 
+	if (!empty($res)) {
+		$inorder="";
+		$orderSum=0;
+		$result.="<table cellpadding='3' cellspacing='0' border='1' class='tbl_order'>\n";
+		$result.="<tr><td>#</td><td><b>№ заказа</b></td><td><b>Дата заказа</b></td><td><b>Статус заказа</b></td>
+			<td><b>Способ доставки</b></td><td><b>Способ оплаты</b></td><td><b>Сумма заказа</b></td><td><b>Действие с заказом</b></td></tr>";
+		foreach($res AS $row) {
+			$orderSum=0;
+			$j++;
+			
+			$orderSum = $orderSum + $row['DeliveryCost'];
+			
+			// состав заказа
+			$res1 = $db->get_results("SELECT `Netshop_OrderGoods`.*, `Message57`.`Name`, `Message57`.`ItemID`
+				FROM `Netshop_OrderGoods`
+				INNER JOIN `Message57` ON (`Message57`.`Message_ID` = `Netshop_OrderGoods`.`Item_ID`)
+				WHERE `Order_ID`=".$row['Message_ID']." ORDER BY ItemPrice ASC", ARRAY_A); 
+			if (!empty($res1)) {
+				$k=1;
+				$inorder="";
+				$inorder.=((isset($row['barcode'])) && (strlen($row['barcode'])>3)) ? "<p>Баркод отправления: <b>{$row['barcode']}</b></p><br>" : "";
+				$inorder.=(isset($row['weight'])) ? "<p>Вес отправления: {$row['weight']} кг.</p><br>" : "";
+				$inorder.="<table cellpadding='3' cellspacing='0' border='1' class='tbl_order' width='100%' style='background:#fff;'>\n";
+				$inorder.="<tr><td>#</td><td>Наименование</td><td>Цена</td><td>Заказано</td><td>Сумма</td></tr>";
+				foreach($res1 AS $row1) {
+					$orderSum = $orderSum + $row1['ItemPrice']*$row1['Qty'];
+					$inorder.="<tr><td>".$k."</td><td><b>[{$row1['ItemID']}]</b> ".$row1['Name']."</td><td>".$row1['ItemPrice']." руб.</td>
+						<td>".$row1['Qty']." шт.</td><td align='right'>".$row1['ItemPrice']*$row1['Qty']." руб.</td></tr>";
+					$k=$k+1;
+				}
+				$inorder.="<tr><td colspan='4' align='right'>ИТОГО:</td><td align='right'>".$orderSum." руб.</td></tr>";
+				$inorder.="<tr><td colspan='4' align='right'>Доставка (".$row['DeliveryName']."):</td><td align='right'>".$row['DeliveryCost']." руб.</td></tr>";
+				$inorder.="<tr><td colspan='4' align='right'><b>ИТОГО С ДОСТАВКОЙ:</b></td><td align='right'><b>".$orderSum." руб.</b></td></tr>";
+				$inorder.="</table>";
+				
+				
+			}
+			
+			//$result.=md5($this->shop->secret_key.$this->shop->OrderID);
+			
+			$result.="<tr><td>".$j."</td><td align='right'><b><a style='cursor:pointer' onclick='showOrder(".$row['Message_ID'].")'>".$row['Message_ID']."</a></b>&nbsp;&nbsp;&nbsp;</td>
+				<td>".date("d.m.Y", strtotime($row['Created']))."</td>
+				<td>".$row['ShopOrderStatus_Name'].(($row['paid']==1) ? "<br>оплачен" : "")."</td>
+				<td>".$row['DeliveryName']."</td>
+				<td>".$row['PaymentName'];
+			if ($row['PaymentMethod']==5) {
+				$auto=md5($secret_key.$row['Message_ID']);
+				$result.="<br><a target='_blank' href='/netcat/modules/netshop/post.php?action=print_bill&system=sberbank&mode=print_bill&order_id={$row['Message_ID']}&key={$auto}'>Распечатать квитанцию</a>";
+			}	
+			$result.="</td>
+				<td align='right' style='white-space:nowrap;'>".$orderSum." руб.</td>
+				<td align='center'><a style='cursor:pointer' onclick='showOrder(".$row['Message_ID'].")'>просмотр</a></td>
+			</tr>
+			<tr>
+				<td colspan='8' style='padding:0; border-top:0; border-bottom:0;'>
+					<div style='display:none; width:96%; margin:0 auto;' id='ord".$row['Message_ID']."'>
+					<br />
+					<p><b>Состав заказа:</b></p><br />
+					
+					".$inorder."
+					<br />
+					</div>
+				</td>
+			</tr>";
+// 				INNER JOIN `Message56` ON (`Message51`.`DeliveryMethod` = `Message56`.`Message_ID`)
+
+			/*
+			состав заказа
+			$res1 = $db->get_results("SELECT *
+				FROM `Netshop_OrderGoods`
+				WHERE `Order_ID`=".$row['Message_ID']." ORDER BY ItemPrice ASC", ARRAY_A); 
+			if (!empty($res1)) {
+				foreach($res1 AS $row1) {
+					$result.="<tr><td>".$row1['Order_ID']."</td><td>".$row1['Item_ID']."</td></tr>";
+				}
+			}*/
+		}
+		$result.="</table><br />";
+	}
+	return $result;
+}
+?>

@@ -1,0 +1,56 @@
+%Header
+<div class='col-md-9 rcolw'>
+<?php
+//print_r($_GET);
+$querystring = "?";
+foreach($_GET as $k=>$v) {
+	if(is_array($v)) {
+		foreach($v as $k1=>$v1) {
+			$querystring.=$k.'['.$k1.']='.$v1.'&';
+		}
+	} else {
+		$querystring .= $k."=".$v.'&';
+	}
+}
+$url= substr($querystring, 0, -1);
+echo "<p class='h1'>".$current_sub[Subdivision_Name]."</p>
+<p>Сортировать по цене <a href='/searchres/{$url}&orprice=1'>возр.</a> | 
+	<a href='/searchres/{$url}&orprice=2'>убыв.</a>	
+</p>";
+$wsrch="";
+$wsrch.=(($_GET[srchPat][1])  ? (($wsrch) ? " AND " : "")." m.Vendor=".intval($_GET[srchPat][1]) : "" );
+$wsrch.=(($_GET[srchPat][4])  ? (($wsrch) ? " AND " : "")." m.steel=".intval($_GET[srchPat][4]) : "" );
+$wsrch.=(($wsrch) ? " AND " : "")." m.Price > ".(($_GET[srchPat][10])  ? intval($_GET[srchPat][10]) : 0);
+$wsrch.=(($_GET[srchPat][11])  ? (($wsrch) ? " AND " : "")." m.Price < ".intval($_GET[srchPat][11]) : "");  
+$wsrch.=(($_GET[srchPat][15])  ? (($wsrch) ? " AND " : "")." m.Status=".intval($_GET[srchPat][15]) : "" );
+
+$orstr="ORDER By m.Status ASC, m.Name ASC";
+if ($_GET['orprice']) {
+	$orstr=" ORDER BY m.Price ".(($_GET['orprice']==1) ? " ASC " : " DESC ");
+}
+
+				
+$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+                FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+                  LEFT JOIN Message57 as parent
+                    ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+                  
+                WHERE m.`Checked`=1 
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+					AND m.Subdivision_ID NOT IN (153,161,102,139,280, 108,154,155,149,162,195)  AND m.additcharacter NOT LIKE '%,16,%' AND m.showrkfive=1
+							
+					AND (".$wsrch.") 
+			".$orstr;			
+//echo $query."<br>";
+	$res = (array) $nc_core->db->get_results($query);
+	echo "<br><p>Всего товаров: ".count($res)."</p><br>";
+	for ($i=0;$i<count($res); $i++) { // >	
+		echo "<div class='col-md-3 itemcol'>";
+		echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+		echo "</div>";
+	}	
+							
+							
+?>

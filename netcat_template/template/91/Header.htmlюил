@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Ножи Пампухи Игоря Юрьевича</title>
+	<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+	<link rel='stylesheet' type='text/css' media='all' href='/images/91/style.css' />
+	
+	<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+    <script type='text/javascript' src='/js/jquery.js'></script>
+    <script type='text/javascript' src='/js/jquery.lightbox-0.5.js'></script>
+    <link rel='stylesheet' type='text/css' href='/css/jquery.lightbox-0.5.css' media='screen' />
+    <!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+	<script type='text/javascript'>
+    $(function() {
+        $('a.libox').lightBox();
+    });
+    </script>
+</head>
+<body>
+	<div id='wrap'>
+		<div id='sname'>
+			<a href='/'><img src='/images/91/logo.jpg' alt='Ножи Пампухи Игоря Юрьевича' style='border:0;' /></a>
+			<br />
+			<h1>Пампуха Игорь Юрьевич</h1>
+			<p><h2>Купить ножи у официального представителя в Москве</h2></p>
+		</div>
+		<br class='clear' />
+		<div id='context'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+	<td width='200' valign='top'>
+	<div id='lmenu'>
+<div class='whitebox'>
+<div style='padding:0 10px;'>
+<p><b>Булатные ножи:</b></p>
+<ul>
+	<li><a href='/bulat-legirovanii'>легированный булат</a></li>
+	<li><a href='/bulat-nerj'>нержавеющий булат</a></li>
+	<li><a href='/avtor-damassk'>мозаичный дамаск</a></li>
+</ul>
+</div>
+<br />
+</div>	
+
+<a href="/contacts"><strong>Контакты</strong></a>
+
+<br><br><br>	
+		</div>
+	</td>
+	<td valign='top'>
+		<div id='rcontent'>
+<?php
+if ($sub==258) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=1 ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+if ($sub==259) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=28  ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+if ($sub==260) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND Subdivision_ID=147  ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+/*if ($sub==261) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=1 AND Subdivision_ID=147";
+	$res = (array) $nc_core->db->get_results($query);
+}*/
+if (is_array($res)) {
+	foreach ($res as $r) {
+		//print_r($r);
+		$image_arr = explode(":", $r->Preview);
+		$image_url = "/netcat_files/".$image_arr[3];
+		$image_arr1 = explode(":", $r->Image);
+		$image_url1 = "/netcat_files/".$image_arr1[3];
+		echo "<div class='item'><p class='aligncenter'><a href='/knives/knife_{$r->Message_ID}.html'><strong>{$r->Name}</strong></a></p>
+	<div class='whitebox'><a href='/knives/knife_{$r->Message_ID}.html'><img src='{$image_url}' alt='' width='200' style='border:0;' /></a>
+	<a class='libox' href='{$image_url1}'><img src='/images/91/zoom.png' alt='увеличить' style='border:0;' /></a><br></div>
+	<p class='price'>{$r->Price}&nbsp;руб.</p></div>";
+	}
+}
+?>

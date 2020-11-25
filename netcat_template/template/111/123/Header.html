@@ -1,0 +1,154 @@
+%Header
+<?php
+	$bcrumps['prefix']      = "";
+	$bcrumps['suffix']      = "";
+	$bcrumps['active']      = "%NAME";
+	$bcrumps['active_link'] = "%NAME";
+	$bcrumps['unactive']    = "<a href=\"%URL\">%NAME</a>";
+	$bcrumps['divider']     = "&nbsp;&gt;&nbsp;";
+?>
+<div class='col-md-9 rcolw'>
+<div style="padding:20px;">
+<div class="xsmall">
+	<?=nc_browse_path($bcrumps)?>
+</div>
+<p class="h1"><?=$nc_core->page->get_h1()?></p>
+
+<?php
+$url=$nc_core->url->get_parsed_url();
+$tmp=explode("/",$url['path']);
+//print_r($tmp);
+$m_id=0;
+if (count($tmp)==4) {
+	// manufacturer page
+	$tmp1=explode("-",$tmp[2]);
+	$m_id=intval($tmp1[1]);
+	$m_name="";
+	
+	if ($m_id!=0) {
+		//print_r($current_sub);
+		$j=0;
+		$query="SELECT Manufacturer_Name FROM Classificator_Manufacturer WHERE Manufacturer_ID=".$m_id;
+		$res=(array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res); $i++) { 
+			$m_name=$res[$i]->Manufacturer_Name;
+		}
+		$query="SELECT * FROM Classificator_model WHERE Checked=1 AND manufacturer_id=".$m_id;
+		$res=(array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res); $i++) { //>
+			$j=$j+1;
+		}
+		if ($j!=0) {
+			echo "<p class=\"text-right\"><a href='/Manufacturer/Manufacturer-".$m_id."/models/'>Модели ножей ".$m_name."</a></p>";
+		}
+		echo "
+		<div>
+			<a href='/Manufacturer/Manufacturer-".$m_id."/' ".((!isset($_GET['on'])) ? " class='btn btn-default disabled btn-sm'" : "class='btn btn-default btn-sm'").">в наличии</a> 
+			<a href='/Manufacturer/Manufacturer-".$m_id."/?on=0' ".(((isset($_GET['on']))&&($_GET['on']==0)) ? " class='btn btn-default disabled btn-sm'" : "class='btn btn-default btn-sm'").">все</a>
+		</div>
+		<br clear='both'>";
+		$nal=(!isset($_GET['on'])) ? "m.status=2" : "";
+
+		$query1="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+						FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+						  LEFT JOIN Message57 as parent
+							ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+						  
+						WHERE m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID NOT IN (153,161,102,139,280)  AND m.additcharacter NOT LIKE '%,16,%' AND m.showrkfive=1
+					
+							AND m.Vendor=".$m_id." ".(($nal!="") ? " AND ".$nal : "" )."
+					ORDER BY m.Name ASC,m.StockUnits DESC";			
+		//echo $query1."<br>";
+		$res = (array) $nc_core->db->get_results($query1);
+		echo "<br><p>Всего товаров: ".count($res)."</p>
+	</div>";
+		for ($i=0;$i<count($res); $i++) { // >	
+			echo "<div class='col-md-3 itemcol'>";
+			echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+			echo "</div>";
+		}	
+		
+		$vndlink=array();
+$vndlink=array();
+$vndlink[2]="/video/video-bulat-ooo/";
+$vndlink[5]="/video/video-kustari/";
+$vndlink[6]="/video/video-marichev/";
+$vndlink[9]="/video/video-cheburkov/";
+$vndlink[11]="/video/video-promtechsnab/";
+$vndlink[14]="/video/video-pampuha/";
+$vndlink[15]="/video/video-russkii-stil/";
+$vndlink[17]="/video/video-arkhangelskie/";
+$vndlink[18]="/video/video-jbanov/";
+$vndlink[22]="/video/video-melita-m/";
+$vndlink[24]="/video/video-korzun/";
+$vndlink[27]="/video/video-jasnii-sokol/";
+$vndlink[28]="/video/video-titov/";
+$vndlink[30]="/video/video-rakov/";
+$vndlink[32]="/video/video-ujnii-krest/";
+$vndlink[33]="/video/video-matveev/";
+$vndlink[34]="/video/video-uldanov/";
+$vndlink[35]="/video/video-krutov/";
+$vndlink[267]="/video/video-uus-expo/";
+$vndlink[37]="/video/video-kurnikov/";
+$vndlink[39]="/video/video-kasumi/";
+$vndlink[40]="/video/video-milenin/";
+$vndlink[42]="/video/video-zlatko/";
+$vndlink[44]="/video/video-opinel/";
+$vndlink[47]="/video/video-rvs/";
+$vndlink[48]="/video/video-air-zlatoust/";
+$vndlink[54]="/video/video-zzoss/";
+$vndlink[63]="/video/video-ostashov/";
+$vndlink[69]="/video/video-orujeinik/";
+$vndlink[82]="/video/video-igin/";
+$vndlink[83]="/video/video-pasholok/";
+$vndlink[89]="/video/video-dobrecov/";
+$vndlink[91]="/video/video-bobkov/";
+
+		// video
+		$query="SELECT m.Name, m.ItemID, m.Price, m.Status, m.StockUnits, m.video,m.videosmall,m.videobig,m.special,CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+				FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+				WHERE s.`Subdivision_ID` = m.`Subdivision_ID`
+				AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+				AND u.`Subdivision_ID` = m.`Subdivision_ID` 
+				AND m.Subdivision_ID NOT IN (153,161,102,139,280)  AND m.additcharacter NOT LIKE '%,16,%' AND m.showrkfive=1
+				AND m.Vendor=".$m_id." AND m.Checked=1 AND m.video=1 AND not m.videosmall='' ORDER BY m.videocreated DESC LIMIT 9";
+				
+		$res = (array) $nc_core->db->get_results($query);
+		if (is_object($res[0])) {
+			echo "<br clear='both'>
+			<p class='h2'>Видео, ножи ".$current_sub["Subdivision_Name"]."</p>
+			<div class='cntr' style='width:900px;margin:0 auto;'>";
+				
+			echo $res[0]->videobig."<br><strong><a href='".$res[0]->URL."'>".$res[0]->Name."</a></strong><br clear='both'><br>";
+			for ($i=1; $i<count($res); $i++) { //>
+				echo "<div style='width:420px; height:320px; margin:5px;float:left;'>".$res[$i]->videosmall."
+				<br><a href='".$res[$i]->URL."'><b>".$res[$i]->Name."</b></a><br>
+				</div>";
+			}
+			echo "</div>
+			<br clear='both'>
+			<p><a href='".$vndlink[$m_id]."'>Смотреть все видео ".$current_sub["Subdivision_Name"]."</a></p>";
+
+		
+		}		
+	}
+	echo "<div>";
+}
+
+if (count($tmp)==3) {
+	// список производителей
+	$sql="SELECT * FROM Classificator_Manufacturer WHERE Checked=1 AND showrkfive=1 ORDER BY Manufacturer_Name ASC";
+	$res=(array) $nc_core->db->get_results($sql);
+	echo "<ul style=\"list-style:none;\">";
+	for ($i=0; $i<count($res); $i++) { 
+		echo "<li><a href=\"/Manufacturer/Manufacturer-{$res[$i]->Manufacturer_ID}/\">{$res[$i]->Manufacturer_Name}</a></li>";
+	}
+	echo "</ul>";
+}
+?>
+
+<br>

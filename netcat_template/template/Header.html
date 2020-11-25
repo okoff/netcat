@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+	<title><?=($nc_core->page->get_title() ? $nc_core->page->get_title() :  $nc_core->page->get_h1() );?></title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/assets/css/dopstyle.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/assets/fonts/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+
+</head>
+<body>
+	<div class="container">
+		<div class="row top1">
+			<div class="col-md-2">
+				<div class="logo"><img src="/images/template6/logo.png"></div>
+			</div>
+			<div class="col-md-6">
+				<div class="phone">
+					<div class="pnum">+7 495 225-54-92</div>
+					<div class="wtime"><strong>Пн.-Пт.:</strong> 11.00-19.00; <strong>Сб.:</strong> 10.30-17.00</div>
+				</div>
+            </div>
+			<div class="col-md-2">
+<?php
+if (isset($current_user)) {
+?>
+				<div>
+					<br>
+					<a href="/profile/profile_<?=$current_user['User_ID']?>.html"><strong>Личный кабинет</strong></a><br>
+					Здравствуйте,
+					<strong><?=$current_user['Email'];?></strong>!
+					<br><br>
+					<a href="<?=$SUB_FOLDER?>/netcat/modules/auth/?logoff=<?=$AUTH_USER_ID?>">Завершить сеанс</a>
+				</div>
+<?
+} else {
+?>
+				<div class="enter">
+					<a href="/profile/enter/" class="btn btn-default blue">Войти</a>
+				</div>
+<?php
+}
+?>
+            </div>
+			<div class="col-md-2 col-sm-2">
+				<div class="topcart">
+					<img src="/images/template6/i_cart.png"><a href="/Netshop/cart.html" class="green">Корзина</a>
+					<?=($MODULE_VARS['netshop'] ? "<span class=\"badge\">".sizeof($Netshop_CartContents)."</span><!--шт.<br />На сумму: ".$Netshop_TotalPrice."-->" : "")?>
+					
+				</div>
+            </div>
+		</div>
+		<nav class="navbar navbar-default navbar-static-top">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span> 
+				</button>
+				<a class="navbar-brand" href="/">Магазин Русские Ножи</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+			<div class="container">
+				<ul class="nav navbar-nav">
+					<li><a href='/how-to-order/'>Как оформить заказ</a></li>
+					<li><a href='/delivery/'>Доставка и оплата</a></li>
+					<li><a href='/articles/'>Статьи</a></li>
+					<li><a href='/news/'>Новости</a></li>
+					<li><a href='/price-list/'>Прайс</a></li>
+					<li><a href='/video/'>Видео</a></li>
+					<li><a href='/models/'>Модели ножей</a></li>
+					<li><a href='/contacts/'>Контакты</a></li>
+				</ul>
+			</div>
+			</div>
+		</nav>
+		<div class="row bcontent">
+			<div class="col-md-3 lcol">
+				<form action="/searchres/" method="get" name="frm_filter" role="form">
+				<input type='hidden' name='action' value='index'>
+				<div class="panel panel-info">
+					<div class="panel-heading">Подобрать нож</div>
+					<div class="panel-body">
+							<div class='form-group'>
+								<select name='srchPat[1]' class='form-control input-sm'>
+									<option value="0">Производитель</option>
+									<?php
+									$query="SELECT Manufacturer_ID, Manufacturer_Name FROM Classificator_Manufacturer WHERE Checked=1 ORDER BY Manufacturer_Name ASC";
+									$res = (array) $nc_core->db->get_results($query);
+									for ($i=0; $i<count($res); $i++) { 
+										echo "<option value='{$res[$i]->Manufacturer_ID}' ".(($_GET['srchPat'][1]==$res[$i]->Manufacturer_ID) ? "selected" : "" ).">{$res[$i]->Manufacturer_Name}</option>";
+									}
+									?>
+								</select>
+							</div>
+							<div class='form-group'>
+								<select name='srchPat[4]' class='form-control input-sm'>
+									<option value="0">Марка стали клинка</option>
+									<?php
+									$query="SELECT steel_ID,steel_Name FROM Classificator_steel WHERE Checked=1 ORDER BY steel_Name ASC";
+									$res = (array) $nc_core->db->get_results($query);
+									for ($i=0; $i<count($res); $i++) { //>
+										echo "<option value='{$res[$i]->steel_ID}' ".(($_GET[srchPat][4]==$res[$i]->steel_ID) ? "selected" : "" ).">{$res[$i]->steel_Name}</option>";
+									}
+									?>
+								</select>
+							</div>
+							<div class='form-group'>
+								Цена,&nbsp;р.:<br>
+								от <input type='text' name='srchPat[10]' class="form-control input-sm" style='width:35%;display:inline;' size='5' maxlength='16' value='<?=(($_GET[srchPat][10]) ? $_GET[srchPat][10] : "" )?>'> 
+								до <input type='text' name='srchPat[11]' class="form-control input-sm" style='width:35%;display:inline;'  size='5' maxlength='16' value='<?=(($_GET[srchPat][11]) ? $_GET[srchPat][11] : "" )?>'>
+							</div>
+							<div class="radio">
+								В наличии:<br>
+								<label class="radio-inline"><input type='radio' name='srchPat[15]' id='t15_2' value='2' <?=(($_GET[srchPat][15]==2) ? "checked" : "" )?>>да</label>&nbsp;&nbsp;
+								<label class="radio-inline"><input type='radio' name='srchPat[15]' id='t15_3' value='3' <?=(($_GET[srchPat][15]==3) ? "checked" : "" )?>>нет</label>&nbsp;&nbsp;
+								<label class="radio-inline"><input type='radio' name='srchPat[15]' id='t15_1' value='' <?=(($_GET[srchPat][15]=="") ? "checked" : "" )?>>все</label>
+							</div>
+	
+						
+					</div>
+					<div class="panel-footer"><button type="submit" class="btn btn-success">Подобрать</button></div>
+				</div>
+				</form>
+				<div class="panel panel-info">
+					<div class="well">
+					<ul class="nav">
+						<li>
+							<label label-default="" class="tree-toggle nav-header">Ножи</label>
+							<ul class="nav  tree">
+							<li><a href="/Netshop/catalogue/hunter-bulat/">Булатные ножи</a>
+ </li>
+<li><a href="/Netshop/catalogue/hunter/">Ножи охотничьи дамасск</a>
+ </li>
+<li><a href="/Netshop/catalogue/hunter-steel/">Ножи охотничьи сталь</a>
+ </li>
+<li><a href="/Netshop/catalogue/kitchen/">Ножи поварские и кухонные</a>
+ </li>
+<li><a href="/Netshop/catalogue/prezent/">Подарочные ножи</a>
+ </li>
+<li><a href="/Netshop/catalogue/exclusive/">Авторские ножи</a>
+ </li>
+<li><a href="/Netshop/catalogue/accessuar/">Все для заточки, аксессуары</a>
+ </li>
+<li><a href="/Netshop/catalogue/pchak/">Узбекские ножи - Пчаки</a>
+ </li>
+<li><a href="/Netshop/catalogue/kuiabrik/">Куябрики</a>
+ </li>
+							</ul>
+						</li>
+						<li>
+							<label label-default="" class="tree-toggle nav-header">Клинки</label>
+							<ul class="nav  tree">
+								<li><a href="/Netshop/klinok/">Клинки</a></li>
+							<li><a href="/Netshop/klinok/casting/">Литье для ножей: гарды, навершии</a>
+ </li>
+<li><a href="/Netshop/klinok/wood/">Дерево (бруски для рукоятей), стабилизированное дерево</a>
+ </li>
+							</ul>
+						</li>
+						<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/topor/">Топоры, тяпки, мачете</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/sword/">Нагайки, дураки</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/armour/">Доспехи, кованые изделия</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/accessories/">Аксессуары</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/tools/">Средства обработки дерева и металла, масла и воск</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/cutlery/">Столовые приборы</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/multitool/">Мультитулы</a></label></li>
+<li><label label-default="" class="tree-toggle nav-header"><a href="/Netshop/instrumenti/">Инструменты - ножи для резьбы по дереву</a></label></li>
+					</ul>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">Новости</div>
+					<div class="panel-body">
+						<?php
+							$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=134 AND Sub_Class_ID=170
+									ORDER BY Priority DESC LIMIT 2";
+							$res = (array) $nc_core->db->get_results($query);
+							$j=0;
+							foreach ($res as $r) {
+						?>
+								<div>
+								<div class="h5"><a href="/news/news_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+								<?=$r->Announce?>
+								<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+								<?=(($j==0) ? "<hr>" : "")?>
+								</div>
+						<?php
+								$j=$j+1;
+							}	
+						?>
+						
+					</div>
+					<div class="panel-footer"><a href="/news/" class="small">Все новости</a></div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">Статьи</div>
+					<div class="panel-body">
+						<?php
+							$query = "SELECT * FROM Message23  WHERE Checked=1 AND Subdivision_ID=17 AND Sub_Class_ID=9
+									ORDER BY Priority DESC LIMIT 2";
+							$res = (array) $nc_core->db->get_results($query);
+							$j=0;
+							foreach ($res as $r) {
+						?>
+								<div>
+								<div class="h5"><a href="/news/news_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+								<?=$r->Announce?>
+								<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+								<?=(($j==0) ? "<hr>" : "")?>
+								</div>
+						<?php
+								$j=$j+1;
+							}	
+						?>
+						
+					</div>
+					<div class="panel-footer"><a href="/articles/" class="small">Все статьи</a></div>
+				</div>
+			</div>
+			<div class="col-md-6 colcentr">
+<?php
+	//print_r($current_sub);
+?>
+		

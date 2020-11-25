@@ -1,0 +1,1764 @@
+<?php
+/* $Id: Russian.php 3749 2010-03-04 14:42:17Z denis $ */
+
+setlocale(LC_ALL, 'ru_RU.CP1251', 'rus_RUS.CP1251', 'Russian_Russia.1251', 'ru_RU', 'russian');
+
+# MAIN
+define("MAIN_DIR", "ltr");
+define("MAIN_LANG", "ru");
+define("MAIN_COUNTRY", "RU");
+define("MAIN_NAME", "Russian");
+define("MAIN_NAMELOC", "Русский");
+define("MAIN_ENCODING", "windows-1251");
+define("MAIN_EMAIL_ENCODING", "windows-1251");
+
+define("NETCAT_TREE_SELECT_MODE", "Выберите режим работы дерева");
+define("NETCAT_TREE_SITEMAP", "Карта сайта");
+define("NETCAT_TREE_DEVELOPER", "Разработка");
+define("NETCAT_TREE_MODULES", "Модули");
+define("NETCAT_TREE_USERS", "Пользователи");
+
+// Tabs
+define("NETCAT_TAB_REFRESH", "Обновить");
+
+define("STRUCTURE_TAB_SUBCLASS_ADD", "Добавить компонент");
+define("STRUCTURE_TAB_INFO", "Информация");
+define("STRUCTURE_TAB_SETTINGS", "Настройки");
+define("STRUCTURE_TAB_USED_SUBCLASSES", "Используемые компоненты");
+define("STRUCTURE_TAB_EDIT", "Редактирование");
+define("STRUCTURE_TAB_PREVIEW", "Просмотр");
+
+define("CATALOGUE_TAB_SITE", "Сайт");
+
+define("CLASS_TAB_INFO", "Информация");
+define("CLASS_TAB_EDIT", "Редактирование компонента");
+define("CLASS_TAB_CUSTOM_ACTION", "Шаблоны действий");
+define("CLASS_TAB_CUSTOM_ADD", "Добавление");
+define("CLASS_TAB_CUSTOM_EDIT", "Изменение");
+define("CLASS_TAB_CUSTOM_DELETE", "Удаление");
+define("CLASS_TAB_CUSTOM_SEARCH", "Поиск");
+define("CLASS_TAB_CUSTOM_SUBSCRIBE", "Подписка");
+define("NETCAT_REMIND_SAVE_TEXT", "Выйти без сохранения?");
+
+# BeginHtml
+define("BEGINHTML_TITLE", "Администрирование");
+define("BEGINHTML_PROJECT", "Проект");
+define("BEGINHTML_USER", "Пользователь");
+define("BEGINHTML_VERSION", "версия");
+define("BEGINHTML_PERM_GUEST", "гостевой доступ");
+define("BEGINHTML_PERM_DIRECTOR", "директор");
+define("BEGINHTML_PERM_SUPERVISOR", "супервизор");
+define("BEGINHTML_PERM_MANAGER", "менеджер");
+define("BEGINHTML_PERM_CATALOGUEADMIN", "администратор сайта");
+define("BEGINHTML_PERM_SUBDIVISIONADMIN", "администратор раздела");
+define("BEGINHTML_PERM_SUBCLASSADMIN", "администратор компонента раздела");
+define("BEGINHTML_PERM_CLASSIFICATORADMIN", "администратор списка");
+define("BEGINHTML_PERM_MODERATOR", "модератор");
+
+define("BEGINHTML_LOGOUT", "выход из системы");
+define("BEGINHTML_LOGOUT_OK", "Сеанс завершен.");
+define("BEGINHTML_LOGOUT_RELOGIN", "Войти под другим именем");
+define("BEGINHTML_LOGOUT_IE", "Для завершения сеанса закройте все окна браузера.");
+
+define("BEGINHTML_SECTIONS_CONTROL", "Управление");
+define("BEGINHTML_SECTIONS_SETTINGS", "Инструменты");
+define("BEGINHTML_SECTIONS_REPORT", "Отчеты");
+define("BEGINHTML_SECTIONS_SUPPORT", "Техническая поддержка");
+
+define("BEGINHTML_ALARMON", "Непрочитанные системные сообщения");
+define("BEGINHTML_ALARMOFF", "Системные сообщения: непрочитанных нет");
+define("BEGINHTML_ALARMPATCH", "Установите обновление системы");
+define("BEGINHTML_ALARMPATCHOFF", "Обновления системы: новых нет");
+define("BEGINHTML_ALARMVIEW", "Просмотр системного сообщения");
+define("BEGINHTML_HELPNOTE", "подсказка");
+
+# EndHTML
+define("ENDHTML_AIST", "АИСТ");
+define("ENDHTML_ABOUT", "О программе");
+
+# Common
+define("NETCAT_ADMIN_DELETE_SELECTED", "Удалить выбранное");
+define("NETCAT_SELECT_SUBCLASS_DESCRIPTION", "<p>В разделе &laquo;<b>%s</b>&raquo;, имеется несколько компонентов типа &laquo;%s&raquo;.</p>
+  <p>Выберите компонент раздела, в который нужно перенести объект, нажав на название компонента.</p>");
+
+# INDEX PAGE
+define("SECTION_INDEX_SITECONTROL", "УПРАВЛЕНИЕ САЙТОМ");
+define("SECTION_INDEX_USER", "ИНСТРУМЕНТЫ ПОЛЬЗОВАТЕЛЯ");
+define("SECTION_INDEX_DEV", "ИНСТРУМЕНТЫ РАЗРАБОТЧИКА");
+define("SECTION_INDEX_USERBLOCK", "ПОЛЬЗОВАТЕЛИ");
+define("SECTION_INDEX_SYSINFO", "СИСТЕМНАЯ ИНФОРМАЦИЯ");
+define("SECTION_INDEX_FASTEDIT", "БЫСТРОЕ РЕДАКТИРОВАНИЕ");
+define("SECTION_INDEX_MODULES", "МОДУЛИ");
+define("SECTION_INDEX_HELP", "ПОМОЩЬ");
+define("SECTION_INDEX_SITES_SETTINGS", "Настройки сайтов");
+define("SECTION_INDEX_SITE_MAP", "карта сайта");
+define("SECTION_INDEX_MODULES_CHANGE", "параметры");
+define("SECTION_INDEX_MODULES_MUSTHAVE", "не установленные");
+define("SECTION_INDEX_MODULES_BUY", "заказать");
+
+# MODULES LIST
+define("NETCAT_MODULE_DEFAULT", "Интерфейс разработчика");
+define("NETCAT_MODULE_AUTH", "Интерфейс пользователя");
+define("NETCAT_MODULE_SERCH", "Поиск по сайту");
+define("NETCAT_MODULE_POLL", "Голосование (опросник)");
+define("NETCAT_MODULE_ESHOP", "Интернет-магазин (старый)");
+define("NETCAT_MODULE_STATS", "Статистика посещений");
+define("NETCAT_MODULE_SUBSCRIBE", "Подписка и рассылка");
+define("NETCAT_MODULE_BANNER", "Управление рекламой");
+define("NETCAT_MODULE_FORUM", "Форум");
+define("NETCAT_MODULE_NETSHOP", "Интернет-магазин");
+define("NETCAT_MODULE_LINKS", "Управление ссылками");
+define("NETCAT_MODULE_CAPTCHA", "Защита форм картинкой");
+define("NETCAT_MODULE_TAGSCLOUD", "Облако тегов");
+define("NETCAT_MODULE_BLOG", "Блог и сообщество");
+define("NETCAT_MODULE_CALENDAR", "Календарь");
+# /MODULES LIST
+
+define("SECTION_INDEX_USER_STRUCT", "Управление структурой и контентом");
+define("SECTION_INDEX_USER_STRUCT_SUBLIST", "В виде списка разделов");
+define("SECTION_INDEX_USER_STRUCT_SITEMAP", "В виде карты сайта");
+define("SECTION_INDEX_USER_STRUCT_CLASSIFICATOR", "Списки");
+define("SECTION_INDEX_USER_STRUCT_FAFORITE", "Быстрое редактирование");
+
+define("SECTION_INDEX_USER_RIGHTS_TYPE", "Тип прав");
+define("SECTION_INDEX_USER_RIGHTS_RIGHTS", "Права");
+
+define("SECTION_INDEX_USER_USER", "Управление пользователями и правами");
+define("SECTION_INDEX_USER_USER_LIST", "Список пользователей");
+define("SECTION_INDEX_USER_USER_ADD", "Регистрация пользователей");
+define("SECTION_INDEX_USER_USER_GROUP", "Группы пользователей");
+define("SECTION_INDEX_USER_USER_MAIL", "Рассылка по базе");
+define("SECTION_INDEX_USER_HTML", "Визуальный HTML-редактор");
+define("SECTION_INDEX_USER_SUBSCRIBERS", "Подписки пользователя");
+
+define("SECTION_INDEX_DEV_CLASSES", "Компоненты");
+define("SECTION_INDEX_DEV_CLASS_TEMPLATES", "Шаблоны компонента");
+define("SECTION_INDEX_DEV_TEMPLATES", "Макеты дизайна");
+define("SECTION_INDEX_DEV_FIELDS", "Настройка системных таблиц");
+define("SECTION_INDEX_DEV_SQL", "Командная строка SQL");
+
+define("SECTION_INDEX_ADMIN_REDIRECT", "Настройка переадресаций");
+define("SECTION_INDEX_ADMIN_ARCHIVES", "Архивирование и восстановление проекта");
+define("SECTION_INDEX_ADMIN_MODULES", "Установка и настройка модулей");
+define("SECTION_INDEX_ADMIN_PATCHES", "Обновление системы");
+
+define("SECTION_INDEX_ADMIN_PATCHES_INFO", "Системная информация");
+define("SECTION_INDEX_ADMIN_PATCHES_INFO_VERSION", "Версия системы");
+define("SECTION_INDEX_ADMIN_PATCHES_INFO_LAST_PATCH", "Последнее обновление");
+define("SECTION_INDEX_ADMIN_PATCHES_INFO_LAST_PATCH_DATE", "Последняя проверка обновлений");
+define("SECTION_INDEX_ADMIN_PATCHES_INFO_CHECK_PATCH", "Проверить наличие обновлений");
+
+define("SECTION_INDEX_REPORTS_STATS", "Общая статистика проекта");
+define("SECTION_INDEX_REPORTS_LAST", "Последние изменения");
+define("SECTION_INDEX_REPORTS_SYSTEM", "Системные сообщения");
+
+define("SECTION_INDEX_SUPPORT_SITE", "Техподдержка на NetCat.ru");
+define("SECTION_INDEX_SUPPORT_MAIL", "Отправка письма разработчику");
+
+define("SECTION_INDEX_HELP_DOC", "Документация");
+define("SECTION_INDEX_HELP_ADVICE", "Советы и приемы");
+define("SECTION_INDEX_HELP_REGISTER", "Регистрация копии системы");
+define("SECTION_INDEX_HELP_UPDATE", "Скачать обновления");
+define("SECTION_INDEX_HELP_FORUM", "Форум");
+
+# SECTION CONTROL
+define("SECTION_CONTROL_CONTENT", "Структура и контент");
+define("SECTION_CONTROL_CONTENT_CATALOGUE", "Сайты");
+define("SECTION_CONTROL_CONTENT_FULL", "Карта сайта");
+define("SECTION_CONTROL_CONTENT_FAVORITES", "Быстрое редактирование");
+define("SECTION_CONTROL_CONTENT_CLASSIFICATOR", "Списки");
+
+# SECTION USER
+define("SECTION_CONTROL_USER", "Пользователи");
+define("SECTION_CONTROL_USER_LIST", "Пользователи и права");
+define("SECTION_CONTROL_USER_GROUP", "Группы пользователей");
+define("SECTION_CONTROL_USER_MAIL", "Рассылка по базе");
+
+# SECTION CLASS
+define("SECTION_CONTROL_CLASS", "Компоненты");
+define("SECTION_CONTROL_CLASS_LIST", "Список компонентов");
+define("SECTION_CONTROL_CLASS_IMPORT", "Импорт компонентов");
+define("CONTROL_CLASS_USE_CAPTCHA", "защищать форму добавления картинкой");
+define("CONTROL_CLASS_CACHE_FOR_AUTH", "кэширование по авторизации");
+define("CONTROL_CLASS_CACHE_FOR_AUTH_NONE", "Не использовать");
+define("CONTROL_CLASS_CACHE_FOR_AUTH_USER", "Учитывать каждого пользователя");
+define("CONTROL_CLASS_CACHE_FOR_AUTH_GROUP", "Учитывать основную группу пользователя");
+define("CONTROL_CLASS_CACHE_FOR_AUTH_DESCRIPTION", "Если в компоненте нужно выводить данные уникальные для каждого пользователя, эта настройка позволит выбрать требуемые условия.");
+
+# SECTION TEMPLATE
+define("SECTION_CONTROL_TEMPLATE", "Дизайн");
+define("SECTION_CONTROL_TEMPLATE_SHOW", "Макеты дизайна");
+
+# SECTIONS OPTIONS
+define("SECTION_SECTIONS_OPTIONS", "Настройки системы");
+define("SECTION_SECTIONS_OPTIONS_OPTIONS", "Базовые настройки");
+define("SECTION_SECTIONS_OPTIONS_SYSTEM", "Системные таблицы");
+define("SECTION_SECTIONS_OPTIONS_REDIRECTS", "Переадресации");
+define("SECTION_SECTIONS_OPTIONS_DBFLASH", "Обновление состояния базы");
+define("SECTION_SECTIONS_OPTIONS_SYSTEMLIST", "Системные списки");
+
+# SECTIONS OPTIONS
+define("SECTION_SECTIONS_INSTRUMENTS", "Инструменты");
+define("SECTION_SECTIONS_INSTRUMENTS_SQL", "Командная строка SQL");
+define("SECTION_SECTIONS_INSTRUMENTS_CRON", "Управление задачами");
+define("SECTION_SECTIONS_INSTRUMENTS_HTML", "HTML-редактор");
+define("SECTION_SECTIONS_INSTRUMENTS_CONVERTER", "Экранирование спецсимволов");
+define("SECTION_SECTIONS_INSTRUMENTS_SITEINFO", "SEO-анализ");
+define("SECTION_SECTIONS_DEVELOPMENT", "Разработка");
+
+# SECTIONS MODDING
+define("SECTION_SECTIONS_MODDING", "Модификации");
+define("SECTION_SECTIONS_MODDING_MODULES", "Модули");
+define("SECTION_SECTIONS_MODDING_PATCHES", "Обновление системы");
+define("SECTION_SECTIONS_MODDING_ARHIVES", "Архивы проекта");
+
+# REPORTS
+define("SECTION_REPORTS", "Отчеты");
+define("SECTION_REPORTS_TOTAL", "Общая статистика проекта");
+define("SECTION_REPORTS_LASTCHANGES", "Последние измененния");
+define("SECTION_REPORTS_SYSMESSAGES", "Системные сообщения");
+
+# SUPPORT
+define("SECTION_SUPPORT", "Техподдержка");
+define("SECTION_SUPPORT_MAIL", "Обращение в техподдержку");
+define("SECTION_SUPPORT_REGISTER", "Регистрация копии системы");
+define("SECTION_SUPPORT_SITE", "Поддержка на NetCat.ru");
+
+# ABOUT
+define("SECTION_ABOUT_TITLE", "О программе");
+define("SECTION_ABOUT_HEADER", "О программе");
+define("SECTION_ABOUT_BODY", "Система управления сайтами NetCat <font color=%s><b>%s</b></font> версия %s. Все права защищены.<br><br>\nВеб-сайт системы NetCat: <a target=_blank href=http://www.netcat.ru>www.netcat.ru</a><br>\nE-mail службы поддержки: <a href=mailto:support@netcat.ru>support@netcat.ru</a>\n<br><br>\nРазработчик: ООО &laquo;НетКэт&raquo;<br>\nE-mail: <a href=mailto:info@netcat.ru>info@netcat.ru</a><br>\n+7 (495) 783-6021<br>\n<a target=_blank href=http://www.netcat.ru>www.netcat.ru</a><br>");
+define("SECTION_ABOUT_DEVELOPER","Разработчик проекта");
+
+// ARRAY-2-FORMS
+define("ARRAY_FIELD_CAPTION", "Настройка");
+define("ARRAY_FIELD_DEFAULT", "Значение по умолчанию");
+define("ARRAY_FIELD_VALUE", "Значение");
+
+# INDEX
+define("CONTROL_CONTENT_CATALOUGE_SITE", "Сайты");
+define("CONTROL_CONTENT_CATALOUGE_ONESITE", "Сайт");
+define("CONTROL_CONTENT_CATALOUGE_ADD", "добавление");
+define("CONTROL_CONTENT_CATALOUGE_SITEDELCONFIRM", "Подтверждение удаления сайта");
+define("CONTROL_CONTENT_CATALOUGE_ADDSECTION", "Добавление раздела");
+define("CONTROL_CONTENT_CATALOUGE_ADDSITE", "Добавление сайта");
+define("CONTROL_CONTENT_CATALOUGE_SITEOPTIONS", "Настройки сайта");
+
+define("CONTROL_CONTENT_CATALOUGE_ERROR_CASETREE_ONE", "Название сайта не может быть пустым!");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_CASETREE_TWO", "Введено недопустимое ключевое слово!");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_DUPLICATE_DOMAIN", "Сайт с таким доменным именем уже существует в системе. Укажите другое доменное имя.");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_CASETREE_THREE", "Доменное имя может содержать только латинские буквы, цифры, дефис и точку! Цифры должны совмещаться с буквами.");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_EMPSUBSECNAME", "Нельзя вводить пустое название подраздела!");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_PRIORITYEMP", "Нельзя вводить пустой приоритет!");
+define("CONTROL_CONTENT_CATALOUGE_ERROR_PRIORITYSET", "Приоритет может быть только числом!");
+
+define("CONTROL_CONTENT_CATALOUGE_SUCCESS_ADD", "Сайт успешно добавлен!");
+define("CONTROL_CONTENT_CATALOUGE_SUCCESS_EDIT", "Сайт успешно изменен!");
+define("CONTROL_CONTENT_CATALOUGE_SUCCESS_DELETE", "Сайт успешно удален!");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_MAININFO", "Основная информация");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_NAME", "Название");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_DOMAIN", "Домен");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_MIRRORS", "Зеркала (по одному на строчке)");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_ROBOTS", "Содержимое файла Robots.txt");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_TEMPLATE", "Макет дизайна");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_TITLEPAGE", "Титульная страница");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_NOTFOUND", "Страница не найдена (ошибка 404)");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_PRIORITY", "Приоритет");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_ON", "включен");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_ACCESS", "Доступ");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_USERS", "пользователи");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_VIEW", "просмотр");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_COMMENT", "комментирование");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_ADD", "добавление");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_CHANGE", "изменение");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_SUBSCRIBE", "подписка");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_OBJECTPUBLISH", "Публикация объектов");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_EXTFIELDS", "Дополнительные поля");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_CANCEL", "Отмена");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_SAVE", "Сохранить изменения");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_WARNING_SITEDELETE_I", "ы");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_WARNING_SITEDELETE_U", "и");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_WARNING_SITEDELETE", "<b>Внимание:</b> сайт%s и все с ним%s связанное будет удалено.");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_CATALOGUEFORM_CONFIRMDELETE", "Подтвердить удаление");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_CREATED", "Дата создания сайта");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_UPDATED", "Дата изменения информации о сайте");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_SECTIONSCOUNT", "Количество подразделов");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_AVAILABLE_SECTIONSCOUNT", "Количество доступных подразделов");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_CLASSCOUNT", "Количество компонентов");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_SITESTATUS", "Статус сайта");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_ON", "включен");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_OFF", "выключен");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_ADD", "добавить");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_USERS", "пользователи");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_READACCESS", "Доступ на чтение");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_ADDACCESS", "Доступ на добавление");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_EDITACCESS", "Доступ на изменение");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_SUBSCRIBEACCESS", "Доступ на подписку");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_PUBLISHACCESS", "Публикация объектов");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_VIEW", "Просмотр");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_ADDING", "Добавление");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_SEARCHING", "Поиск");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_SUBSCRIBING", "Подписка");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_EDIT", "Редактирование");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_CHANGE", "Изменить настройки сайта");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_DELETE", "Удалить сайт");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_SITE", "Сайт");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_SUBSECTIONS", "Подразделы");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_PRIORITY", "Приоритет");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_GOTO", "Перейти");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_DELETE", "Удалить");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_LIST", "список");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_TOOPTIONS", "изменить настройки сайта");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_SHOW", "посмотреть сайт");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_EDIT", "изменить информацию");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_NONE", "В проекте нет ни одного сайта");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_ADDSITE", "Добавить сайт");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_CANCEL", "Отменить");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_SAVE", "Сохранить изменения");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_DBERROR", "Ошибка выборки из базы!");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWCATALOGUELIST_SECTIONWASCREATED", "Создан раздел %s<br>");
+
+# CONTROL CONTENT SUBDIVISION
+define("CONTROL_CONTENT_SUBDIVISION_FAVORITES_TITLE", "Быстрое редактирование");
+define("CONTROL_CONTENT_SUBDIVISION_FULL_TITLE", "Карта сайта");
+
+# CONTROL CONTENT SUBDIVISION
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_SITES", "Сайты");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_SECTIONS", "Разделы");
+define("CONTROL_CONTENT_SUBDIVISION_CLASS", "Компонент в разделе");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ADDSECTION", "Добавление раздела");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_OPTIONSECTION", "Настройки раздела");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_DELETECONFIRMATION", "Подтверждение удаления");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_MOVESECTION", "Перенос раздела");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_OPTIONSMENU", "меню операций");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ERROR_THREE_NAME", "Введите название раздела!");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ERROR_THREE_KEYWORD", "Введено недопустимое ключевое слово!");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ERROR_THREE_KEYWORD_INVALID", "Ключевое слово может содержать только латинские буквы, цифры, дефис и знак подчеркивания! Цифры должны совмещаться с буквами.");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ERROR_THREE_PARENTSUB", "Не выбран родительский раздел!");
+define("CONTROL_CONTENT_SUBDIVISION_INDEX_ERROR", "Ошибка добавления раздела");
+
+define("CONTROL_CONTENT_SUBDIVISION_UPDATENAME_SUCCESS", "Название раздела успешно обновлено");
+define("CONTROL_CONTENT_SUBDIVISION_UPDATENAME_ERROR", "Название раздела не обновлено!");
+
+define("CONTROL_CONTENT_SUBDIVISION_SUCCESS_EDIT", "Настройки раздела сохранены");
+
+define("CONTROL_CONTENT_SUBDIVISION_SETTINGS", "Настройки раздела");
+
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_CLASSLIST_SECTION", "Список компонентов раздела");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_CLASSLIST_SITE", "Список компонентов на сайте");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ADDCLASS", "Добавление компонента в раздел");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_OPTIONSCLASS", "Настройки компонента раздела");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ADDCLASSSITE", "Добавление компонента на сайт");
+
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ERROR_NAME", "Название компонента не может быть пустым!");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ERROR_KEYWORD_INVALID", "Ключевое слово может содержать только латинские буквы, цифры и дефис! Цифры должны совмещаться с буквами.");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ERROR_KEYWORD", "Введено недопустимое ключевое слово!");
+
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_SUCCESS_ADD", "Компонент успешно добавлен");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ERROR_ADD", "Ошибка добавления компонента в раздел");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_SUCCESS_EDIT", "Компонент успешно изменен");
+define("CONTROL_CONTENT_SUBDIVISION_SUBCLASS_ERROR_EDIT", "Ошибка редактирования компонента раздела");
+
+define("CONTROL_CONTENT_SUBDIVISION_FIRST_SUBCLASS", "<b>В данном разделе нет ни одного компонента.</b><br>Для того, чтобы добавлять информацию в раздел, необходимо добавить в него хотя бы один компонент.");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_SECTION", "Раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_SUBSECTIONS", "Подразделы");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_GOTO", "Перейти");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_NOONEFAVORITES", "Нет избранных разделов.");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_TOOPTIONS", "изменить настройки раздела");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_TOOPTIONSSUBCLASS", "изменить настройки компонента в разделе");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_TOVIEW", "посмотреть страницу");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_TOEDIT", "изменить информацию");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_PRIORITY", "Приоритет");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_DELETE", "Удалить");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_NONE", "нет");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LIST", "список");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ADD", "добавить");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_NOSECTIONS", "У данного сайта нет ни одного раздела.");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_NOSUBSECTIONS", "В данном разделе нет подразделов.");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ADDSECTION", "Добавить раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_CANCEL", "Отменить");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_SAVE", "Сохранить изменения");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ADDFAVOTITES", "Показывать раздел в &quot;Избранных разделах&quot;");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_USEEDITDESIGNTEMPLATE", "Использовать этот макет при редактировании объектов");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA", "Основная информация");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_NAME", "Название");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_KEYWORD", "Ключевое слово");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_EXTURL", "Внешняя ссылка");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_DTEMPLATE", "Макет дизайна");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_DTEMPLATE_EDIT", "Редактировать");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_DTEMPLATE_N", "Наследовать");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_TURNON", "включен");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_TURNOFF", "выключен");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_A_ADDSUBSECTION", "добавить подраздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_A_REMSITE", "удалить сайт");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_MULTI_SUB_CLASS", "Несколько компонентов в разделе");
+
+define("CONTROL_TEMPLATE_CUSTOM_SETTINGS_INHERITED", "Дополнительные настройки макета дизайна могут быть указаны только в случае, если у раздела задан макет дизайна.");
+define("CONTROL_TEMPLATE_CUSTOM_SETTINGS_NOT_AVAILABLE" , "Данный макет дизайна не имеет дополнительных настроек.");
+define("CONTROL_TEMPLATE_CUSTOM_SETTINGS" , "Настройки отображения макета дизайна в разделе");
+define("CONTROL_TEMPLATE_CUSTOM_SETTINGS_ISNOTSET" , "Настройки отображения макета дизайна в разделе отсутствуют");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_A_EDIT", "изменить информацию");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_A_KILL", "удалить этот раздел");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_SHOWMENU_A_VIEW", "посмотреть страницу")	;
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_CANTMOVETOSELF", "Раздел нельзя перенести самого в себя. Ошибка!");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_NOSECTION", "Раздел с номером %s не существует и его нельзя сделать родительским. Ошибка!");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_CANTFROMANOTHERSITE", "Нельзя переносить в раздел из другого сайта. Ошибка!");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_MSG_OK", "Раздел успешно добавлен.");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_A_ADDCLASSTOSECTION", "Добавить компонент в раздел");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_A_BACKTOSECTIONLIST", "Вернуться к списку разделов");
+
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_NOCATALOGUE", "Сайт не существует.");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_NOSUBDIVISION", "Раздел не существует.");
+define("CONTROL_CONTENT_CATALOUGE_FUNCS_ERROR_NOSUBCLASS", "Компонент в разделе не существует.");
+
+define("CLASSIFICATOR_COMMENTS_DISABLE", "запретить");
+define("CLASSIFICATOR_COMMENTS_ENABLE", "разрешить");
+define("CLASSIFICATOR_COMMENTS_NOREPLIED", "разрешить если нет ответов");
+
+define("CONTROL_CONTENT_CATALOGUE_FUNCS_COMMENTS", "Комментирование");
+define("CONTROL_CONTENT_CATALOGUE_FUNCS_COMMENTS_ADD", "Добавление комментариев");
+define("CONTROL_CONTENT_CATALOGUE_FUNCS_COMMENTS_AUTHOR_EDIT", "Редактирование своих комментариев");
+define("CONTROL_CONTENT_CATALOGUE_FUNCS_COMMENTS_AUTHOR_DELETE", "Удаление своих комментариев");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_COMMENTS", "Комментирование");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_COMMENTS_ADD", "Добавление комментариев");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_COMMENTS_AUTHOR_EDIT", "Редактирование своих комментариев");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_COMMENTS_AUTHOR_DELETE", "Удаление своих комментариев");
+
+define("CONTROL_CONTENT_SUBCLASS_FUNCS_COMMENTS", "Комментирование");
+define("CONTROL_CONTENT_SUBCLASS_FUNCS_COMMENTS_ADD", "Добавление комментариев");
+define("CONTROL_CONTENT_SUBCLASS_FUNCS_COMMENTS_AUTHOR_EDIT", "Редактирование своих комментариев");
+define("CONTROL_CONTENT_SUBCLASS_FUNCS_COMMENTS_AUTHOR_DELETE", "Удаление своих комментариев");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS", "Доступ");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_USERS", "пользователи");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INHERIT", "наследовать");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_VIEW", "просмотр");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_COMMENT", "комментирование");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_ADD", "добавление");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_EDIT", "изменение");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_CHECKED", "включение");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_DELETE", "удаление");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_SUBSCRIBE", "подписка");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_PUBLISH", "Публикация объектов");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_ADVANCEDFIELDS", "Дополнительные поля");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_OBJ_HOWSHOW", "Отображение объектов");
+define("CONTROL_CONTENT_SUBDIVISION_CUSTOM_SETTINGS_TEMPLATE", "Визуальные настройки компонента");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_OBJ_YES", "Да");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_OBJ_NO", "Нет");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_INFO_CREATED", "Дополнительные поля");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_INFO_UPDATED", "Дата изменения информации о разделе");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_INFO_SUBSECTIONS_COUNT", "Количество подразделов");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_INFO_CLASS_COUNT", "Количество компонентов");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_INFO_STATUS", "Статус раздела");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INFO_READ", "Доступ на чтение");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INFO_ADD", "Доступ на добавление");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INFO_EDIT", "Доступ на изменение");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INFO_SUBSCRIBE", "Доступ на подписку");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_ACCESS_INFO_PUBLISH", "Публикация объектов");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_VIEW", "Просмотр");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_EDIT", "Редактирование");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_OPTIONS", "Изменить настройки раздела");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_DELETE", "Удалить раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_MOVE", "Перенести данный раздел в другой раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_ROOT", "Корневой раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_ACTION_MOVE", "Перенести раздел");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_DELETE_CONFIRMATION", "Подтвердить удаление");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_WARNING", "<b>Внимание:</b> раздел%s и все с н%s связанное будет удалено.");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_WARNING_ONE_MANY", "ы");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_WARNING_ONE_ONE", "");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_WARNING_TWO_MANY", "ими");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_WARNING_TWO_ONE", "им");
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_ERR_NOONESITE", "Указанного сайта не существует.");
+
+define("CONTROL_CONTENT_SUBDIVISION_FUNCS_LINEADD_DELETE_SUCCESS", "Удаление выполнено успешно.");
+
+define("CONTROL_CONTENT_SUBCLASS_CLASSNAME", "Название компонента %s");
+define("CONTROL_CONTENT_SUBCLASS_ADDCLASS", "Добавить компонент %s");
+define("CONTROL_CONTENT_SUBCLASS_ONSECTION", "в разделе");
+define("CONTROL_CONTENT_SUBCLASS_ONSITE", "на сайте");
+define("CONTROL_CONTENT_SUBCLASS_MSG_NONE", "В данном разделе нет компонентов.");
+define("CONTROL_CONTENT_SUBCLASS_DEFAULTACTION", "Действие по умолчанию");
+define("CONTROL_CONTENT_SUBCLASS_CREATIONDATE", "Дата создания компонента %s");
+define("CONTROL_CONTENT_SUBCLASS_UPDATEDATE", "Дата изменения информации о компоненте %s");
+define("CONTROL_CONTENT_SUBCLASS_USECLASS", "Используемый компонент");
+define("CONTROL_CONTENT_SUBCLASS_TOTALOBJECTS", "Объектов");
+define("CONTROL_CONTENT_SUBCLASS_CLASSSTATUS", "Статус компонента");
+define("CONTROL_CONTENT_SUBCLASS_CHANGEPREFS", "Изменить настройки компонента %s");
+define("CONTROL_CONTENT_SUBCLASS_DELETECLASS", "Удалить компонент %s");
+define("CONTROL_CONTENT_SUBCLASS_ISNAKED", "Не использовать макет дизайна");
+
+define("CONTROL_SETTINGSFILE_TITLE_BASIC", "Базовые настройки системы");
+define("CONTROL_SETTINGSFILE_TITLE_ADD", "Добавление");
+define("CONTROL_SETTINGSFILE_TITLE_EDIT", "Редактирование");
+define("CONTROL_SETTINGSFILE_BASIC_VERSION", "Версия системы");
+define("CONTROL_SETTINGSFILE_BASIC_REGCODE", "Регистрационный код");
+define("CONTROL_SETTINGSFILE_BASIC_MAIN", "Основная информация");
+define("CONTROL_SETTINGSFILE_BASIC_MAIN_NAME", "Название проекта");
+
+define("CONTROL_SETTINGSFILE_BASIC_EDIT_TEMPLATE", "Макет дизайна, используемый при редактировании объектов");
+define("CONTROL_SETTINGSFILE_BASIC_EDIT_TEMPLATE_DEFAULT", "макет редактируемого раздела");
+
+define("CONTROL_SETTINGSFILE_BASIC_UTILS", "Внешние утилиты");
+define("CONTROL_SETTINGSFILE_BASIC_UTILS_MYSQLDUMP", "Местонахождение <b>mysqldump</b> на диске");
+define("CONTROL_SETTINGSFILE_BASIC_UTILS_WINRAR", "Местонахождение <b>WinRAR</b> на диске (только для ОС Windows)");
+
+define("CONTROL_SETTINGSFILE_BASIC_EMAILS", "Рассылки");
+define("CONTROL_SETTINGSFILE_BASIC_EMAILS_FILELD", "Поле (с форматом <b>email</b>) в таблице пользователей");
+define("CONTROL_SETTINGSFILE_BASIC_EMAILS_FROMNAME", "Имя отправителя");
+define("CONTROL_SETTINGSFILE_BASIC_EMAILS_FROMEMAIL", "E-mail отправителя");
+define("CONTROL_SETTINGSFILE_BASIC_CHANGEDATA", "Изменить настройки системы");
+
+define("CONTROL_SETTINGSFILE_CHANGE_EMAILS_FIELD", "Поле (с форматом <b>email</b>) в таблице пользователей");
+define("CONTROL_SETTINGSFILE_CHANGE_EMAILS_NONE", "Поле отсутствует");
+
+define("CONTROL_SETTINGSFILE_DOCHANGE_ERROR_NAME", "Название проекта не может быть пустым!");
+
+define("CONTROL_AUTH_HTML_CMS", "Система управления сайтами");
+define("CONTROL_AUTH_ON_ONE_SITE", "Авторизовывать на сайте");
+define("CONTROL_AUTH_ON_ALL_SITES", "На всех сайтах");
+define("CONTROL_AUTH_HTML_LOGIN", "Логин");
+define("CONTROL_AUTH_HTML_PASSWORD", "Пароль");
+define("CONTROL_AUTH_HTML_PASSWORDCONFIRM", "Пароль еще раз");
+define("CONTROL_AUTH_HTML_SAVELOGIN", "Запомнить логин и пароль");
+define("CONTROL_AUTH_HTML_LANG", "Язык");
+define("CONTROL_AUTH_HTML_AUTH", "Авторизоваться");
+define("CONTROL_AUTH_HTML_BACK", "Вернуться");
+define("CONTROL_AUTH_FIELDS_NOT_EMPTY", "Поля \"".CONTROL_AUTH_HTML_LOGIN."\" и \"".CONTROL_AUTH_HTML_PASSWORD."\" не могут быть пустыми!");
+define("CONTROL_AUTH_LOGIN_NOT_EMPTY", "Поле \"".CONTROL_AUTH_HTML_LOGIN."\" не может быть пустым!");
+define("CONTROL_AUTH_LOGIN_OR_PASSWORD_INCORRECT", "Авторизационные данные неверны!");
+
+define("NETCAT_MODULE_AUTH_INSIDE_ADMIN_ACCESS", "доступ в зону администрирования");
+define("CONTROL_AUTH_MSG_MUSTAUTH", "Для авторизации необходимо ввести логин и пароль.");
+
+define("CONTROL_AUTH_MSG_DELETED", "Удалены подразделы раздела.");
+
+define("CONTROL_FS_NAME_SIMPLE", "Простая");
+define("CONTROL_FS_NAME_ORIGINAL", "Стандартная");
+define("CONTROL_FS_NAME_PROTECTED", "Защищенная");
+
+define("CONTROL_CLASS_CLASS_TEMPLATE", "Шаблон вывода компонента");
+define("CONTROL_CLASS_CLASS_TEMPLATE_ADD", "Добавить шаблон");
+define("CONTROL_CLASS_CLASS_DONT_USE_TEMPLATE", "-- не использовать шаблон --");
+define("CONTROL_CLASS_CLASS_TEMPLATE_ERROR_NAME", "Введите название шаблона компонента");
+define("CONTROL_CLASS_CLASS_TEMPLATE_ERROR_NOT_FOUND", "Шаблоны компонента отсутствуют");
+define("CONTROL_CLASS_CLASS_TEMPLATE_DELETE_WARNING", "Внимание: вместо шаблонов будет использоваться основной компонент \"%s\".");
+define("CONTROL_CLASS_CLASS_TEMPLATE_ERROR_ADD", "Ошибка добавления шаблона компонента");
+define("CONTROL_CLASS_CLASS_TEMPLATE_ERROR_EDIT", "Ошибка редактирования шаблона компонента");
+define("CONTROL_CLASS_CLASS_TEMPLATE_SUCCESS_ADD", "Шаблон компонента успешно добавлен");
+define("CONTROL_CLASS_CLASS_TEMPLATE_SUCCESS_EDIT", "Шаблон компонента успешно изменен");
+define("CONTROL_CLASS_CLASS_TEMPLATE_GROUP", "Шаблоны компонентов");
+define("CONTROL_CLASS_CLASS_TEMPLATE_BUTTON_EDIT", "Редактировать");
+define("CONTROL_CLASS_CLASS_TEMPLATES", "Шаблоны компонента");
+define("CLASS_TEMPLATE_TAB_EDIT", "Редактирование шаблона");
+define("CLASS_TEMPLATE_TAB_DELETE", "Удаление шаблона");
+
+define("CONTROL_CLASS", "Компоненты");
+define("CONTROL_CLASS_ADMIN", "Администрирование");
+define("CONTROL_CLASS_CONTROL", "Управление");
+define("CONTROL_CLASS_ADD_ACTION", "Добавление компонента");
+define("CONTROL_CLASS_DELETECOMMIT", "Подтверждение удаления компонента");
+define("CONTROL_CLASS_DOEDIT", "Редактирование компонента");
+define("CONTROL_CLASS_CONTINUE", "Продолжить");
+define("CONTROL_CLASS_NONE", "Компоненты отсутствуют.");
+define("CONTROL_CLASS_ADD", "Добавить компонент");
+define("CONTROL_CLASS_CLASS", "Компонент");
+define("CONTROL_CLASS_SYSTEM_TABLE", "Системная таблица");
+define("CONTROL_CLASS_ACTIONS", "Шаблоны действий");
+define("CONTROL_CLASS_FIELDS", "Поля");
+define("CONTROL_CLASS_DELETE", "Удалить");
+define("CONTROL_CLASS_FIELDSLIST", "Список полей");
+define("CONTROL_CLASS_NEWCLASS", "Новый компонент");
+
+define("CONTROL_CLASS_FUNCS_SHOWCLASSLIST_ADDCLASS", "Добавить компонент");
+
+define("CONTROL_CLASS_ACTIONS_VIEW", "просмотр");
+define("CONTROL_CLASS_ACTIONS_ADD", "добавление");
+define("CONTROL_CLASS_ACTIONS_EDIT", "изменение");
+define("CONTROL_CLASS_ACTIONS_CHECKED", "включение");
+define("CONTROL_CLASS_ACTIONS_SEARCH", "поиск");
+define("CONTROL_CLASS_ACTIONS_MAIL", "подписка");
+define("CONTROL_CLASS_ACTIONS_DELETE", "удаление");
+define("CONTROL_CLASS_ACTIONS_MODERATE", "модерирование");
+define("CONTROL_CLASS_ACTIONS_ADMIN", "администрирование");
+
+define("CONTROL_CLASS_INFO_ADDSLASHES", "Настраивая компонент, не забудьте <a href='#' onclick=\"window.open('".$ADMIN_PATH."template/converter.php', 'converter','width=600,height=410,status=no,resizable=yes');\">экранировать спецсимволы</a>.");
+define("CONTROL_CLASS_ERRORS_DB", "Ошибка выборки из базы!");
+define("CONTROL_CLASS_CLASS_NAME", "Название");
+define("CONTROL_CLASS_CLASS_GROUPS", "Группы компонентов");
+define("CONTROL_CLASS_CLASS_GOTOFIELDS", "Перейти к списку полей компонента");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST", "Шаблон отображения списка объектов");
+define("CONTROL_CLASS_CLASS_DESCRIPTION", "Описание компонента");
+define("CONTROL_SCLASS_ACTION", "Шаблоны действий");
+define("CONTROL_SCLASS_TABLE", "Таблица");
+define("CONTROL_SCLASS_TABLE_NAME", "Название таблицы");
+define("CONTROL_SCLASS_LISTING_NAME", "Название списка");
+
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_PREFIX", "Префикс списка объектов");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_BODY", "Объект в списке");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SUFFIX", "Суффикс списка объектов");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOW", "Показывать по");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ", "объектов на странице");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SORT", "Сортировать объекты по полю (полям)");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SORTNOTE", "Название_поля_1[ DESC][, Название_поля_2[ DESC]][, ...]<br>DESC - сортировка по убыванию");
+
+define("CONTROL_CLASS_CLASS_SHOW_VAR_FUNC_LIST", "Показать список переменных и функций");
+define("CONTROL_CLASS_CLASS_SHOW_VAR_LIST", "Показать список переменных");
+
+define("CONTROL_CLASS_CLASS_OBJECTVIEW", "Шаблон отображения одного объекта на отдельной странице");
+
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_DOPL", "Дополнительно");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_CACHE", "Кэширование");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_SYSTEM", "Системные настройки");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_AUTODEL", "Удалять объекты через");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_AUTODELEND", "дней после добавления");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_BR", "перенос строки - &lt;BR&gt;");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_HTML", "разрешать HTML-теги");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_PAGETITLE", "Заголовок страницы");
+define("CONTROL_CLASS_CLASS_OBJECTSLIST_SHOWOBJ_PAGEBODY", "Отображение объекта");
+define("CONTROL_CLASS_CLASS_CREATENEW_BASICOLD", "Создать новый компонент на основе существующего");
+define("CONTROL_CLASS_CLASS_CREATENEW_CLEARNEW", "Создать новый компонент &quot;с нуля&quot;");
+define("CONTROL_CLASS_CLASS_DELETE_WARNING", "<b>Внимание:</b> компонент%s и все с ним%s связанное будет удалено.");
+define("CONTROL_CLASS_CLASS_FORMS_ADDFORM", "Альтернативная форма добавления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_ADDFORM_GEN", "сгенерировать код формы");
+define("CONTROL_CLASS_CLASS_FORMS_ADDRULES", "Условия добавления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_ADDCOND_GEN", "сгенерировать код условия");
+define("CONTROL_CLASS_CLASS_FORMS_ADDLASTACTION", "Действие после добавления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_ADDACTION_GEN", "сгенерировать код действия");
+define("CONTROL_CLASS_CLASS_FORMS_EDITFORM", "Альтернативная форма изменения объекта");
+define("CONTROL_CLASS_CLASS_FORMS_EDITFORM_GEN", "сгенерировать код формы");
+define("CONTROL_CLASS_CLASS_FORMS_EDITRULES", "Условия изменения объекта");
+define("CONTROL_CLASS_CLASS_FORMS_EDITCOND_GEN", "сгенерировать код условия");
+define("CONTROL_CLASS_CLASS_FORMS_EDITLASTACTION", "Действие после изменения объекта");
+define("CONTROL_CLASS_CLASS_FORMS_EDITACTION_GEN", "сгенерировать код действия");
+define("CONTROL_CLASS_CLASS_FORMS_ONONACTION", "Действие после включения и выключения объекта");
+define("CONTROL_CLASS_CLASS_FORMS_CHECKACTION_GEN", "сгенерировать код действия");
+define("CONTROL_CLASS_CLASS_FORMS_DELETEFORM", "Альтернативная форма удаления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_DELETERULES", "Условие удаления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_ONDELACTION", "Действие после удаления объекта");
+define("CONTROL_CLASS_CLASS_FORMS_DELETEACTION_GEN", "сгенерировать код действия");
+define("CONTROL_CLASS_CLASS_FORMS_QSEARCH", "Форма поиска перед списком объектов");
+define("CONTROL_CLASS_CLASS_FORMS_QSEARCH_GEN", "сгенерировать код формы");
+define("CONTROL_CLASS_CLASS_FORMS_SEARCH", "Форма расширенного поиска (на отдельной странице)");
+define("CONTROL_CLASS_CLASS_FORMS_SEARCH_GEN", "сгенерировать код формы");
+define("CONTROL_CLASS_CLASS_FORMS_MAILRULES", "Условия для подписки");
+define("CONTROL_CLASS_CLASS_FORMS_MAILTEXT", "Шаблон письма для подписчиков");
+define("CONTROL_CLASS_CLASS_FORMS_YES", "Да");
+define("CONTROL_CLASS_CLASS_FORMS_NO", "Нет");
+define("CONTROL_CLASS_CLASS_FORMS_QSEARCH_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_QSEARCH."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_SEARCH_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_SEARCH."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_ADDFORM_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_ADDFORM."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_EDITFORM_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_EDITFORM."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_ADDCOND_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_ADDRULES."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_EDITCOND_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_EDITRULES."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_ADDACTION_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_ADDLASTACTION."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_EDITACTION_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_EDITLASTACTION."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_CHECKACTION_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_ONONACTION."\\\" не пустое! Заменить текст в этом поле на новый?");
+define("CONTROL_CLASS_CLASS_FORMS_DELETEACTION_GEN_WARN", "Поле \\\"".CONTROL_CLASS_CLASS_FORMS_ONDELACTION."\\\" не пустое! Заменить текст в этом поле на новый?");
+
+define("CONTROL_CLASS_CUSTOM_SETTINGS_TEMPLATE", "Настройки отображения компонента раздела");
+define("CONTROL_CLASS_CUSTOM_SETTINGS_PARAMETER", "Параметр");
+define("CONTROL_CLASS_CUSTOM_SETTINGS_DEFAULT", "По умолчанию");
+define("CONTROL_CLASS_CUSTOM_SETTINGS_VALUE", "Значение");
+define("CONTROL_CLASS_CUSTOM_SETTINGS_HAS_ERROR", "Одно или несколько значений указаны некорректно. Пожалуйста, исправьте ошибку.");
+define("CONTROL_CLASS_CUSTOM_SETTINGS_ISNOTSET", "Настройки отображения компонента раздела отсутствуют.");
+
+define("CONTROL_CLASS_IMPORT", "Импорт компонента");
+define("CONTROL_CLASS_IMPORTS", "Импорт компонентов");
+define("CONTROL_CLASS_IMPORT_UPLOAD", "Закачать");
+define("CONTROL_CLASS_IMPORT_ERROR_NOTUPLOADED", "Файл не закачан.");
+define("CONTROL_CLASS_IMPORT_ERROR_CANNOTBEINSTALLED", "Компонент не может быть установлен.");
+define("CONTROL_CLASS_IMPORT_SUCCESS", "Компонент установлен.");
+define("CONTROL_CLASS_IMPORT_ERROR_VERSION", "Компонент не для существующей версии системы.");
+define("CONTROL_CLASS_IMPORT_ERROR_VERSION_ID", "Компонент для версии %s, текущая версия %s.");
+define("CONTROL_CLASS_IMPORT_ERROR_CLASS_IMPORT", "Ошибка создания компонента, данные компонента не добавлены.");
+define("CONTROL_CLASS_IMPORT_ERROR_CLASS_TEMPLATE_IMPORT", "Ошибка создания шаблонов компонента, данные шаблонов не добавлены.");
+define("CONTROL_CLASS_IMPORT_ERROR_MESSAGE_TABLE", "Ошибка создания таблицы данных компонента.");
+define("CONTROL_CLASS_IMPORT_ERROR_FIELD", "Ошибка создания полей компонента.");
+
+define("CONTROL_CLASS_NEWGROUP", "новая группа");
+define("CONTROL_CLASS_EXPORT", "Экспортировать компонент в файл");
+define("CONTROL_CLASS_EXPORTI", "экспорт");
+
+define("CONTROL_CONTENT_CLASS_SUCCESS_ADD", "Компонент успешно добавлен");
+define("CONTROL_CONTENT_CLASS_ERROR_ADD", "Ошибка добавления компонента");
+define("CONTROL_CONTENT_CLASS_ERROR_NAME", "Введите название компонента");
+define("CONTROL_CONTENT_CLASS_GROUP_ERROR_NAME", "Название группы не должно начинаться с цифры");
+define("CONTROL_CONTENT_CLASS_SUCCESS_EDIT", "Компонент успешно изменен");
+define("CONTROL_CONTENT_CLASS_ERROR_EDIT", "Ошибка редактирования компонента");
+
+#TYPE OF DATA
+define("CLASSIFICATOR_TYPEOFDATA_STRING", "Строка");
+define("CLASSIFICATOR_TYPEOFDATA_INTEGER", "Целое число");
+define("CLASSIFICATOR_TYPEOFDATA_TEXTBOX", "Текстовый блок");
+define("CLASSIFICATOR_TYPEOFDATA_LIST", "Список");
+define("CLASSIFICATOR_TYPEOFDATA_BOOLEAN", "Логическая переменная (истина или ложь)");
+define("CLASSIFICATOR_TYPEOFDATA_FILE", "Файл");
+define("CLASSIFICATOR_TYPEOFDATA_FLOAT", "Число с плавающей запятой");
+define("CLASSIFICATOR_TYPEOFDATA_DATETIME", "Дата и время");
+define("CLASSIFICATOR_TYPEOFDATA_RELATION", "Связь с другим объектом");
+define("CLASSIFICATOR_TYPEOFDATA_MULTILIST", "Множественный выбор");
+define("CLASSIFICATOR_TYPEOFDATA_OPENID", "OpenID");
+
+define("CLASSIFICATOR_TYPEOFFILESYSTEM", "Тип файловой системы");
+
+define("CLASSIFICATOR_TYPEOFEDIT_ALL", "Доступно всем");
+define("CLASSIFICATOR_TYPEOFDATA_ADMINS", "Доступно только администраторам");
+define("CLASSIFICATOR_TYPEOFDATA_NOONE", "Недоступно никому");
+
+define("CLASSIFICATOR_TYPEOFMODERATION_RIGHTAWAY", "после добавления");
+define("CLASSIFICATOR_TYPEOFMODERATION_MODERATION", "после проверки администратором");
+
+define("CLASSIFICATOR_USERGROUP_ALL", "все");
+define("CLASSIFICATOR_USERGROUP_REGISTERED", "зарегистрированные");
+define("CLASSIFICATOR_USERGROUP_AUTHORIZED", "уполномоченные");
+
+define("CONTROL_TEMPLATE_CLASSIFICATOR", "Экранирование спецсимволов");
+define("CONTROL_TEMPLATE_CLASSIFICATOR_EKRAN", "Экранировать");
+define("CONTROL_TEMPLATE_CLASSIFICATOR_ERESE", "Очистить");
+define("CONTROL_TEMPLATE_CLASSIFICATOR_SOURCE", "Введите исходный код");
+define("CONTROL_TEMPLATE_CLASSIFICATOR_RES", "Результат");
+
+define("CONTROL_FIELD_LIST_NAME", "Название поля");
+define("CONTROL_FIELD_LIST_NAMELAT", "Название поля (латинскими буквами)");
+define("CONTROL_FIELD_LIST_DESCRIPTION", "Описание");
+define("CONTROL_FIELD_LIST_ADD", "Добавить поле");
+define("CONTROL_FIELD_LIST_CHANGE", "Сохранить изменения");
+define("CONTROL_FIELD_LIST_DELETE", "Удалить поле");
+define("CONTROL_FIELD_ADDING", "Добавление поля");
+define("CONTROL_FIELD_EDITING", "Редактирование поля");
+define("CONTROL_FIELD_DELETING", "Удаление поля");
+define("CONTROL_FIELD_FIELDS", "Поля");
+define("CONTROL_FIELD_LIST_NONE", "В данном компоненте нет ни одного поля.");
+define("CONTROL_FIELD_ONE_FORMAT", "Формат");
+define("CONTROL_FIELD_ONE_MUSTBE", "обязательно для заполнения");
+define("CONTROL_FIELD_ONE_INDEX", "возможен поиск по данному полю");
+define("CONTROL_FIELD_ONE_INHERITANCE", "наследовать значение поля");
+define("CONTROL_FIELD_ONE_DEFAULT", "Значение по умолчанию (устанавливается при записи, если поле не было заполнено)");
+define("CONTROL_FIELD_ONE_DEFAULT_NOTE", "для всех типов полей кроме &quot;".CLASSIFICATOR_TYPEOFDATA_TEXTBOX."&quot;, &quot;".CLASSIFICATOR_TYPEOFDATA_FILE."&quot;, &quot;".CLASSIFICATOR_TYPEOFDATA_DATETIME."&quot;");
+define("CONTROL_FIELD_ONE_FTYPE", "Тип поля");
+define("CONTROL_FIELD_ONE_ACCESS", "Тип доступа к полю");
+define("CONTROL_FIELD_MSG_NONE_TABLE", "В данной таблице нет ни одного дополнительного поля");
+define("CONTROL_FIELD_ONE_RESERVED", "Данное название поля зарезервировано!");
+define('CONTROL_FIELD_NAME_ERROR', 'Название поля должно содержать только латинские буквы и цифры!');
+define('CONTROL_FIELD_DB_ERROR', 'Ошибка записи в БД');
+define('CONTROL_FIELD_EXITS_ERROR', 'Такое поле уже существует');
+define('CONTROL_FIELD_FORMAT_ERROR', 'Такой формат поля не допустим');
+define("CONTROL_FIELD_MSG_ADDED", "Поле добавлено успешно");
+define("CONTROL_FIELD_MSG_EDITED", "Поле успешно изменено");
+define("CONTROL_FIELD_MSG_ERROR", "Ошибка при изменение поля");
+define("CONTROL_FIELD_MSG_DELETED_ONE", "Поле успешно удалено");
+define("CONTROL_FIELD_MSG_DELETED_MANY", "Поле успешно удалено");
+define("CONTROL_FIELD_MSG_CONFIRM_REMOVAL_ONE", "<b>Внимание:</b> поле будет удалено.");
+define("CONTROL_FIELD_MSG_CONFIRM_REMOVAL_MANY", "<b>Внимание:</b> поля будут удалены.");
+define("CONTROL_FIELD_MSG_FIELDS_CHANGED", "Приоритеты полей изменены.");
+define("CONTROL_FIELD_CONFIRM_REMOVAL", "Подтвердить удаление");
+define('CONTROL_FIELD__EDITOR_EMBED_TO_FIELD', 'встроить редактор в поле для редактирования');
+define('CONTROL_FIELD__TEXTAREA_SIZE', 'Размер текстового блока');
+define('CONTROL_FIELD_VALUE', 'значение');
+define('CONTROL_FIELD_HEIGHT', 'высота');
+define('CONTROL_FIELD_WIDTH', 'ширина');
+define('CONTROL_FIELD_ATTACHMENT', 'закачиваемый');
+
+# SYS
+define("TOOLS_SYSTABLE_SITES", "Сайты");
+define("TOOLS_SYSTABLE_SECTIONS", "Разделы");
+define("TOOLS_SYSTABLE_USERS", "Пользователи");
+define("TOOLS_SYSTABLE_TEMPLATE", "Макеты дизайна");
+
+define("TOOLS_MODULES", "Модули");
+define("TOOLS_MODULES_LIST", "Список модулей");
+define("TOOLS_MODULES_SETTINGS", "Настройка модулей");
+define("TOOLS_MODULES_INSTALLEDMODULE", "Установлен модуль");
+define("TOOLS_MODULES_ERR_INSTALL", "Установка модуля невозможна");
+define("TOOLS_MODULES_ERR_UNINSTALL", "Удаление модуля невозможно");
+define("TOOLS_MODULES_ERR_CANTOPEN", "Невозможно открыть файл");
+define("TOOLS_MODULES_ERR_PATCH", "Не установлен необходимый патч с номером");
+define("TOOLS_MODULES_ERR_VERSION", "Модуль не для существующей версии");
+define("TOOLS_MODULES_ERR_INSTALLED", "Модуль уже установлен");
+define("TOOLS_MODULES_ERR_ITEMS", "Ошибка: выполнены не все необходимые условия");
+define("TOOLS_MODULES_ERR_DURINGINSTALL", "Ошибка при инсталляции");
+define("TOOLS_MODULES_ERR_NOTUPLOADED", "Файл не закачан");
+define("TOOLS_MODULES_ERR_EXTRACT", "<b>Ошибка при распаковке архива c модулем.</b><p>Попробуйте распаковать содержимое архива с модулем в папку $TMP_FOLDER на Вашем сервере и снова запустить процедуру установки модуля.</p>");
+
+define("TOOLS_MODULES_MOD_NAME", "Название модуля");
+define("TOOLS_MODULES_MOD_PREFS", "Настройки");
+define("TOOLS_MODULES_MOD_GOINSTALL", "Завершить установку");
+define("TOOLS_MODULES_MOD_EDIT", "изменить параметры модуля");
+define("TOOLS_MODULES_MOD_CANCEL", "Сбросить");
+define("TOOLS_MODULES_MOD_LOCAL", "Установка модуля с локального диска");
+define("TOOLS_MODULES_MOD_INSTALL", "Установка модуля");
+define("TOOLS_MODULES_MOD_INSTALL_EXT", "Установка модулей производится через внешний интерфейс");
+define("TOOLS_MODULES_MSG_CHOISESECTION", "Для завершения установки модуля необходимо создать дополнительные разделы. Вам необходимо выбрать родительский раздел, где будут созданы необходимые подразделы.");
+define("TOOLS_MODULES_MODULE_PREFS", "Настройки модуля &laquo;%s&raquo;");
+define("TOOLS_MODULES_PREFS_SAVED", "Настройки модуля сохранены");
+define("TOOLS_MODULES_PARAM_ADDED", "Параметр добавлен");
+define("TOOLS_MODULES_PREFS_ERROR", "Ошибка во время сохранения настроек модуля");
+
+# PATCH
+define("TOOLS_PATCH", "Обновление системы");
+define("TOOLS_PATCH_CHEKING", "Проверка наличия новых обновлений");
+define("TOOLS_PATCH_MSG_OK", "Все необходимые обновления установлены");
+define("TOOLS_PATCH_ERR_CANTINSTALL", "Инсталляция патча невозможна");
+define("TOOLS_PATCH_INSTALL_LOCAL", "Установка обновления с локального диска");
+define("TOOLS_PATCH_INSTALL_ONLINE", "Установка обновления с официального сайта");
+define("TOOLS_PATCH_INSTALL_ONLINE_NOTIFY", "Перед установкой обновления настоятельно рекомендуется сделать резервную копию системы. Запустить процесс обновления?");
+define("TOOLS_PATCH_INFO_NOTINSTALLED", "Не установлено обновление");
+define("TOOLS_PATCH_INFO_LASTCHECK", "Последняя проверка была осуществлена");
+define("TOOLS_PATCH_INFO_NEW", "Опубликовано обновление");
+define("TOOLS_PATCH_INFO_NONEW", "Обновлений не обнаружено.");
+define("TOOLS_PATCH_BACKTOLIST", "Вернуться к списку установленных обновлений");
+define("TOOLS_PATCH_INFO_REFRESH", "обновить сведения");
+define("TOOLS_PATCH_INFO_DOWNLOAD", "скачать");
+define("TOOLS_PATCH_INFO_INSTALL", "Установить обновление");
+define("TOOLS_PATCH_ERR_EXTRACT", "<b>Ошибка при распаковке архива c обновлением.</b><p>Попробуйте распаковать содержимое архива с обновлением в папку $TMP_FOLDER на Вашем сервере и снова запустить процедуру обновления.</p>");
+define("TOOLS_PATCH_INFO_SYSTEM_MESSAGE", "Добавлено новое системное сообщение, <a href='%LINK'>читать сообщение</a>.");
+define("TOOLS_PATCH_ERROR_SET_FILEPERM_IN_HTTP_ROOT_PATH", "<b>Установите права на запись для ВСЕХ файлов в папке $HTTP_ROOT_PATH.</b><br><small>(%FILE недоступен для записи)</small>");
+define("TOOLS_PATCH_ERROR_SET_DIRPERM_IN_HTTP_ROOT_PATH", "<b>Установите права на запись для папки $HTTP_ROOT_PATH и всех поддиректорий.</b><br><small>(%DIR недоступна для записи)</small>");
+define("TOOLS_PATCH_ERROR_FILELIST_NOT_WRITABLE", "Некоторые файлы, требующие обновления, нельзя будет автоматически изменить.");
+define("TOOLS_PATCH_ERROR_AUTOINSTALL", "Автоматическая установка обновления невозможна, установите обновление вручную, согласно прилагающейся документации или документации на сайте.");
+define("TOOLS_PATCH_ERROR_UPDATE_SERVER_NOT_AVAILABLE", "Не удалось соединиться с сервером обновлений, повторите попытку позже.");
+define("TOOLS_PATCH_ERROR_UPDATE_FILE_NOT_AVAILABLE", "Файл обновления не может быть получен, повторите попытку позже. Если ошибка повторится, обратитесь в службу поддержки.");
+define("TOOLS_PATCH_DOWNLOAD_LINK_DESCRIPTION", "Ссылка на файл обновления");
+# patch after install information
+define("TOOLS_PATCH_INFO_FILES_COPIED", "[%COUNT] файлов скопировано.");
+define("TOOLS_PATCH_INFO_QUERIES_EXEC", "[%COUNT] MySQL запросов выполненно.");
+define("TOOLS_PATCH_INFO_SYMLINKS_EXEC", "[%COUNT] символических ссылок создано.");
+
+define("TOOLS_PATCH_LIST_DATE", "Дата установки");
+define("TOOLS_PATCH_ERROR", "Ошибка");
+define("TOOLS_PATCH_ERROR_DURINGINSTALL", "Ошибка при инсталляции");
+define("TOOLS_PATCH_ERROR_UNCORRECT_PHP_VERSION", "Для работы системы после обновления требуется версия PHP %NEED, текущая версия PHP %CURRENT.");
+define("TOOLS_PATCH_INSTALLED", "Патч установлен");
+define("TOOLS_PATCH_INSTALEXT", "Установка патчей производится через внешний интерфейс");
+define("TOOLS_PATCH_INVALIDVERSION", "Патч не предназначен для используемой версии системы NetCat, текущая версия %EXIST, патч для версии %REQUIRE.");
+define("TOOLS_PATCH_ALREDYINSTALLED", "Патч уже установлен");
+
+define("TOOLS_PATCH_NOTAVAIL_DEMO", "Не доступно в демо-версии");
+
+#ACTIVATION 
+define("TOOLS_ACTIVATION", "Активация системы");
+define("TOOLS_ACTIVATION_VERB", "Активировать");
+define("TOOLS_ACTIVATION_OK", "Активация прошла успешно");
+define("TOOLS_ACTIVATION_CODE", "Ключ активации");
+define("TOOLS_ACTIVATION_ALREADY_ACTIVE", "Система уже активирована");
+define("TOOLS_ACTIVATION_INPUT_KEY_CODE", "Необходимо ввести регистрационный код и ключ активаци");
+define("TOOLS_ACTIVATION_INVALID_KEY_CODE", "Лицензия или ключ активации не прошли проверку");
+define("TOOLS_ACTIVATION_DAY", "Срок действия демо-версии истекает через %DAY дн." );
+
+define("REPORTS", "Общая статистика проекта");
+define("REPORTS_SECTIONS", "%d раздел(ов) (выключено: %d)");
+define("REPORTS_USERS", "%d пользователей (выключено: %d)");
+define("REPORTS_OBJECTS", "%d объект(ов) (выключено: %d)");
+define("REPORTS_LAST", "Последние измененные разделы");
+define("REPORTS_LAST_NAME", "Название раздела");
+define("REPORTS_LAST_DATE", "Дата изменения");
+define("REPORTS_LAST_USER", "Пользователь");
+define("REPORTS_CLASS", "Статистика компонентов");
+define("REPORTS_STAT_CLASS_DOGET", "Осуществить выбору");
+define("REPORTS_STAT_CLASS_CLEAR", "Oчистить");
+define("REPORTS_STAT_CLASS_CLEARED", "Объекты удалены");
+define("REPORTS_STAT_CLASS_CONFIRM", "Подвердите удаление объектов из компонентов раздела");
+define("REPORTS_STAT_CLASS_CONFIRM_OK", "Далее");
+define("REPORTS_STAT_CLASS_NOT_CC", "Не выбраны компоненты в разделе");
+define("REPORTS_STAT_CLASS_SHOW", "Показать компоненты");
+define("REPORTS_STAT_CLASS_ALL", "Все");
+define("REPORTS_STAT_CLASS_USE", "Используемые");
+define("REPORTS_STAT_CLASS_NOTUSE", "Неиспользуемые");
+
+define("REPORTS_SYSMSG_MSG", "Сообщение");
+define("REPORTS_SYSMSG_DATE", "Дата");
+define("REPORTS_SYSMSG_NONE", "Нет ни одного системного сообщения.");
+define("REPORTS_SYSMSG_MARK", "Пометить как прочитанное");
+define("REPORTS_SYSMSG_TOTAL", "Всего");
+define("REPORTS_SYSMSG_BACK", "Вернуться к списку");
+
+define("SUPPORT", "Обращение в техподдержку");
+define("SUPPORT_HELP_MESSAGE", "
+<p>Техническая поддержка доступна только зарегистрированным пользователям системы NetCat.</p>
+Для того, чтобы обратиться в техподдержку:
+<ol>
+ <li style='padding-bottom:10px'><a target=_blank href='http://www.netcat.ru/forclients/register/'>Зарегистрируйтесь на сайте netcat.ru</a>.</li>
+ <li style='padding-bottom:10px'><a target=_blank href='http://www.netcat.ru/forclients/copies/'>Зарегистрируйте Вашу копию системы</a>.
+ <li style='padding-bottom:10px'>После проверки введенных Вами данных Вы можете создавать и отслеживать обращения<br> в техническую поддержку
+   на странице &laquo;<a target=_blank href='http://www.netcat.ru/forclients/helpdesk/'>Поддержка онлайн</a>&raquo;.
+ </li>
+</ol>
+");
+
+define("TOOLS_SQL", "Командная строка SQL");
+define("TOOLS_SQL_ERR_NOQUERY", "Введите запрос!");
+define("TOOLS_SQL_SEND", "Отправить запрос");
+define("TOOLS_SQL_OK", "Запрос выполнен успешно");
+define("TOOLS_SQL_TOTROWS", "Строк, соответствующих запросу");
+define("TOOLS_SQL_HELP", "Примеры запросов");
+define("TOOLS_SQL_HISTORY", "Последние 10 запросов");
+define("TOOLS_SQL_HELP_SHOW", "показать список таблиц");
+define("TOOLS_SQL_HELP_EXPLAIN", "показать список полей из таблицы %s");
+define("TOOLS_SQL_HELP_SELECT", "показать количество строк в таблице %s");
+define("TOOLS_SQL_HELP_DOCS", "С подробной документацией по БД MySQL вы можете ознакомиться по адресу:<br>\n<a target=_blank href=http://dev.mysql.com/doc/mysql/ru/>http://dev.mysql.com/doc/mysql/ru/</a>");
+define("TOOLS_SQL_BENCHMARK", "Время выполнения запроса");
+
+# USERS
+define("CONTROL_USER_GROUPS", "Группы пользователей");
+define("CONTROL_USER_FUNCS_ALLUSERS", "все");
+define("CONTROL_USER_FUNCS_ONUSERS", "включенные");
+define("CONTROL_USER_FUNCS_OFFUSERS", "выключенные");
+define("CONTROL_USER_FUNCS_DOGET", "Осуществить выборку");
+define("CONTROL_USER_FUNCS_VIEWCONTROL", "Настройка вывода");
+define("CONTROL_USER_FUNCS_SORT", "Сортировка");
+define("CONTROL_USER_FUNCS_SORTBY", "Сортировать по");
+define("CONTROL_USER_FUNCS_USER_NUMBER_ON_THE_PAGE", "пользователей на странице.");
+define("CONTROL_USER_FUNCS_SORT_ORDER", "Порядок сортировки");
+define("CONTROL_USER_FUNCS_SORT_ORDER_ACS", "По возрастанию");
+define("CONTROL_USER_FUNCS_SORT_ORDER_DESC", "По убыванию");
+define("CONTROL_USER_FUNC_CONFIRM_DEL", "Подтвердите удаление");
+define("CONTROL_USER_FUNC_CONFIRM_DEL_OK", "Подтверждаю");
+define("CONTROL_USER_FUNC_CONFIRM_DEL_NOT_USER", "Не выбраны пользователи");
+define("CONTROL_USER", "Пользователь");
+define("CONTROL_USER_GROUPID", "Номер группы");
+define("CONTROL_USER_FUNCS_EDITACCESSRIGHT", "Редактировать права доступа");
+define("CONTROL_USER_ACTIONS", "Действия");
+define("CONTROL_USER_RIGHTS", "Права");
+define("CONTROL_USER_ERROR_NEWPASS_IS_CURRENT", "Новый пароль совпадает с текущим!");
+define("CONTROL_USER_CHANGEPASS", "сменить пароль");
+define("CONTROL_USER_EDIT", "редактировать");
+define("CONTROL_USER_REG", "Регистрация пользователя");
+define("CONTROL_USER_NEWPASSWORD", "Новый пароль");
+define("CONTROL_USER_NEWPASSWORDAGAIN", "Новый пароль еще раз");
+define("CONTROL_USER_MSG_USERNOTFOUND", "Не найдено ни одного пользователя, соответствующего Вашему запросу.");
+define("CONTROL_USER_GROUP", "Группа");
+define("CONTROL_USER_GROUP_MEMBERS", "Участники");
+define("CONTROL_USER_GROUP_NOMEMBERS", "Участников нет.");
+define("CONTROL_USER_GROUP_TOTAL", "всего");
+define("CONTROL_USER_GROUPNAME", "Название группы");
+define("CONTROL_USER_ADDNEWGROUP", "Добавить группу");
+define("CONTROL_USER_CHANGERIGHTS", "Настроить права доступа");
+define("CONTROL_USER_NEW_ADDED", "Пользователь добавлен");
+define("CONTROL_USER_NEW_NOTADDED", "Пользователь не добавлен");
+define("CONTROL_USER_EDITSUCCESS", "Пользователь успешно изменен");
+define("CONTROL_USER_DOWRITE", "Записать");
+define("CONTROL_USER_CHAGEUPLOAD", "Изменить / Закачать");
+define("CONTROL_USER_PREFS_ERR_CANTDELETE", "Не удалось удалить настройку");
+define("CONTROL_USER_REGISTER", "Регистрация нового пользователя");
+define("CONTROL_USER_GROUPS_ADD", "Добавление группы");
+define("CONTROL_USER_GROUPS_EDIT", "Редактирование группы");
+define("CONTROL_USER_ACESSRIGHTS", "права доступа");
+define("CONTROL_USER_USERSANDRIGHTS", "Пользователи и права");
+define("CONTROL_USER_PASSCHANGE", "Смена пароля");
+define("CONTROL_USER_CATALOGUESWITCH", "Выбор каталога");
+define("CONTROL_USER_SECTIONSWITCH", "Выбор раздела");
+define("CONTROL_USER_TITLE_USERINFOEDIT", "Редактирование информации о пользователе");
+define("CONTROL_USER_TITLE_PASSWORDCHANGE", "Смена пароля пользователю");
+define("CONTROL_USER_ERROR_LOGININUSE", "Пользователь с таким логином уже зарегистрирован!<BR>Введите другой логин!");
+define("CONTROL_USER_ERROR_EMPTYPASS", "Пароль не может быть пустым!");
+define("CONTROL_USER_ERROR_NOTCANGEPASS", "Пароль не изменен. Ошибка!");
+define("CONTROL_USER_OK_CHANGEDPASS", "Пароль успешно изменен.");
+define("CONTROL_USER_ERROR_RETRY", "Попробуйте снова!");
+define("CONTROL_USER_ERROR_PASSDIFF", "Введенные пароли не совпадают!");
+define("CONTROL_USER_MAIL", "Рассылка по базе");
+define("CONTROL_USER_MAIL_TITLE_COMPOSE", "Отправление письма");
+define("CONTROL_USER_MAIL_GROUP", "Группа пользователей");
+define("CONTROL_USER_MAIL_ALLGROUPS", "Все группы");
+define("CONTROL_USER_MAIL_CONTENT", "Содержимое письма");
+define("CONTROL_USER_MAIL_FROM", "Отправитель");
+define("CONTROL_USER_MAIL_SUBJECT", "Тема письма");
+define("CONTROL_USER_MAIL_BODY", "Текст письма");
+define("CONTROL_USER_MAIL_ADDATTACHMENT", "вложить файл");
+define("CONTROL_USER_MAIL_SEND", "Отправить сообщение");
+define("CONTROL_USER_MAIL_ERROR_EMAILFIELD", "Не определено поле содержащее E-mail пользователей.");
+define("CONTROL_USER_MAIL_OK", "Письмо отправлено всем пользователям");
+define("CONTROL_USER_MAIL_ERROR_NOONEEMAIL", "В указанном поле не найдено ни одного электронного адреса.");
+define("CONTROL_USER_MAIL_ATTCHAMENT", "Присоединить файл");
+define("CONTROL_USER_MAIL_ERROR_ONE", "Рассылка невозможна, так как в <a href=".$ADMIN_PATH."settings.php?phase=1>системных настройках</a> не указано поле для рассылок.");
+define("CONTROL_USER_MAIL_ERROR_TWO", "Рассылка невозможна, так как в <a href=".$ADMIN_PATH."settings.php?phase=1>системных настройках</a> не указано имя отправителя писем.");
+define("CONTROL_USER_MAIL_ERROR_THREE", "Рассылка невозможна, так как в <a href=".$ADMIN_PATH."settings.php?phase=1>системных настройках</a> не указан E-mail отправителя писем.");
+define("CONTROL_USER_MAIL_ERROR_NOBODY", "Отсутствует текст письма.");
+define("CONTROL_USER_MAIL_RULES", "Условия рассылки");
+define("CONTROL_USER_MAIL_CHANGE", "изменить");
+define("CONTROL_USER_FUNCS_USERSGET", "Выборка пользователей");
+define("CONTROL_USER_FUNCS_SEARCHEDUSER", "Найдено пользователей");
+define("CONTROL_USER_FUNCS_USERCOUNT", "Всего пользователей");
+define("CONTROL_USER_FUNCS_ADDUSER", "Добавить пользователя");
+define("CONTROL_USER_FUNCS_NORIGHTS", "Даннoму пользователю не присвоены права.");
+define("CONTROL_USER_FUNCS_GROUP_NORIGHTS", "У данной группы нет прав.");
+define("CONTROL_USER_RIGHTS_GUEST", "Гостевые права");
+define("CONTROL_USER_RIGHTS_GUESTONE", "Гость");
+define("CONTROL_USER_RIGHTS_DIRECTOR", "Директор");
+define("CONTROL_USER_RIGHTS_SUPERVISOR", "Супервизор");
+define("CONTROL_USER_RIGHTS_MANAGER", "Менеджер");
+define("CONTROL_USER_RIGHTS_SITEADMIN", "Редактор сайта");
+define("CONTROL_USER_RIGHTS_CATALOGUEADMIN", "Редактор сайта");
+define("CONTROL_USER_RIGHTS_CATALOGUEADMINALL", "Редактор всех сайтов");
+define("CONTROL_USER_RIGHTS_SUBDIVISIONADMIN", "Редактор раздела");
+define("CONTROL_USER_RIGHTS_SUBCLASSADMIN", "Редактор компонента");
+define("CONTROL_USER_RIGHTS_SUBCLASSADMINS", "Редактор компонента раздела");
+define("CONTROL_USER_RIGHTS_CLASSIFICATORADMIN", "Администратор списка");
+define("CONTROL_USER_RIGHTS_CLASSIFICATORADMINALL", "Администратор всех списков");
+define("CONTROL_USER_RIGHTS_EDITOR", "Редактор");
+define("CONTROL_USER_RIGHTS_SUBSCRIBER", "Подписчик");
+define("CONTROL_USER_RIGHTS_MODERATOR", "Управление пользователями");
+define("CONTROL_USER_RIGHTS_DEVELOPER", "Разработчик");
+define("CONTROL_USER_RIGHTS_BAN", "Ограничение в правах");
+define("CONTROL_USER_RIGHTS_MODERATOR", "Управление пользователями");
+define("CONTROL_USER_RIGHTS_SITE", "Ограничение в правах сайта");
+define("CONTROL_USER_RIGHTS_SITEALL", "Ограничение в правах на всех сайтах");
+define("CONTROL_USER_RIGHTS_SUB", "Ограничение в правах раздела");
+define("CONTROL_USER_RIGHTS_CC", "Ограничение в правах компонента");
+define("CONTROL_USER_RIGHT_ADDNEWRIGHTS", "Присвоить права");
+define("CONTROL_USER_RIGHT_CAPTION_FIELD", "Поле");
+define("CONTROL_USER_RIGHT_CAPTION_VALUE", "Значение");
+define("CONTROL_USER_RIGHT_CAPTION_MIANPERM", "Основные права");
+define("CONTROL_USER_RIGHT_ADDPERM", "Присвоение права пользователю");
+define("CONTROL_USER_RIGHT_ADDPERM_GROUP", "Присвоение права группе");
+define("CONTROL_USER_FUNCS_FROMCAT", "из каталога");
+define("CONTROL_USER_FUNCS_FROMSEC", "из раздела");
+define("CONTROL_USER_FUNCS_ADDNEWRIGHTS", "Присвоить новые права");
+define("CONTROL_USER_FUNCS_ERR_CANTREMUSER", "Не удалось удалить пользователя %s. Ошибка!");
+define("CONTROL_USER_FUNCS_ERR_CANTREMGROUP", "Не удалось удалить группу %s. Ошибка!");
+define("CONTROL_USER_RIGHTS_ONESECTIONADM", "Редактор отдельной сущности");
+define("CONTROL_USER_SELECTSITE", "Выберите сайт");
+define("CONTROL_USER_SELECTSITEALL", "Все сайты");
+define("CONTROL_USER_NOONESITEINNC", "В проекте нет ни одного сайта.");
+define("CONTROL_USER_SELECTSECTION", "Выберите раздел");
+define("CONTROL_USER_NOONESECSINSITE", "В данном сайте нет ни одного раздела.");
+define("CONTROL_USER_SELECTCLASS", "Выберите компонент раздела");
+define("CONTROL_USER_NOONESCLASSINSECION", "В данном разделе нет ни одного компонента.");
+define("CONTROL_USER_FUNCS_CLASSINSECTION", "Компонент раздела");
+define("CONTROL_USER_RIGHTS_ERR_NOCAT", "Права не добавлены, так как указан несуществующий сайт.");
+define("CONTROL_USER_RIGHTS_ERR_NOSEC", "Права не добавлены, так как указан несуществующий раздел.");
+define("CONTROL_USER_RIGHTS_ERR_NOCLASS", "Права не добавлены, так как указан несуществующий компонент раздела.");
+define("CONTROL_USER_RIGHTS_ERR_CANTREMPRIV", "Не удалось удалить привилегию. Ошибка!");
+define("CONTROL_USER_RIGHTS_UPDATED_OK", "Права пользователя обновлены.");
+define("CONTROL_USER_RIGHTS_ERROR_NOSELECTED", "Не выбрана сущность");
+define("CONTROL_USER_RIGHTS_ITEM", "Сущность");
+define("CONTROL_USER_RIGHTS_SELECT_ITEM", "Выберите сущность");
+define("CONTROL_USER_RIGHTS_ERROR_DATA", "Ошибка в дате");
+define("CONTROL_USER_RIGHTS_ERROR_DB", "Ошибка записи в БД");
+define("CONTROL_USER_RIGHTS_ERROR_POSSIBILITY", "Не выбрана возможность");
+define("CONTROL_USER_RIGHTS_ERROR_NOTSITE", "Не выбран сайт");
+define("CONTROL_USER_RIGHTS_ERROR_NOTSUB", "Не выбран раздел");
+define("CONTROL_USER_RIGHTS_ERROR_NOTCCINSUB", "В выбранном разделе нет компонентов");
+define("CONTROL_USER_RIGHTS_ERROR_NOTTYPEOFRIGHT", "Не выбран тип прав");
+define("CONTROL_USER_RIGHTS_ERROR_START", "Ошибка в дате начала действия права");
+define("CONTROL_USER_RIGHTS_ERROR_END", "Ошибка в дате окончания действия права");
+define("CONTROL_USER_RIGHTS_ERROR_STARTEND", "Время окончания действия прав не может быть раньше времени начала");
+define("CONTROL_USER_RIGHTS_ADDED", "Права присвоены");
+define("CONTROL_USER_RIGHTS_LOAD", "Загрузка");
+define("CONTROL_USER_RIGHTS_TYPE_OF_RIGHT", "Тип прав");
+define("CONTROL_USER_RIGHTS_LIVETIME", "Срок действия");
+define("CONTROL_USER_RIGHTS_UNLIMITED", "не ограничен");
+define("CONTROL_USER_RIGHTS_NONLIMITED", "без ограничений");
+define("CONTROL_USER_RIGHTS_LIMITED", "ограничен");
+define("CONTROL_USER_RIGHTS_STARTING_OPERATIONS", "Начало действия");
+define("CONTROL_USER_RIGHTS_FINISHING_OPERATIONS", "Конец действия");
+define("CONTROL_USER_RIGHTS_NOW", "сейчас");
+define("CONTROL_USER_RIGHTS_ACROSS", "через");
+define("CONTROL_USER_RIGHTS_IGNORE", "Игнорировать");
+define("CONTROL_USER_RIGHTS_RIGHT", "Право");
+define("CONTROL_USER_RIGHTS_CONTROL_USERS", "Управление пользователями");
+define("CONTROL_USER_RIGHTS_CONTROL_ADD", "добавление");
+define("CONTROL_USER_RIGHTS_CONTROL_EDIT", "редактирование");
+define("CONTROL_USER_RIGHTS_CONTROL_DELETE", "удаление");
+define("CONTROL_USER_RIGHTS_CONTROL_HELP", "Помощь");
+
+# TEMPLATE
+define("CONTROL_TEMPLATE", "Макеты дизайна");
+define("CONTROL_TEMPLATE_ADD", "Добавление макета");
+define("CONTROL_TEMPLATE_EDIT", "Редактирование макета");
+define("CONTROL_TEMPLATE_DELETE", "Удаление макета");
+define("CONTROL_TEMPLATE_OPT_ADD", "добавление настройки");
+define("CONTROL_TEMPLATE_OPT_EDIT", "редактирование настройки");
+define("CONTROL_TEMPLATE_ERR_NAME", "Укажите название макета.");
+define("CONTROL_TEMPLATE_ERR_KEYWORD", "Введите ключевое слово!");
+define("CONTROL_TEMPLATE_ERR_DESCR", "Введите описание !");
+define("CONTROL_TEMPLATE_ERR_KEYWORDE", "Ключевое слово не может быть пустым!");
+define("CONTROL_TEMPLATE_ERR_DESCRE", "Описание не может быть пустым!");
+define("CONTROL_TEMPLATE_INFO_CONVERT", "Настраивая макет дизайна, не забудьте <a href='#' onclick=\"window.open('".$ADMIN_PATH."template/converter.php', 'converter','width=600,height=410,status=no,resizable=yes');\">экранировать спецсимволы</a>.");
+define("CONTROL_TEMPLATE_TEPL_NAME", "Название макета");
+define("CONTROL_TEMPLATE_TEPL_MENU", "Шаблоны вывода навигации");
+define("CONTROL_TEMPLATE_TEPL_HEADER", "Верхняя часть страницы (Header)");
+define("CONTROL_TEMPLATE_TEPL_FOOTER", "Нижняя часть страницы (Footer)");
+define("CONTROL_TEMPLATE_TEPL_CREATE", "Добавить макет");
+define("CONTROL_TEMPLATE_ERR_USED_IN_SITE", "Данный макет дизайна используется в следующих сайтах:");
+define("CONTROL_TEMPLATE_ERR_USED_IN_SUB", "Данный макет дизайна используется в следующих разделах:");
+define("CONTROL_TEMPLATE_ERR_CANTDEL", "Не удалось удалить макет");
+define("CONTROL_TEMPLATE_INFO_DELETE", "Вы собираетесь удалить макет");
+define("CONTROL_TEMPLATE_INFO_DELETE_SOME", "Эти макеты будут удалены");
+define("CONTROL_TEMPLATE_DELETED", "Макет удален");
+define("CONTROL_TEMPLATE_ADDLINK", "добавить макет дизайна");
+define("CONTROL_TEMPLATE_REMOVETHIS", "удалить этот макет дизайна");
+define("CONTROL_TEMPLATE_PREF_ADD", "добавить настройку");
+define("CONTROL_TEMPLATE_PREF_DELETE", "удалить эту настройку");
+define("CONTROL_TEMPLATE_PREF_EDIT", "изменить настройки");
+define("CONTROL_TEMPLATE_NONE", "В системе нет ни одного макета");
+
+# CLASSIFICATORS
+define("CONTENT_CLASSIFICATORS", "Списки");
+define("CONTENT_CLASSIFICATORS_NAMEONE", "Список");
+define("CONTENT_CLASSIFICATORS_NAMEALL", "Все списки");
+define("CONTENT_CLASSIFICATORS_ELEMENTS", "элементы");
+define("CONTENT_CLASSIFICATORS_ELEMENT", "Элемент");
+define("CONTENT_CLASSIFICATORS_ELEMENT_NAME", "Название элемента");
+define("CONTENT_CLASSIFICATORS_ELEMENT_VALUE", "Допонительное значение");
+define("CONTENT_CLASSIFICATORS_ELEMENTS_ADDONE", "Добавить элемент");
+define("CONTENT_CLASSIFICATORS_ELEMENTS_ADD", "Добавление элемента");
+define("CONTENT_CLASSIFICATORS_ELEMENTS_EDIT", "Редактирование элемента");
+define("CONTENT_CLASSIFICATORS_LIST_ADD", "Добавление списка");
+define("CONTENT_CLASSIFICATORS_LIST_EDIT", "Редактирование списка");
+define("CONTENT_CLASSIFICATORS_LIST_DELETE", "Удаление списка");
+define("CONTENT_CLASSIFICATORS_LIST_DELETE_SELECTED", "Удалить выбранные");
+define("CONTENT_CLASSIFICATORS_ERR_NONE", "В данном проекте нет ни одного списка.");
+define("CONTENT_CLASSIFICATORS_ERR_ELEMENTNONE", "В данном списке нет ни одного элемента.");
+define("CONTENT_CLASSIFICATORS_ERR_SYSDEL", "Невозможно удалить элемент из системного классификатора");
+define("CONTENT_CLASSIFICATORS_ERR_ADD_GUESTRIGHTS", "Добавление классификатора невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERR_EDIT_GUESTRIGHTS", "Изменение классификатора невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERR_DEL_GUESTRIGHTS", "Удаление классификатора невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERR_ADDI_GUESTRIGHTS", "Добавление записи в классификатор невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERR_EDITI_GUESTRIGHTS", "Изменение записи в классификаторе невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERR_DELI_GUESTRIGHTS", "Удаление записи классификатора невозможно с гостевыми правами!");
+define("CONTENT_CLASSIFICATORS_ERROR_NAME", "Введите русское название классификатора!");
+define("CONTENT_CLASSIFICATORS_ERROR_FILE_NAME", "Выберите CSV-Файл для импортирования!");
+define("CONTENT_CLASSIFICATORS_ERROR_KEYWORD", "Введите английское название классификатора (название таблицы)!");
+define("CONTENT_CLASSIFICATORS_ERROR_KEYWORDINV", "Английское название (название таблицы) должно содержать только латинские буквы и цифры!");
+define("CONTENT_CLASSIFICATORS_ERROR_KEYWORDFL", "Английское название (название таблицы) должно начинаться с латинской буквы!");
+define("CONTENT_CLASSIFICATORS_ERROR_KEYWORDAE", "Классификатор с таким английским названием (названием таблицы) уже существует!");
+define("CONTENT_CLASSIFICATORS_ERROR_KEYWORDREZ", "Данное имя зарезервировано!");
+define("CONTENT_CLASSIFICATORS_ADDLIST", "Добавить список");
+define("CONTENT_CLASSIFICATORS_ADD_KEYWORD", "Название таблицы (латинскими буквами)");
+define("CONTENT_CLASSIFICATORS_SAVE", "Сохранить изменения");
+define("CLASSIFICATORS_SORT_HEADER", "Тип сортировки");
+define("CLASSIFICATORS_SORT_PRIORITY_HEADER", "Приоритет");
+define("CLASSIFICATORS_SORT_TYPE_ID", "ID");
+define("CLASSIFICATORS_SORT_TYPE_NAME", "Элемент");
+define("CLASSIFICATORS_SORT_TYPE_PRIORITY", "Приоритет");
+define("CLASSIFICATORS_SORT_DIRECTION", "Направление сортировки");
+define("CLASSIFICATORS_SORT_ASCENDING", "Восходящая");
+define("CLASSIFICATORS_SORT_DESCENDING", "Нисходящая");
+define("CLASSIFICATORS_IMPORT_LINK", "Импортировать список");
+define("CLASSIFICATORS_IMPORT_HEADER", "Импорт списка");
+define("CLASSIFICATORS_IMPORT_BUTTON", "Импортировать");
+define("CLASSIFICATORS_IMPORT_FILE", "CSV-Файл (*)");
+define("CLASSIFICATORS_IMPORT_DESCRIPTION", "Если в импортируемом файле только одна колонка, то она считается полем Элемент, если две - первая колонка это Элемент, а вторая Приоритет.");
+define("CLASSIFICATORS_SUCCESS_DELETEONE", "Список успешно удален.");
+define("CLASSIFICATORS_SUCCESS_DELETE", "Списки успешно удалены.");
+
+# TOOLS HTML
+define("TOOLS_HTML", "HTML-редактор");
+define("TOOLS_HTML_INFO", "Редактировать в визуальном редакторе");
+
+define("TOOLS_DUMP", "Архивы проекта");
+define("TOOLS_DUMP_CREATE", "Создание архива");
+define("TOOLS_DUMP_CREATED", "Архив проекта создан %FILE.");
+define("TOOLS_DUMP_CREATION_FAILED", "Ошибка создания архива.");
+define("TOOLS_DUMP_DELETED", "Файл %FILE удалён.");
+define("TOOLS_DUMP_RESTORE", "Восстановление архива");
+define("TOOLS_DUMP_SYSTEMINST", "Системных настройках");
+define("TOOLS_DUMP_ERROR_PATH", "Не указан полный путь для rar.exe в &quot;<a href=".$ADMIN_PATH."settings.php>Системных настройках</a>&quot;.");
+define("TOOLS_DUMP_ERROR_MSDUMP", "Не указан полный путь к mysqldump в &quot;<a href=".$ADMIN_PATH."settings.php>Системных настройках</a>&quot;.");
+define("TOOLS_DUMP_MSG_RESTORED", "Архив восстановлен.");
+define("TOOLS_DUMP_INC_TITLE", "Восстановление архива с локального диска");
+define("TOOLS_DUMP_INC_DORESTORE", "Восстановить");
+define("TOOLS_DUMP_INC_DBDUMP", "дамп базы данных");
+define("TOOLS_DUMP_INC_FOLDER", "содержимое папки");
+define("TOOLS_DUMP_ERROR_CANTDELETE", "Ошибка! Не могу удалить %FILE.");
+define("TOOLS_DUMP_INC_ARCHIVE", "Архив");
+define("TOOLS_DUMP_INC_DATE", "Дата");
+define("TOOLS_DUMP_INC_SIZE", "Размер");
+define("TOOLS_DUMP_INC_DOWNLOAD", "скачать");
+define("TOOLS_DUMP_INC_BYTE", "байт");
+define("TOOLS_DUMP_NOONE", "Архивы проекта отсутствуют.");
+define("TOOLS_DUMP_PROJECT", "Проект");
+define("TOOLS_DUMP_DATE", "Дата архива");
+define("TOOLS_DUMP_SIZE", "Размер, байт");
+define("TOOLS_DUMP_CREATEAP", "Создать архив проекта");
+define("TOOLS_DUMP_CONFIRM", "Подтвердите создание архива проекта");
+
+define("TOOLS_REDIRECT", "Переадресации");
+define("TOOLS_REDIRECT_ERR_GUESTRIGHTS", "У вас нет доступа для осуществления операции.");
+define("TOOLS_REDIRECT_OLDURL", "Старый URL");
+define("TOOLS_REDIRECT_NEWURL", "Новый URL");
+define("TOOLS_REDIRECT_OLDLINK", "Старая ссылка");
+define("TOOLS_REDIRECT_NEWLINK", "Новая ссылка");
+define("TOOLS_REDIRECT_SETTINGS", "Настройки");
+define("TOOLS_REDIRECT_CHANGEINFO", "Изменить информацию");
+define("TOOLS_REDIRECT_NONE", "В данном проекте нет переадресаций.");
+define("TOOLS_REDIRECT_ADD", "Добавить переадресацию");
+define("TOOLS_REDIRECT_ADDONLY", "Добавить");
+define("TOOLS_REDIRECT_CANTBEEMPTY", "Поля не могут быть пустыми!");
+
+define("TOOLS_CRON", "Управление задачами");
+define("TOOLS_CRON_MINUTES", "Минуты");
+define("TOOLS_CRON_HOURS", "Часы");
+define("TOOLS_CRON_DAYS", "Дни");
+define("TOOLS_CRON_MONTHS", "Месяцы");
+define("TOOLS_CRON_WEEKDAYS", "Дни недели");
+define("TOOLS_CRON_LANCHED", "Последний запуск");
+define("TOOLS_CRON_SCRIPTURL", "Ссылка на скрипт");
+define("TOOLS_CRON_ADDLINK", "Добавить задачу");
+define("TOOLS_CRON_CHANGE", "Изменить");
+define("TOOLS_CRON_NOTASKS", "В данном проекте нет ни одной задачи.");
+
+# MODERATION SECTION
+define("NETCAT_MODERATION_NO_OBJECTS_IN_SUBCLASS", "В данном компоненте раздела нет данных для вывода.");
+
+define("NETCAT_MODERATION_ERROR_NORIGHTS", "У вас нет доступа для осуществления операции.");
+define("NETCAT_MODERATION_ERROR_NORIGHT", "У вас нет прав на эту операцию");
+define("NETCAT_MODERATION_ERROR_NORIGHTGUEST", "Гостевое право не позволяет выполнить эту операцию");
+define("NETCAT_MODERATION_ERROR_NOOBJADD", "Ошибка добавления объекта.");
+define("NETCAT_MODERATION_ERROR_NOOBJCHANGE", "Ошибка изменения объекта.");
+define("NETCAT_MODERATION_MSG_OBJADD", "Объект добавлен.");
+define("NETCAT_MODERATION_MSG_OBJADDMOD", "Объект будет доступен после проверки админиcтратором.");
+define("NETCAT_MODERATION_MSG_OBJCHANGED", "Объект изменен.");
+define("NETCAT_MODERATION_MSG_OBJON", "Объект включен.");
+define("NETCAT_MODERATION_MSG_OBJDELETED", "Объект удален.");
+define("NETCAT_MODERATION_FILES_UPLOADED", "Закачан");
+define("NETCAT_MODERATION_FILES_DELETE", "удалить файл");
+define("NETCAT_MODERATION_LISTS_CHOOSE", "-- выбрать --");
+define("NETCAT_MODERATION_RADIO_EMPTY", "Не отвечать");
+define("NETCAT_MODERATION_PRIORITY", "Приоритет объекта");
+define("NETCAT_MODERATION_TURNON", "включить");
+define("NETCAT_MODERATION_TURNOFF", "выключить");
+define("NETCAT_MODERATION_OBJADDED", "Добавление объекта");
+define("NETCAT_MODERATION_OBJUPDATED", "Изменение объекта");
+define("NETCAT_MODERATION_MSG_OBJSDELETED", "Объекты удалены");
+define("NETCAT_MODERATION_MSG_OBJSSELFDELETED", "Собственные объекты удалены");
+
+define("NETCAT_MODERATION_WARN_COMMITDELETION", "Подтвердите удаление объекта #%s");
+define("NETCAT_MODERATION_WARN_COMMITDELETIONINCLASS", "Подтвердите удаление объектов компонента #%s");
+
+define("NETCAT_MODERATION_PASSWORD", "Пароль (*)");
+define("NETCAT_MODERATION_PASSWORDAGAIN", "Введите пароль ещё раз");
+define("NETCAT_MODERATION_INFO_REQFIELDS", "Звездочкой (*) отмечены поля, обязательные для заполнения.");
+define("NETCAT_MODERATION_BUTTON_ADD", "Добавить");
+define("NETCAT_MODERATION_BUTTON_CHANGE", "Сохранить изменения");
+define("NETCAT_MODERATION_BUTTON_RESET", "Сброс");
+
+define("NETCAT_MODERATION_COMMON_KILLALL", "Удалить объекты");
+define("NETCAT_MODERATION_COMMON_KILLONE", "Удалить объект");
+
+define("NETCAT_MODERATION_MSG_ONE", "Поле <b>%NAME</b> является обязательным для заполнения.");
+define("NETCAT_MODERATION_MSG_TWO", "В поле <b>%NAME</b> введено значение недопустимого типа.");
+define("NETCAT_MODERATION_MSG_SIX", "Необходимо закачать файл <b>%NAME</b>.");
+define("NETCAT_MODERATION_MSG_SEVEN", "Файл <b>%NAME</b> превышает допустимый размер.");
+define("NETCAT_MODERATION_MSG_EIGHT", "Недопустимый формат файла <b>%NAME</b>.");
+define("NETCAT_MODERATION_MSG_TWENTYONE", "Введено недопустимое ключевое слово.");
+define("NETCAT_MODERATION_MSG_RETRYPASS", "Повторите ввод пароля");
+define("NETCAT_MODERATION_MSG_LOGINALREADY", "Логин <b>%s</b> занят другим пользователем");
+define("NETCAT_MODERATION_BACKTOSECTION", "Вернуться в раздел");
+define("NETCAT_MODERATION_BACKTOPARENT", "Вернуться к редактированию родительского объекта");
+
+define("NETCAT_MODERATION_OBJISON", "Объект включен");
+define("NETCAT_MODERATION_OBJISOFF", "Объект выключен");
+define("NETCAT_MODERATION_OBJSAREON", "Объекты включены");
+define("NETCAT_MODERATION_OBJSAREOFF", "Объекты выключены");
+define("NETCAT_MODERATION_CHANGED", "ID изменившего пользователя");
+define("NETCAT_MODERATION_CHANGE", "изменить");
+define("NETCAT_MODERATION_DELETE", "удалить");
+define("NETCAT_MODERATION_TURNTOON", "включить");
+define("NETCAT_MODERATION_TURNTOOFF", "выключить");
+define("NETCAT_MODERATION_TURNTID", "ID объекта: <b>%d</b>, приоритет: %d");
+define("NETCAT_MODERATION_ID", "Идентификатор");
+define("NETCAT_MODERATION_COPY_OBJECT", "Копировать объект");
+
+define("NETCAT_MODERATION_REMALL", "удалить все");
+define("NETCAT_MODERATION_DELETESELECTED", "удалить выбранные");
+define("NETCAT_MODERATION_CHECKSELECTED", "включить-выключить выбранные");
+define("NETCAT_MODERATION_SELECTEDON", "включить выбранные");
+define("NETCAT_MODERATION_SELECTEDOFF", "выключить выбранные");
+define("NETCAT_MODERATION_NOTSELECTEDOBJ", "Не выбрано ни одного объекта");
+define("NETCAT_MODERATION_CLASSID", "Номер компонента раздела");
+define("NETCAT_MODERATION_ADDEDON", "ID добавившего пользователя");
+
+define("NETCAT_MODERATION_MOD_NOANSWER", "не важно");
+define("NETCAT_MODERATION_MOD_DON", " до ");
+define("NETCAT_MODERATION_MOD_FROM", " от ");
+define("NETCAT_MODERATION_MODA", "--------- Не важно ---------");
+
+define("NETCAT_MODERATION_NO_RELATED", "[нет]");
+define("NETCAT_MODERATION_RELATED_INEXISTENT", "[несуществующий объект ID=%s]");
+define("NETCAT_MODERATION_CHANGE_RELATED", "изменить");
+define("NETCAT_MODERATION_REMOVE_RELATED", "удалить");
+define("NETCAT_MODERATION_SELECT_RELATED", "выбрать");
+define("NETCAT_MODERATION_RELATED_POPUP_TITLE", "Выбор связанного объекта (поле &quot;%s&quot;)");
+define("NETCAT_MODERATION_RELATED_NO_CONCRETE_CLASS_IN_SUB", "В данном разделе нет компонентов &laquo;%s&raquo;.");
+define("NETCAT_MODERATION_RELATED_NO_ANY_CLASS_IN_SUB", "В данном разделе нет ни одного компонента.");
+define("NETCAT_MODERATION_RELATED_NO_RIGHTS_FOR_CC", "У Вас нет прав на просмотр объектов в данном разделе");
+define("NETCAT_MODERATION_RELATED_ERROR_SAVING", "Не удалось сохранить выбранное значение (возможно, форма редактирования основного объекта была закрыта). Попробуйте выбрать связанное значение еще раз.");
+define("NETCAT_MODERATION_COPY_SUCCESS", "Копирование объекта успешно завершено");
+
+# MODULE
+define("NETCAT_MODULE", "Модуль");
+define("NETCAT_MODULES", "Модули");
+define("NETCAT_MODULES_NAME", "Название модуля");
+define("NETCAT_MODULES_TUNING", "Настройка модуля");
+define("NETCAT_MODULES_PARAM", "Параметр");
+define("NETCAT_MODULES_VALUE", "Значение");
+define("NETCAT_MODULES_ADDPARAM", "Добавить параметр");
+define("NETCAT_MODULES_PARAMS", "Параметры");
+define("NETCAT_MODULE_INSTALLCOMPLIED", "Установка модуля завершена.");
+define("NETCAT_MODULE_ERROR", "Ошибка!");
+define("NETCAT_MODULE_ONOFF", "Вкл/выкл");
+
+# MODULE DEFAULT
+define("NETCAT_MODULE_DEFAULT", "Интерфейс разработчика");
+define("NETCAT_MODULE_DEFAULT_DESCRIPTION", "Данный модуль предназначен для хранения вспомогательных скриптов и функций. Вы можете дописывать собственные функции в <b>".$SUB_FOLDER.$HTTP_ROOT_PATH."modules/default/function.inc.php</b> и создавать собственные скрипты, интегрированные с системой по аналогии с <b>".$SUB_FOLDER.$HTTP_ROOT_PATH."modules/default/index.php</b>. Также, вы можете задавать переменные окружения данного модуля в расположенном ниже поле.<br><br>Инструкции по созданию собственных модулей вы сможете найти в &quot;Руководстве разработчика&quot; в разделе &quot;Разработка модулей&quot;.");
+
+# EDITOR
+define('NETCAT_SETTINGS_EDITOR', 'Редактор');
+define('NETCAT_SETTINGS_EDITOR_TYPE', 'Тип HTML-редактора');
+define('NETCAT_SETTINGS_EDITOR_FCKEDITOR', 'FCKeditor');
+define('NETCAT_SETTINGS_EDITOR_EMBEDED', 'Редактор встроен в поле для редактирования');
+define('NETCAT_SETTINGS_EDITOR_EMBED_ON', 'Да');
+define('NETCAT_SETTINGS_EDITOR_EMBED_OFF', 'Нет');
+define('NETCAT_SETTINGS_EDITOR_EMBED_TO_FIELD', 'Встроить редактор в поле для редактирования');
+define('NETCAT_SETTINGS_EDITOR_SEND', 'Отправить');
+define('NETCAT_SETTINGS_EDITOR_STYLES_CANCEL', 'Отмена');
+define('NETCAT_SETTINGS_EDITOR_STYLES_SAVE', 'Сохранить изменения');
+define('NETCAT_SETTINGS_EDITOR_STYLES', 'Набор стилей для редактора');
+
+define('NETCAT_SEARCH_FIND_IT', 'Искать');
+define('NETCAT_SEARCH_ERROR', 'Невозможен поиск по данному компоненту.');
+
+#Components
+define('NETCAT_SETTINGS_COMPONENTS', 'Компоненты');
+define('NETCAT_SETTINGS_REMIND_SAVE', 'Напоминать о сохранении (требуется обновление страницы Ctrl + F5)');
+define('NETCAT_SETTINGS_REMIND_SAVE_INFO', 'Напоминать о необходимости сохранения');
+
+define('NETCAT_SETTINGS_QUICKBAR', 'Панель быстрого редактирования');
+define('NETCAT_SETTINGS_QUICKBAR_ENABLE', 'Включить уполномоченным в системе');
+define('NETCAT_SETTINGS_QUICKBAR_ON', 'Да');
+define('NETCAT_SETTINGS_QUICKBAR_OFF', 'Нет');
+
+define('NETCAT_SETTINGS_FIREPHP', 'Расширение FirePHP');
+define('NETCAT_SETTINGS_FIREPHP_ENABLE', 'Включить поддержку плагина FirePHP в системе');
+define('NETCAT_SETTINGS_FIREPHP_ON', 'Да');
+define('NETCAT_SETTINGS_FIREPHP_OFF', 'Нет');
+
+# ALT ADMIN BLOCKS
+define('NETCAT_SETTINGS_ALTBLOCKS', 'Альтернативные блоки администрирования');
+define('NETCAT_SETTINGS_ALTBLOCKS_ON', 'Да');
+define('NETCAT_SETTINGS_ALTBLOCKS_OFF', 'Нет');
+define('NETCAT_SETTINGS_ALTBLOCKS_TEXT', 'Использовать альтернативные блоки администрирования');
+define('NETCAT_SETTINGS_ALTBLOCKS_PARAMS', 'Дополнительные параметры при удалении (начните с &)');
+
+# Export / Import
+define('NETCAT_MODERATION_IMPORT_DTAB', 'Табуляция');
+define('NETCAT_MODERATION_IMPORT_DZPT1', 'Точка с запятой');
+define('NETCAT_MODERATION_IMPORT_DZPT2', 'Запятая');
+define('NETCAT_MODERATION_IMPORT_DSPACE', 'Пробел');
+
+define('NETCAT_MODERATION_EXPORT_TYPE', 'Тип экспорта');
+define('NETCAT_MODERATION_IMPORT_DIVIDER', 'Символ-разделитель');
+define('NETCAT_MODERATION_EXPORT_GET', 'Получить');
+define('NETCAT_MODERATION_EXPORT_ALLFIELDS', 'Все поля (в т.ч. служебные)');
+define('NETCAT_MODERATION_EXPORT_USERFIELDS', 'Пользовательские поля');
+define('NETCAT_MODERATION_EXPORT_CSV', 'Экспорт в CSV');
+define('NETCAT_MODERATION_EXPORT_XML', 'Экспорт в XML');
+define('NETCAT_MODERATION_IMPORT_CSV', 'Импорт из CSV');
+define('NETCAT_MODERATION_IMPORT_XML', 'Импорт из XML');
+
+define('NETCAT_SITEINFO_LINK', 'SEO-анализ');
+define('NETCAT_SEO_LINK', 'SEO-анализ');
+
+define('NETCAT_FILEUPLOAD_ERROR', 'Ошибка! У Вас нет прав на директорию %s на этом сервере.');
+
+
+define("NETCAT_HTTP_REQUEST_SAVING", "Сохранение...");
+define("NETCAT_HTTP_REQUEST_SAVED",  "Изменения сохранены");
+define("NETCAT_HTTP_REQUEST_ERROR",  "Ошибка (<a href='javascript:showFormSaveError()'>подробнее</a>)");
+define("NETCAT_HTTP_REQUEST_HINT",   "Вы можете сохранить эту форму без перезагрузки страницы, нажав Ctrl+Shift+S");
+
+# Index page menu
+define("SECTION_INDEX_MENU_SITE", "Сайт");
+define("SECTION_INDEX_MENU_EDIT", "Быстрое редактирование");
+define("SECTION_INDEX_MENU_DEVELOPMENT", "Разработка");
+define("SECTION_INDEX_MENU_WIZARD", "Мастера");
+define("SECTION_INDEX_MENU_TOOLS", "Инструменты");
+define("SECTION_INDEX_MENU_SETTINGS", "Настройки");
+define("SECTION_INDEX_MENU_HELP", "Справка");
+
+define("SECTION_INDEX_HELP_SUBMENU_HELP", "Справка NetCat");
+define("SECTION_INDEX_HELP_SUBMENU_DOC", "Документация");
+define("SECTION_INDEX_HELP_SUBMENU_HELPDESC", "Онлайн-поддержка");
+define("SECTION_INDEX_HELP_SUBMENU_FORUM", "Форум");
+define("SECTION_INDEX_HELP_SUBMENU_BASE", "База знаний");
+define("SECTION_INDEX_HELP_SUBMENU_CONTACT", "Свяжитесь с нами");
+define("SECTION_INDEX_HELP_SUBMENU_ABOUT", "О программе");
+
+define("SECTION_INDEX_SITE_LIST", "Список сайтов");
+
+define("SECTION_INDEX_WIZARD_SUBMENU_CLASS", "Мастер создания компонента");
+define("SECTION_INDEX_WIZARD_SUBMENU_SITE", "Мастер создания сайта");
+
+define("SECTION_INDEX_FAVORITE_ANOTHER_SUB", "Другой раздел...");
+define("SECTION_INDEX_FAVORITE_ADD", "Добавить в это меню");
+define("SECTION_INDEX_FAVORITE_LIST", "Редактировать это меню");
+define("SECTION_INDEX_FAVORITE_SETTINGS", "Настройки");
+
+define("SECTION_INDEX_WELCOME", "Добро пожаловать");
+define("SECTION_INDEX_WELCOME_MESSAGE", "Здравствуйте, <b>%s</b>!<br>Вы находитесь в системе управления проектом &laquo;<b>%s</b>&raquo;.<br>Вам присвоены права: <b>%s</b>");
+define("SECTION_INDEX_TITLE", "Система управления NetCat");
+
+# SITE
+## TABS
+define("SITE_TAB_SITEMAP", "Карта сайта");
+define("SITE_TAB_SETTINGS", "Настройки");
+define("SITE_TAB_INFO", "Информация");
+define("SITE_TAB_SEO", "SEO-анализ");
+define("SITE_TAB_STATS", "Статистика");
+## TOOLBAR
+define("SITE_TOOLBAR_INFO", "Общая информация");
+define("SITE_TOOLBAR_SUBLIST", "Список разделов");
+
+
+#SUBDIVISION
+## TABS
+
+## TOOLBAR
+define("SUBDIVISION_TAB_INFO_TOOLBAR_INFO", "Информация о разделе");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_SUBLIST", "Список разделов");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_CCLIST", "Список компонентов");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST", "Пользователи");
+
+## BUTTONS
+
+define("SUBDIVISION_TAB_PREVIEW_BUTTON_PREVIEW", "Просмотр в новом окне");
+define("SUBDIVISION_TAB_EDIT_BUTTON_PREVIEW", "Редактировать в новом окне");
+
+define("SITE_SITEMAP_SEARCH", "Поиск по карте сайта");
+define("SITE_SITEMAP_SEARCH_NOT_FOUND", "Не найдено");
+
+## TEXT
+
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_READ_ACCESS", "Доступ на чтение");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_COMMENT_ACCESS", "Доступ на комментирование");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_WRITE_ACCESS", "Доступ на запись");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_EDIT_ACCESS", "Доступ на редактирование");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_SUBSCRIBE_ACCESS", "Доступ в подписку");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_MODERATORS", "Модераторы");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_ADMINS", "Администраторы");
+
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_ALL_USERS", "Все пользователи");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_REGISTERED_USERS", "Зарегистрированные пользователи");
+define("SUBDIVISION_TAB_INFO_TOOLBAR_USERLIST_TEXT_PRIVILEGED_USERS", "Привилегированные пользователи");
+
+# CLASS WIZARD
+define("WIZARD_BUTTON_NEXT", "Дальше");
+define("WIZARD_SUBDIVISION_SELECT_POPUP_TITLE", "Выбор раздела");
+define("WIZARD_PARENTSUB_SELECT_POPUP_TITLE", "Выбор родительского раздела");
+
+define("WIZARD_CLASS_FORM_SUBDIVISION_PARENTSUB", "Родительский раздел");
+define("WIZARD_CLASS_FORM_SUBDIVISION_SUBDIVISION", "Раздел");
+
+define("WIZARD_CLASS_FORM_SUBDIVISION_SELECT_PARENTSUB", "выбрать родительский раздел");
+define("WIZARD_CLASS_FORM_SUBDIVISION_SELECT_SUBDIVISION", "выбрать раздел");
+define("WIZARD_CLASS_FORM_SUBDIVISION_DELETE", "удалить");
+
+define("WIZARD_CLASS_FORM_START_TEMPLATE_TYPE", "Тип шаблона");
+define("WIZARD_CLASS_FORM_START_TEMPLATE_TYPE_SINGLE", "Единственный объект на странице");
+define("WIZARD_CLASS_FORM_START_TEMPLATE_TYPE_LIST", "Список объектов");
+define("WIZARD_CLASS_FORM_START_TEMPLATE_TYPE_SEARCH", "Поиск по списку объектов");
+define("WIZARD_CLASS_FORM_START_TEMPLATE_TYPE_FORM", "Веб-форма");
+
+define("WIZARD_CLASS_FORM_SETTINGS_NO_SETTINGS", "Для данного типа шаблона настроек не предусмотренно.");
+define("WIZARD_CLASS_FORM_SETTINGS_FIELDS_FOR_OBJECT_LIST", "Поля для списка объектов");
+define("WIZARD_CLASS_FORM_SETTINGS_SETTINGS_FOR_LIST_VIEW", "Настройки отображения списка объектов");
+define("WIZARD_CLASS_FORM_SETTINGS_OBJECT_NUMBER_ON_THE_PAGE", "Количество объектов на странице");
+define("WIZARD_CLASS_FORM_SETTINGS_SORT_OBJECT_BY_FIELD", "Сортировать объекты по полю");
+define("WIZARD_CLASS_FORM_SETTINGS_SORT_ASC", "По возрастанию");
+define("WIZARD_CLASS_FORM_SETTINGS_SORT_DESC", "По убыванию");
+define("WIZARD_CLASS_FORM_SETTINGS_PAGE_NAVIGATION", "Навигация по страницам");
+define("WIZARD_CLASS_FORM_SETTINGS_PAGE_NAVIGATION_BY_NEXT_PREV", "переход на другие страницы списка &laquo;следующий-предыдущий&raquo;");
+define("WIZARD_CLASS_FORM_SETTINGS_PAGE_NAVIGATION_BY_PAGE_NUMBER", "по номерам страниц");
+define("WIZARD_CLASS_FORM_SETTINGS_PAGE_NAVIGATION_BY_BOTH", "оба варианта");
+define("WIZARD_CLASS_FORM_SETTINGS_LOCATION_OF_NAVIGATION", "Положение вывода навигации");
+define("WIZARD_CLASS_FORM_SETTINGS_LOCATION_TOP", "Вверху страницы");
+define("WIZARD_CLASS_FORM_SETTINGS_LOCATION_BOTTOM", "Внизу страницы");
+define("WIZARD_CLASS_FORM_SETTINGS_LOCATION_BOTH", "оба варианта");
+define("WIZARD_CLASS_FORM_SETTINGS_LIST_OBJECT_TYPE", "Тип списка объектов");
+define("WIZARD_CLASS_FORM_SETTINGS_LIST_TYPE", "Список");
+define("WIZARD_CLASS_FORM_SETTINGS_TABLE_TYPE", "Таблица");
+define("WIZARD_CLASS_FORM_SETTINGS_LIST_TYPE_SETTINGS", "Настройки типа списка");
+define("WIZARD_CLASS_FORM_SETTINGS_LIST_DELIMITER_TYPE", "Тип разделителя");
+define("WIZARD_CLASS_FORM_SETTINGS_TABLE_TYPE_SETTINGS", "Настройки типа таблицы");
+define("WIZARD_CLASS_FORM_SETTINGS_TABLE_BACKGROUND", "Чередовать фон");
+define("WIZARD_CLASS_FORM_SETTINGS_TABLE_BORDER", "Граница таблицы");
+define("WIZARD_CLASS_FORM_SETTINGS_FULL_PAGE", "Страница с подробной информацией");
+define("WIZARD_CLASS_FORM_SETTINGS_FULL_PAGE_LINK_TYPE", "Способ перехода на страницу отображения объекта");
+define("WIZARD_CLASS_FORM_SETTINGS_CHECK_FIELDS_TO_FULL_PAGE", "Отметьте поля при нажатии на которые будет производиться переход на страницу отображения объекта");
+define("WIZARD_CLASS_FORM_SETTINGS_FIELDS_TO_SHOW_OBJECT", "Поля для отображения объекта");
+
+define("WIZARD_CLASS_FORM_SETTINGS_FIELDS_FOR_OBJECT_SEARCH", "Поля, по которым будет производиться поиск");
+
+define("WIZARD_CLASS_FORM_SETTINGS_FEEDBACK_FIELDS_SETTINGS", "Настройка полей обратной связи");
+define("WIZARD_CLASS_FORM_SETTINGS_FEEDBACK_SENDER_NAME", "Имя отправителя");
+define("WIZARD_CLASS_FORM_SETTINGS_FEEDBACK_SENDER_MAIL", "E-mail отправителя");
+define("WIZARD_CLASS_FORM_SETTINGS_FEEDBACK_SUBJECT", "Тема письма");
+
+## TABS
+define("WIZARD_CLASS_TAB_SELECT_TEMPLATE_TYPE", "Выбор типа шаблона");
+define("WIZARD_CLASS_TAB_ADDING_TEMPLATE_FIELDS", "Добавление полей шаблона");
+define("WIZARD_CLASS_TAB_TEMPLATE_SETTINGS", "Настройка шаблона");
+define("WIZARD_CLASS_TAB_SUBSEQUENT_ACTION", "Дальнейшее действие");
+define("WIZARD_CLASS_TAB_CREATION_SUBDIVISION_WITH_NEW_TEMPLATE", "Создание раздела с новым шаблоном");
+define("WIZARD_CLASS_TAB_ADDING_TEMPLATE_TO_EXISTENT_SUBDIVISION", "Добавление шаблона к существующему разделу");
+
+## BUTTONS
+define("WIZARD_CLASS_BUTTON_NEXT_TO_ADDING_FIELDS", "Перейти к добавлению полей");
+define("WIZARD_CLASS_BUTTON_FINISH_ADDING_FIELDS", "Закончить добавление полей");
+define("WIZARD_CLASS_BUTTON_SAVE_SETTINGS", "Сохранить настройки");
+define("WIZARD_CLASS_BUTTON_ADDING_SUBDIVISION_WITH_NEW_TEMPLATE", "Добавить раздел с новым компонентом");
+define("WIZARD_CLASS_BUTTON_CREATE_SUBDIVISION_WITH_NEW_TEMPLATE", "Создать раздел с новым компонентом");
+define("WIZARD_CLASS_BUTTON_NEXT_TO_SUBDIVISION_SELECTION", "Перейти к выбору раздела");
+
+## LINKS
+define("WIZARD_CLASS_LINKS_VIEW_TEMPLATE_CODE", "Посмотреть программный код шаблона");
+define("WIZARD_CLASS_LINKS_CREATE_SUBDIVISION_WITH_NEW_TEMPLATE", "Создать раздел с этим шаблоном");
+define("WIZARD_CLASS_LINKS_ADD_TEMPLATE_TO_EXISTENT_SUBDIVISION", "Прикрепить шаблон к существующему разделу");
+define("WIZARD_CLASS_LINKS_CREATE_NEW_TEMPLATE", "Создать новый шаблон");
+
+define("WIZARD_CLASS_LINKS_RETURN_TO_FIELDS_ADDING", "Вернуться к добавлению полей");
+
+## COMMON
+define("WIZARD_CLASS_STEP", "Шаг");
+define("WIZARD_CLASS_STEP_FROM", "Из");
+
+define("WIZARD_CLASS_DEFAULT", "по умолчанию");
+
+define("WIZARD_CLASS_ERROR_NO_FIELDS", "В шаблон необходимо добавить хотя бы одно поле!");
+
+# SITE WIZARD
+define("WIZARD_SITE_FORM_WHICH_MODULES", "Какие модули вы хотите задействовать на сайте?");
+
+## TABS
+define("WIZARD_SITE_TAB_NEW_SITE_CREATION", "Создание нового сайта");
+define("WIZARD_SITE_TAB_NEW_SITE_SETTINGS", "Настройки нового сайта");
+define("WIZARD_SITE_TAB_NEW_SITE_ADD_SUB", "Добавление разделов сайта");
+
+## BUTTONS
+define("WIZARD_SITE_BUTTON_ADD_SUBS", "Добавить подразделы");
+define("WIZARD_SITE_BUTTON_FINISH_ADD_SUBS", "Закончить добавление");
+
+## COMMON
+define("WIZARD_SITE_STEP", "Шаг");
+define("WIZARD_SITE_STEP_FROM", "Из");
+define("WIZARD_SITE_STEP_ONE_DESCRIPTION", "Oсновные настройки сайта. Укажите название сайта, домен (обратите внимание: домен должен быть зарегистрирован и прописан в конфигурации веб-сервера), а также выберите и настройте макет дизайна. Остальные свойства настройте по желанию.");
+define("WIZARD_SITE_STEP_TWO_DESCRIPTION", "Cоздание служебных разделов. Каждый сайт должен иметь титульную страницу и страницу 404. Можете оставить эти поля без изменений.");
+define("WIZARD_SITE_STEP_THREE_DESCRIPTION", "Ввод структуры. Введите структуру сайта. Чтобы добавить подраздел в раздел, нажмите кнопку напротив родительского раздела. Впоследствии Вы сможете изменить введенную структуру.");
+
+# FAVORITE
+
+## HEADER TEXT
+define("FAVORITE_HEADERTEXT", "Быстрое редактирование");
+
+
+# CRONTAB
+
+##TABS
+define("CRONTAB_TAB_LIST", "Список задач");
+define("CRONTAB_TAB_ADD", "Добавление задачи");
+define("CRONTAB_TAB_EDIT", "Редактирование задачи");
+
+
+# REDIRECT
+
+##TABS
+define("REDIRECT_TAB_LIST", "Список переадресаций");
+define("REDIRECT_TAB_ADD", "Добавление переадресации");
+define("REDIRECT_TAB_EDIT", "Редактирование переадресации");
+
+
+# SYSTEM SETTINGS
+
+##TABS
+define("SYSTEMSETTINGS_TAB_LIST", "Базовые настройки системы");
+define("SYSTEMSETTINGS_TAB_ADD", "Редактирование базовых настроек");
+
+
+# Not Elsewhere Specified
+define("NOT_ELSEWHERE_SPECIFIED", "Не указывать");
+
+
+# BBcodes
+define("NETCAT_BBCODE_SIZE", "Размер шрифта");
+define("NETCAT_BBCODE_COLOR", "Цвет шрифта");
+define("NETCAT_BBCODE_SMILE", "Смайлы");
+define("NETCAT_BBCODE_B", "Жирный");
+define("NETCAT_BBCODE_I", "Курсив");
+define("NETCAT_BBCODE_U", "Подчёркнутый");
+define("NETCAT_BBCODE_S", "Зачёркнутый");
+define("NETCAT_BBCODE_LIST", "Элемент списка");
+define("NETCAT_BBCODE_QUOTE", "Цитата");
+define("NETCAT_BBCODE_CODE", "Код");
+define("NETCAT_BBCODE_IMG", "Изображение");
+define("NETCAT_BBCODE_URL", "Ссылка");
+define("NETCAT_BBCODE_CUT", "Сократить текст");
+
+define("NETCAT_BBCODE_QUOTE_USER", "писал(а)");
+define("NETCAT_BBCODE_CUT_MORE", "подробнее");
+define("NETCAT_BBCODE_SIZE_DEF", "размер");
+define("NETCAT_BBCODE_ERROR_1", "введён BB-код недопустимого формата:");
+define("NETCAT_BBCODE_ERROR_2", "введены BB-коды недопустимого формата:");
+
+# Help messages for BBcode
+define("NETCAT_BBCODE_HELP_SIZE", "Размер шрифта: [SIZE=8]маленький текст[/SIZE]");
+define("NETCAT_BBCODE_HELP_COLOR", "Цвет шрифта: [COLOR=FF0000]текст[/COLOR]");
+define("NETCAT_BBCODE_HELP_SMILE", "Вставить смайлик");
+define("NETCAT_BBCODE_HELP_B", "Жирный шрифт: [B]текст[/B]");
+define("NETCAT_BBCODE_HELP_I", "Наклонный шрифт: [I]текст[/I]");
+define("NETCAT_BBCODE_HELP_U", "Подчёркнутый шрифт: [U]текст[/U]");
+define("NETCAT_BBCODE_HELP_S", "Зачёркнутый шрифт: [S]текст[/S]");
+define("NETCAT_BBCODE_HELP_LIST", "Элемент списка: [LIST]текст[/LIST]");
+define("NETCAT_BBCODE_HELP_QUOTE", "Цитата: [QUOTE]текст[/QUOTE]");
+define("NETCAT_BBCODE_HELP_CODE", "Код: [CODE]код[/CODE]");
+define("NETCAT_BBCODE_HELP_IMG", "Вставить картинку: [IMG=http://адрес_картинки]");
+define("NETCAT_BBCODE_HELP_URL", "Вставить ссылку: [URL=http://адрес_ссылки]описание[/URL]");
+define("NETCAT_BBCODE_HELP_CUT", "Сократить текст в листинге: [CUT=подробнее]текст[/CUT]");
+define("NETCAT_BBCODE_HELP", "Подсказка: выше расположены кнопки быстрого форматирования");
+
+# Smiles
+define("NETCAT_SMILE_SMILE", "улыбка");
+define("NETCAT_SMILE_BIGSMILE", "большая улыбка");
+define("NETCAT_SMILE_GRIN", "усмешка");
+define("NETCAT_SMILE_LAUGH", "смех");
+define("NETCAT_SMILE_PROUD", "гордый");
+#
+define("NETCAT_SMILE_YES", "да");
+define("NETCAT_SMILE_WINK", "подмигивает");
+define("NETCAT_SMILE_COOL", "клево");
+define("NETCAT_SMILE_ROLLEYES", "невинный");
+define("NETCAT_SMILE_LOOKDOWN", "стыдно");
+#
+define("NETCAT_SMILE_SAD", "грустный");
+define("NETCAT_SMILE_SUSPICIOUS", "подозрительный");
+define("NETCAT_SMILE_ANGRY", "сердитый");
+define("NETCAT_SMILE_SHAKEFIST", "грозится");
+define("NETCAT_SMILE_STERN", "суровый");
+#
+define("NETCAT_SMILE_KISS", "поцелуй");
+define("NETCAT_SMILE_THINK", "думает");
+define("NETCAT_SMILE_THUMBSUP", "круто");
+define("NETCAT_SMILE_SICK", "тошнит");
+define("NETCAT_SMILE_NO", "нет");
+#
+define("NETCAT_SMILE_CANTLOOK", "не могу смотреть");
+define("NETCAT_SMILE_DOH", "ооо");
+define("NETCAT_SMILE_KNOCKEDOUT", "в ауте");
+define("NETCAT_SMILE_EYEUP", "хммм");
+define("NETCAT_SMILE_QUIET", "тихо");
+#
+define("NETCAT_SMILE_EVIL", "злой");
+define("NETCAT_SMILE_UPSET", "огорчен");
+define("NETCAT_SMILE_UNDECIDED", "неуверенный");
+define("NETCAT_SMILE_CRY", "плачет");
+define("NETCAT_SMILE_UNSURE", "не уверен");
+
+# nc_bytes2size
+define("NETCAT_SIZE_BYTES", " байт");
+define("NETCAT_SIZE_KBYTES", " КБ");
+define("NETCAT_SIZE_MBYTES", " МБ");
+define("NETCAT_SIZE_GBYTES", " ГБ");
+
+// quickBar
+define("NETCAT_QUICKBAR_BUTTON_MAINPAGE", "На главную");
+define("NETCAT_QUICKBAR_BUTTON_VIEWMODE", "Режим просмотра");
+define("NETCAT_QUICKBAR_BUTTON_EDITMODE", "Режим редактирования");
+define("NETCAT_QUICKBAR_BUTTON_ADMIN", "Администрирование");
+define("NETCAT_QUICKBAR_BUTTON_HIDE", "Скрыть панель");
+define("NETCAT_QUICKBAR_BUTTON_CLOSE", "Убрать панель");
+define("NETCAT_QUICKBAR_GREETING", "Здравствуйте");
+define("NETCAT_QUICKBAR_LOGOUT", "Завершить сеанс");
+define("NETCAT_QUICKBAR_FAVORITES_HEADER", "-- Быстрое редактирование --");
+define("NETCAT_QUICKBAR_FAVORITES_EMPTY", "Нет избранных разделов");
+define("NETCAT_QUICKBAR_SLIDER_TOOLTIP", "Перетащить панельку");
+define("NETCAT_QUICKBAR_LOGO_TOOLTIP", "Минимизировать панельку");
+define("NETCAT_QUICKBAR_CACHED_ON", "Страница кэшируется");
+define("NETCAT_QUICKBAR_CACHED_OFF", "Страница не кэшируется");
+
+#SYNTAX EDITOR
+define('NETCAT_SETTINGS_SYNTAXEDITOR', 'Он-лайн подсветка синтаксиса');
+define('NETCAT_SETTINGS_SYNTAXEDITOR_ENABLE', 'Включить использование подсветки синтаксиса в системе (требуется перезагрузка админки Ctrl+F5)');
+
+#SYNTAX CHECK
+define('NETCAT_SETTINGS_SYNTAXCHECK', 'Возможность синтаксической проверки кода компонентов и макетов');
+define('NETCAT_SETTINGS_SYNTAXCHECK_ENABLE', 'Включить возможность синтаксической проверки кода в системе (требуется перезагрузка админки Ctrl+F5)');
+
+# NETCAT_DEBUG
+define("NETCAT_DEBUG_ERROR_INSTRING", "Ошибка в строке : ");
+define("NETCAT_DEBUG_BUTTON_CAPTION", "Отладка");
+
+# NETCAT_PREVIEW
+define("NETCAT_PREVIEW_CAPTION", "Предпросмотр!");
+define("NETCAT_PREVIEW_BUTTON_CAPTIONCLASS", "Предпросмотр компонента");
+define("NETCAT_PREVIEW_BUTTON_CAPTIONTEMPLATE", "Предпросмотр макета");
+
+define("NETCAT_PREVIEW_BUTTON_CAPTIONADDFORM", "Предпросмотр формы добавления");
+define("NETCAT_PREVIEW_BUTTON_CAPTIONEDITFORM", "Предпросмотр формы редактирования");
+define("NETCAT_PREVIEW_BUTTON_CAPTIONSEARCHFORM", "Предпросмотр формы поиска");
+
+define("NETCAT_PREVIEW_ERROR_NODATA", "Ошибка! Не переданы данные для режима предпросмотра или данные устарели");
+define("NETCAT_PREVIEW_ERROR_WRONGDATA", "Ошибка в данных для режима предпросмотра");
+define("NETCAT_PREVIEW_ERROR_NOSUB", " Нет ни одного раздела с таким компонентом. Добавьте этот компонент в раздел и режим предпросмотра станет доступен.");
+define("NETCAT_PREVIEW_ERROR_NOMESSAGE", " Нет ни одного объекта такого компонента. Добавьте хотя бы один объект такого компонента и режим предпросмотра станет доступен.");
+define("NETCAT_PREVIEW_INFO_MORESUB", " Есть несколько разделов с таким компонентом. Выберите раздел для предпросмотра.");
+define("NETCAT_PREVIEW_INFO_CHOOSESUB", " Выберите раздел для предпросмотра макета.");
+
+# objects
+define("NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_SUPERVISOR", "Ошибка SQL запроса в функции nc_objects_list(%s, %s, \"%s\"), %s");
+define("NETCAT_FUNCTION_OBJECTS_LIST_SQL_ERROR_USER", "Ошибка в функции вывода объектов.");
+define("NETCAT_FUNCTION_OBJECTS_LIST_CLASSIFICATOR_ERROR", "список \"<b>%s</b>\" не найден");
+define("NETCAT_FUNCTION_OBJECTS_LIST_SQL_COLUMN_ERROR_UNKNOWN", "поле \"<b>%s</b>\" не найдено");
+define("NETCAT_FUNCTION_OBJECTS_LIST_SQL_COLUMN_ERROR_CLAUSE", "поле \"<b>%s</b>\" не найдено в условии");
+define("NETCAT_FUNCTION_OBJECTS_LIST_CC_ERROR", "Ошибочный параметр \$cc в функции nc_objects_list(XX, <b>%s</b>, \"...\")");
+define("NETCAT_FUNCTION_LISTCLASSVARS_ERROR_SUPERVISOR", "Ошибочный параметр \$cc в функции ListClassVars(<b>%s</b>)");
+
+# events
+define("NETCAT_EVENT_ADDCATALOGUE", "Добавление сайта");
+define("NETCAT_EVENT_ADDSUBDIVISION", "Добавление раздела");
+define("NETCAT_EVENT_ADDSUBCLASS", "Добавление компонента в раздел");
+define("NETCAT_EVENT_ADDCLASS", "Добавление компонента");
+define("NETCAT_EVENT_ADDCLASSTEMPLATE", "Добавление шаблона компонента");
+define("NETCAT_EVENT_ADDMESSAGE", "Добавление сообщения");
+define("NETCAT_EVENT_ADDSYSTEMTABLE", "Добавление системной таблицы");
+define("NETCAT_EVENT_ADDTEMPLATE", "Добавление макета");
+define("NETCAT_EVENT_ADDUSER", "Добавление пользователя");
+
+define("NETCAT_EVENT_UPDATECATALOGUE", "Редактирование сайта");
+define("NETCAT_EVENT_UPDATESUBDIVISION", "Редактирование раздела");
+define("NETCAT_EVENT_UPDATESUBCLASS", "Редактирование компонента в разделе");
+define("NETCAT_EVENT_UPDATECLASS", "Редактирование компонента");
+define("NETCAT_EVENT_UPDATECLASSTEMPLATE", "Редактирование шаблона компонента");
+define("NETCAT_EVENT_UPDATEMESSAGE", "Редактирование сообщения");
+define("NETCAT_EVENT_UPDATESYSTEMTABLE", "Редактирование системной таблицы");
+define("NETCAT_EVENT_UPDATETEMPLATE", "Редактирование макета");
+define("NETCAT_EVENT_UPDATEUSER", "Редактирование пользователя");
+
+define("NETCAT_EVENT_DROPCATALOGUE", "Удаление сайта");
+define("NETCAT_EVENT_DROPSUBDIVISION", "Удаление раздела");
+define("NETCAT_EVENT_DROPSUBCLASS", "Удаление компонента в разделе");
+define("NETCAT_EVENT_DROPCLASS", "Удаление компонента");
+define("NETCAT_EVENT_DROPCLASSTEMPLATE", "Удаление шаблона компонента");
+define("NETCAT_EVENT_DROPMESSAGE", "Удаление сообщения");
+define("NETCAT_EVENT_DROPSYSTEMTABLE", "Удаление системной таблицы");
+define("NETCAT_EVENT_DROPTEMPLATE", "Удаление макета");
+define("NETCAT_EVENT_DROPUSER", "Удаление пользователя");
+
+# errors
+define("NETCAT_ERROR_SQL", "Ошибка в SQL-запросе.<br/>Запрос:%s<br/>Ошибка:%s");
+define("NETCAT_ERROR_DB_CONNECT", "Фатальная ошибка: невозможно получить настройки системы. Проверьте, правильно ли указаны параметра доступа к базе данных.");
+
+
+?>

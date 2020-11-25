@@ -1,0 +1,85 @@
+%Header
+<div class='col-md-9 rcolw'>
+<div style="padding:0 20px;">
+
+<?php
+$url=$nc_core->url->get_parsed_url();
+//print_r($url);
+if ((strpos($url['path'],".html"))&&(strpos($url['path'],"cart.html")==0)) {
+	// article
+	$hidden_url="";
+	$engname="";
+	$mesid="";
+	$tmp=explode("/",$url['path']);
+	for ($j=0;$j<count($tmp)-1;$j++) {
+		$hidden_url.=$tmp[$j]."/";
+	}
+	$tmp1=explode("_",$tmp[count($tmp)-1]);
+	$engname=$tmp1[0];
+	$tmp2=explode(".",$tmp1[1]);
+	$mesid=intval($tmp2[0]);
+	$sql="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message22` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message22 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND u.Hidden_URL LIKE '{$hidden_url}' AND s.EnglishName LIKE '{$engname}' AND m.Message_ID={$mesid}";
+	//echo $sql;
+	$res = (array) $nc_core->db->get_results($sql);
+	echo "<p class=\"h1\">{$res[0]->Title}</p>";
+	echo $res[0]->Text;
+							
+} else {
+	echo "<p class=\"h1\">{$nc_core->page->get_h1()}</p>";
+	//echo s_list_class(134, 170);
+	//echo nc_objects_list( 134, 170, "&nc_ctpl=88" );
+	//nc_browse_messages($cc_env, 15) 
+	$startpage=0;
+	if ((isset($_GET['curPos']))&&(is_numeric($_GET['curPos']))) {
+		$startpage=intval($_GET['curPos']);
+	}
+	$lastpage=0;
+	$itemsperpage=20;
+	$sql1="SELECT m.Message_ID , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message22` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message22 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID=134 AND m.Sub_Class_ID=170
+		ORDER BY Message_ID DESC ";
+	$res1 = (array) $nc_core->db->get_results($sql1);
+	$lastpage=ceil(count($res1)/$itemsperpage);
+	
+	// list of articles
+
+	$sql="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message22` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message22 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID=134 AND m.Sub_Class_ID=170
+		ORDER BY Message_ID DESC LIMIT {$startpage},{$itemsperpage}";
+	$res = (array) $nc_core->db->get_results($sql);
+	foreach ($res as $r) {
+?>
+		<div>
+		<div class="h4"><a href="/news/news_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+		<?=$r->Announce?>
+		<br clear="both">
+		</div>
+		
+<?php
+	}	
+	echo "<ul class=\"pager\">";
+	for ($j=0;$j<$lastpage;$j++) {
+		echo "<li><a href=\"/news/?curPos=".($j*$itemsperpage)."\">".($j+1)."</a></li>";
+	}
+	echo "</ul>";
+}
+?>

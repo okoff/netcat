@@ -1,0 +1,44 @@
+%Header
+<?php
+if (strstr($_SERVER[REQUEST_URI], "/netcat/modules/auth/password_recovery.php")) {
+	echo "<h2>Забыли пароль?</h2>";
+	include("/netcat/modules/auth/password_recovery.php");
+} 
+
+
+function printRes($res) {
+	if (is_array($res)) {
+		foreach ($res as $r) {
+			//print_r($r);
+			$image_arr = explode(":", $r->Preview);
+			$image_url = "/netcat_files/".$image_arr[3];
+			$image_arr1 = explode(":", $r->Image);
+			$image_url1 = "/netcat_files/".$image_arr1[3];
+			echo "<div class='item'><p class='aligncenter'><a href='/knives/knife_{$r->Message_ID}.html'><strong>{$r->Name}</strong></a></p>
+		<div class='whitebox'><a href='/knives/knife_{$r->Message_ID}.html'><img src='{$image_url}' alt='' width='200' style='border:0;' /></a>
+		<a class='libox' href='{$image_url1}'><img src='/images/91/zoom.png' alt='увеличить' style='border:0;' /></a><br></div>
+		<p class='price'>{$r->Price}&nbsp;руб.</p></div>";
+		}
+	}
+}
+
+if ($_SERVER['REQUEST_URI']=="/") {
+$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=1 ORDER BY Name LIMIT 3";
+$res = (array) $nc_core->db->get_results($query);
+echo "<h2>Легированный булат</h2>";
+printRes($res);
+echo "<p><a href='/bulat-legirovanii'>Посмотреть все ножи</a></p><br>";
+
+$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=28  ORDER BY Name LIMIT 3";
+$res = (array) $nc_core->db->get_results($query);
+echo "<h2>Нержавеющий булат</h2>";
+printRes($res);
+echo "<p><a href='/bulat-nerj'>Посмотреть все ножи</a></p><br>";
+
+$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND Subdivision_ID=147  ORDER BY Name LIMIT 3";
+$res = (array) $nc_core->db->get_results($query);
+echo "<h2>Мозаичный дамасск</h2>";
+printRes($res);
+echo "<p><a href='/avtor-damassk'>Посмотреть все ножи</a></p><br>";
+}
+?>

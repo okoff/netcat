@@ -1,0 +1,64 @@
+%Header
+<?php
+	$bcrumps['prefix']      = "";
+	$bcrumps['suffix']      = "";
+	$bcrumps['active']      = "%NAME";
+	$bcrumps['active_link'] = "%NAME";
+	$bcrumps['unactive']    = "<a href=\"%URL\">%NAME</a>";
+	$bcrumps['divider']     = "&nbsp;&gt;&nbsp;";
+?>
+<div class='col-md-9 rcolw'>
+<div style="padding:20px;">
+<div class="xsmall">
+	<?=nc_browse_path($bcrumps)?>
+</div>
+<p class="h1"><?=$nc_core->page->get_h1()?></p>
+<div>
+	<a href='<?=$current_sub['Hidden_URL']?>' class="<?=((!isset($_GET['on'])) ? "btn btn-default disabled btn-sm" : "btn btn-default btn-sm")?>">в наличии</a> 
+	<a href='<?=$current_sub['Hidden_URL']?>?on=0' class="<?=(((isset($_GET['on']))&&($_GET['on']==0)) ? "btn btn-default disabled btn-sm" : "btn btn-default btn-sm")?>">все</a>
+</div>
+</div>
+<?php
+$arraddopt=array();
+$arraddopt[2524]=1;
+$arraddopt[2525]=3;
+$arraddopt[2526]=4;
+$arraddopt[2527]=5;
+$arraddopt[2528]=6;
+$arraddopt[2529]=7;
+$arraddopt[2530]=8;
+$arraddopt[2531]=9;
+$arraddopt[2532]=11;
+$arraddopt[2533]=12;
+$arraddopt[2534]=13;
+$arraddopt[2535]=14;
+$arraddopt[2536]=15;
+$arraddopt[2537]=17;
+$arraddopt[2537]=18;
+//echo $sub;
+$sub=$current_sub['Subdivision_ID'];
+$nal=(!isset($_GET['on'])) ? " AND m.status=2 " : "";
+
+if (isset($arraddopt[$sub])) {
+	$query="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+	FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+	LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+					WHERE  m.`Checked`=1 AND m.`showrkfive`=1
+						AND s.`Subdivision_ID` = m.`Subdivision_ID`
+						AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+						AND u.`Subdivision_ID` = m.`Subdivision_ID`
+						AND m.additcharacter LIKE '%,".$arraddopt[$sub].",%' {$nal} 
+				ORDER BY m.StockUnits DESC, m.Name ASC";
+	//echo $query;
+	$res = (array) $nc_core->db->get_results($query);
+	//echo "<p>¬сего товаров со скидкой: ".count($res)."</p>";
+	$strsearch="";
+	for ($i=0;$i<count($res); $i++) { // >	
+		echo "<div class='col-md-3 itemcol'>";
+		echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);					
+		echo "</div>";
+	}
+}
+?>
+<br clear="both">
+<div style="padding:20px;">

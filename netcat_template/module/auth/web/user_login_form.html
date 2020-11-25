@@ -1,0 +1,39 @@
+<table>
+<tr>
+<td valign='top' width='50%'>
+  <h2>Я новый пользователь</h2><br>
+  <p>Вам необходимо <b><a href='/profile/registratsiya/'>зарегистрироваться</a></b></p>
+</td>
+<td valign='top' width='50%'>
+  <h2>Я уже зарегистрирован на сайте</h2>
+     <form method="post" action="/netcat/modules/auth/">
+        <input type='hidden' name='AuthPhase' value='1' />
+		 <input type='hidden' name='REQUESTED_FROM' value='<?=((strpos($_SERVER['REQUEST_URI'], 'netcat/modules/auth')!==false) ? str_replace('http://', '', str_replace($_SERVER['HTTP_HOST'], '', $_SERVER['HTTP_REFERER'])) : $_SERVER['REQUEST_URI']) ?>' /> 
+		<!--'-->
+        <input type='hidden' name='REQUESTED_BY' value='GET' />
+        <input type='hidden' name='catalogue' value='<?= $catalogue ?>' />
+        <input type='hidden' name='sub' value='<?= $sub ?>' />
+        <input type='hidden' name='cc' value='<?= $cc ?>' />
+        <div class='form-group' for='AUTH_USER'>
+			<label style='width:60px;'>e-mail:</label>
+            <input type='text' name='AUTH_USER' value='<?= htmlspecialchars($AUTH_USER, ENT_QUOTES) ?>'>
+        </div>
+        <div class='form-group'>
+			<label for='AUTH_PW' style='width:60px;'><?= NETCAT_MODULE_AUTH_PASSWORD ?>:</label>
+            <input type='password' name='AUTH_PW' value=''>
+        </div>
+        <? if ($ADMIN_AUTHTYPE == "manual" && $AUTHORIZATION_TYPE == "cookie") : ?>
+        <div class="block" style="margin: 0px">
+            <label><?= NETCAT_MODULE_AUTH_SAVE ?>&nbsp;</label><input type='checkbox' name='loginsave' />
+        </div><br/>
+        <? endif; ?>
+        <input type="hidden" value="1" name="AuthPhase">
+        <input type="submit" class="btn btn-success"  name="submit" value="Вход" />
+        <? if ($AuthPhase && $REQUEST_URI != $REQUESTED_FROM) : ?><br/><br/><a href='<?= $REQUESTED_FROM ?>'><?= NETCAT_MODULE_AUTH_BUT_BACK ?></a><? endif; ?>
+<br><br>        
+<p><a id="rem_pwd" href="/netcat/modules/auth/password_recovery.php">Забыли пароль?</a></p>
+
+    </form>
+</td>
+</tr>
+</table>

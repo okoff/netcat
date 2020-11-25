@@ -1,0 +1,60 @@
+%Header
+<?php
+	$bcrumps['prefix']      = "";
+	$bcrumps['suffix']      = "";
+	$bcrumps['active']      = "%NAME";
+	$bcrumps['active_link'] = "%NAME";
+	$bcrumps['unactive']    = "<a href=\"%URL\">%NAME</a>";
+	$bcrumps['divider']     = "&nbsp;&gt;&nbsp;";
+	
+$url=$nc_core->url->get_parsed_url();
+$serie=explode("/",$url['path']);
+$sub=$current_sub['Subdivision_ID'];
+if (count($serie)==3) {
+	echo "<div class=\"col-md-9 rcolw\">";
+	echo "<div style=\"padding:20px;\">";
+	echo "<div class=\"xsmall\">".nc_browse_path($bcrumps)."</div>";
+	echo "<p class='h1'>".$current_sub["Subdivision_Name"]."</p>";
+	$query="SELECT * FROM Classificator_series WHERE Checked=1 ORDER By series_Name ASC";
+
+	$res3=(array) $nc_core->db->get_results($query);
+	for ($i=0; $i<count($res3); $i++) { 
+		echo "<p><a href='/series/{$res3[$i]->Value}/'>{$res3[$i]->series_Name}</a></p>";	
+	}
+	echo "</div>
+	</div>";
+} elseif ((count($serie)==4)&&($serie[2]!="")) {
+	echo "<div class=\"col-md-9 rcolw\">";
+	echo "<div style=\"padding:20px;\">";
+	echo "<div class=\"xsmall\">".nc_browse_path($bcrumps)."</div>";
+	
+	$query="SELECT series_ID,series_Name FROM Classificator_series WHERE Checked=1 AND Value LIKE '".htmlspecialchars($serie[2])."'";
+//echo $query;
+	$res = (array) $nc_core->db->get_results($query);
+	for ($j=0;$j<count($res); $j++) {  //>
+	echo "<p class='h2'>Серия ножей ".$res[$j]->series_Name."</p>
+	</div>";
+		$query1="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+                FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+                  LEFT JOIN Message57 as parent
+                    ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+                  
+                WHERE m.`Checked`=1 
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+					AND m.series={$res[$j]->series_ID}
+			ORDER BY m.Status ASC, m.Name ASC";			
+		$res1 = (array) $nc_core->db->get_results($query1);
+//echo "<br><p>Всего товаров: ".count($res1)."</p><br>";
+		for ($i=0;$i<count($res1); $i++) { 	
+			echo "<div class='col-md-3 itemcol'>";
+			echo printItemById5($res1[$i]->Message_ID,$res1[$i]->Subdivision_ID,$res1[$i]->Sub_Class_ID,$res1[$i]->ItemID,$res1[$i]->Name,$res1[$i]->URL,$res1[$i]->StockUnits,$res1[$i]->Preview,$res1[$i]->Price,$res1[$i]->status);
+			echo "</div>";	
+		}	
+	}
+	echo "</div>";
+
+}
+
+?>

@@ -1,0 +1,480 @@
+%Header
+
+<?php
+	$bcrumps['prefix']      = "";
+	$bcrumps['suffix']      = "";
+	$bcrumps['active']      = "%NAME";
+	$bcrumps['active_link'] = "%NAME";
+	$bcrumps['unactive']    = "<a href=\"%URL\">%NAME</a>";
+	$bcrumps['divider']     = "&nbsp;&gt;&nbsp;";
+	
+	
+$newsub=0;
+switch ($current_sub['Subdivision_ID']) {
+	case 1721: $newsub=141; break;	
+	case 1722: $newsub=103; break;
+	case 1723: $newsub=138; break;
+	case 1724: $newsub=102; break;
+	case 1725: $newsub=139; break;
+	case 1726: $newsub=106; break;
+	case 1727: $newsub=109; break;
+	case 1728: $newsub=147; break;
+	case 1729: $newsub=140; break;
+	case 1730: $newsub=151; break;
+	case 1731: $newsub=157; break;
+	case 1732: $newsub=280; break;
+	case 1733: $newsub=108; break;
+	case 1734: $newsub=154; break;
+	case 1735: $newsub=155; break;
+	case 1736: $newsub=131; break;
+	case 1737: $newsub=149; break;
+	case 1738: $newsub=162; break;
+	case 1739: $newsub=195; break;
+	case 1740: $newsub=355; break;
+	case 1741: $newsub=289; break;
+	case 1742: $newsub=356; break;
+	case 1743: $newsub=1041; break;
+	case 2572: $newsub=2561; break;
+	case 2573: $newsub=2562; break;
+	case 2574: $newsub=2563; break;
+	default:break;
+}
+//print_r($current_sub);
+//print_r ($nc_core->url->get_parsed_url());
+$url=$nc_core->url->get_parsed_url();
+//$url['path'];
+if ((strpos($url['path'],".html"))&&(strpos($url['path'],"cart.html")==0)&&(strpos($url['path'],"add_order.html")==0)) {
+	// show item page
+	$tmp=explode("/",$url['path']);
+	//print_r($tmp);
+	//echo "<br>";
+	$hidden_url="";
+	$engname="";
+	$mesid="";
+	for ($j=0;$j<count($tmp)-1;$j++) {
+		$hidden_url.=$tmp[$j]."/";
+	}
+	$tmp1=explode("_",$tmp[count($tmp)-1]);
+	$engname=$tmp1[0];
+	$tmp2=explode(".",$tmp1[1]);
+	$mesid=intval($tmp2[0]);
+	$sql="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND u.Hidden_URL LIKE '{$hidden_url}' AND s.EnglishName LIKE '{$engname}' AND m.Message_ID={$mesid}";
+	//echo $sql;
+	$res = (array) $nc_core->db->get_results($sql);
+	
+	$Price = $res[0]->Price;
+
+	// get image url
+	//$image_arr = explode(":", $res[0]->Image);
+	//$image_url = "/netcat_files/".$image_arr[3];
+	$image_arr = explode(":", $res[0]->SecImage);
+	$image_arr1 = explode(":", $res[0]->Image);
+	$image_url = "/netcat_files/".((strstr($image_arr[3], ".")) ? $image_arr[3] : $image_arr1[3] );
+	//echo $r->Image;
+
+	$image_url1 = "";
+	$image_url2 = "";
+	$image_url3 = "";
+	$image_url4 = "";
+	$image_url5 = "";
+
+	$image_arr = explode(":", $res[0]->SecaddImage1);
+	$image_arr1 = explode(":", $res[0]->addImage1);
+	((strstr($image_arr[3], ".")) ? $image_url1="/netcat_files/".$image_arr[3] : ((strstr($image_arr1[3], ".")) ? $image_url1="/netcat_files/".$image_arr1[3] : $image_url1="" ));
+
+	$image_arr = explode(":", $res[0]->SecaddImage2);
+	$image_arr1 = explode(":", $res[0]->addImage2);
+	((strstr($image_arr[3], ".")) ? $image_url2="/netcat_files/".$image_arr[3] : ((strstr($image_arr1[3], ".")) ? $image_url2="/netcat_files/".$image_arr1[3] : $image_url2="" ));
+
+	$image_arr = explode(":", $res[0]->SecaddImage3);
+	$image_arr1 = explode(":", $res[0]->addImage3);
+	((strstr($image_arr[3], ".")) ? $image_url3="/netcat_files/".$image_arr[3] : ((strstr($image_arr1[3], ".")) ? $image_url3="/netcat_files/".$image_arr1[3] : $image_url3="" ));
+
+	$image_arr = explode(":", $res[0]->SecaddImage4);
+	$image_arr1 = explode(":", $res[0]->addImage4);
+	((strstr($image_arr[3], ".")) ? $image_url4="/netcat_files/".$image_arr[3] : ((strstr($image_arr1[3], ".")) ? $image_url4="/netcat_files/".$image_arr1[3] : $image_url4="" ));
+
+	$image_arr = explode(":", $res[0]->SecaddImage5);
+	$image_arr1 = explode(":", $res[0]->addImage5);
+	((strstr($image_arr[3], ".")) ? $image_url5="/netcat_files/".$image_arr[3] : ((strstr($image_arr1[3], ".")) ? $image_url5="/netcat_files/".$image_arr1[3] : $image_url5="" ));
+
+	$discount = $GLOBALS["shop"]->ItemDiscountSum($sub, $classID, $f_RowID, $Price, $Currency);
+	
+	
+
+	?>
+<div class="col-md-6 colcentr">
+	<div class="itemdesc">
+		<div class="xsmall">
+			<?=nc_browse_path($bcrumps)?>
+		</div>
+		<?=(($AUTH_USER_ID==1) ? "<p style='text-align:center;'><a href='/netcat/message.php?catalogue=2&sub=".$res[0]->Subdivision_ID."&cc=".$res[0]->Sub_Class_ID."&message=".$res[0]->Message_ID."'><b>Редактировать</b></a></p><br>" : "")?>
+		
+		<div class="h1"><?=$res[0]->Name?></div>
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<a href="<?=$image_url?>" target="_blank"><img src="<?=$image_url?>" alt="<?=$res[0]->Name?>" title="<?=$res[0]->Name?>" style="width:99%"></a>
+			</div>
+		</div>
+		<div>
+<?php
+		if (($res[0]->series!="")&&($res[0]->series!=0)) {
+			$tmp1=$tmp2="";
+			$query="SELECT Value FROM Classificator_series WHERE series_ID=".$res[0]->series." AND Checked=1";
+			//echo $query;
+			$res3=(array) $nc_core->db->get_results($query);
+			for ($i=0; $i<count($res3); $i++) { //>
+				$tmp1=$res3[$i]->Value;
+			}
+			echo "<div class='col-md-6'><a href='/series/{$tmp1}/'>Посмотреть все ножи этой серии</a></div>";
+		}
+		if (($res[0]->model!="")&&($res[0]->model!=0)) {
+			$tmp1=$tmp2="";
+			$query="SELECT Vendor,model FROM Message57 WHERE Message_ID=".$res[0]->Message_ID." AND Checked=1";
+			$res3=(array) $nc_core->db->get_results($query);
+			for ($i=0; $i<count($res3); $i++) { //>
+				$tmp1=$res3[$i]->Vendor;
+				$tmp2=$res3[$i]->model;
+			}
+				echo "<div class='col-md-6' style='text-align:right;'><a href='/Manufacturer/Manufacturer-{$tmp1}/models/{$tmp2}/'>Посмотреть все ножи этой модели</a></div><br>";	
+		}
+?>
+		</div>
+		<br clear="both">
+		<p class='h3'>Характеристики:</p>
+		<table width="98%">
+		<tr>
+		<td valign='top' width='50%'>
+		<table class="table">
+		<tr><td width='60%'>Марка стали клинка:</td><td><b>
+			<?=listQuery("SELECT * FROM  Classificator_steel WHERE steel_ID=".$res[0]->steel." AND Checked=1", 
+				'$data[steel_Name]')?></b></td></tr>
+		<tr><td>Длина ножа (мм):</td><td> <b><?=$res[0]->knifelength?></b></td></tr>
+		<tr><td>Длина клинка (мм):</td><td> <b><?=$res[0]->klinoklength?></b></td></tr>
+		<tr><td>Длина рукояти (мм):</td><td> <b><?=$res[0]->hoselength?></b></td></tr>
+		<tr><td>Длина хвостовика (мм):</td><td> <b><?=$res[0]->Hvostlength?></b></td></tr>
+		<tr><td>Наибольшая ширина клинка (мм):</td><td> <b><?=$res[0]->klinokwide?></b></td></tr>
+		<tr><td>Толщина обуха (мм):</td><td> <b><?=$res[0]->obuh?></b></td></tr>
+		<tr><td>Твердость стали:</td><td><b><?=$res[0]->strong?></b></td></tr>
+		<!--tr><td>Тип&nbsp;замка:</td><td><b>
+			<?=listQuery("SELECT * FROM  Classificator_locktype WHERE locktype_ID=".$res[0]->locktype." AND Checked=1", 
+				'$data[locktype_Name]')?></b></td></tr-->
+		</table>
+		</td><td valign='top'>
+		<table  class="table">
+		<tr><td width='60%'>Вес (без ножен):</td><td> <b><?=$res[0]->weight?></b></td></tr>
+		<tr><td>Материал рукояти:</td><td><b><?=$res[0]->handle?></b></td></tr>
+		<tr><td>Материал ножен:</td><td><b><?=$res[0]->hose?></b></td></tr>
+		<tr><td>Страна&nbsp;изготовитель:</td><td><b>
+			<?=listQuery("SELECT * FROM  Classificator_Country WHERE Country_ID=".$res[0]->country." AND Checked=1", 
+				'$data[Country_Name]')?></b></td></tr>
+		<tr><td>Производитель:</td><td><b>
+			<?=listQuery("SELECT * FROM  Classificator_Manufacturer WHERE Manufacturer_ID=".$res[0]->Vendor." AND Checked=1", 
+				'$data[Manufacturer_Name]')?></b></td></tr>
+		<tr><td colspan='2'> <div class='share42init'></div>
+		<script type='text/javascript' src='http://folding-knives.ru/share42/share42.js'></script> </td></tr>
+		</table>
+		</td></tr></table>
+		<br />
+
+		<?=$res[0]->deliverytime?>
+
+		<p class='h3'>Изображения</p>
+		<?=((strlen($image_url1)>0) ? "<a target='_blank' href='".$image_url1."'><img src='".$image_url1."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img-rounded' width='200' /></a>" : "")?>
+		<?=((strlen($image_url2)>0) ? "<a target='_blank' href='".$image_url2."'><img src='".$image_url2."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img-rounded' width='200' /></a>" : "")?>
+		<?=((strlen($image_url3)>0) ? "<a target='_blank' href='".$image_url3."'><img src='".$image_url3."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img-rounded' width='200' /></a>" : "")?>
+		<?=((strlen($image_url4)>0) ? "<a target='_blank' href='".$image_url4."'><img src='".$image_url4."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img-rounded' width='200' /></a>" : "")?>
+		<?=((strlen($image_url5)>0) ? "<a target='_blank' href='".$image_url5."'><img src='".$image_url5."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img-rounded' width='200' /></a>" : "")?>
+
+		<?=(($res[0]->Details) ? "<p class='h3'>Описание</p>".$res[0]->Details : "")?>
+			
+		<?=(($res[0]->videobig) ? $res[0]->videobig : "")?>
+	
+		<?php
+		if ($res[0]->analog!="") {
+			echo "<p class='h3'>Предлагаем посмотреть другие изделия этой серии:</p>
+		</div>";
+			$tmp=explode(";",$res[0]->analog);
+			foreach($tmp as $t) {
+				if ($t!="") {
+					$query="SELECT m.Message_ID,m.Name,m.status,m.ItemID,m.Preview, m.Price, m.Status, m.StockUnits, CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+							FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+							WHERE s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`  AND m.ItemID='{$t}' AND m.Checked=1 ORDER BY m.ItemID DESC";
+							//echo $query;
+					$res1 = (array) $nc_core->db->get_results($query);
+					for ($i=0; $i<count($res1); $i++){
+						echo "<div class='col-md-4 itemcol'>";
+						echo printItemById5($res1[$i]->Message_ID,$res1[$i]->Subdivision_ID,$res1[$i]->Sub_Class_ID,$res1[$i]->ItemID,$res1[$i]->Name,$res1[$i]->URL,$res1[$i]->StockUnits,$res1[$i]->Preview,$res1[$i]->Price,$res1[$i]->status);
+						echo "</div>";
+					}
+				}
+			}
+			echo "<br clear=\"both\">
+	<div class=\"itemdesc\">";
+		} 
+		?>
+		
+		<div class="xsmall">
+			<p>Все ножи, представленные на сайте, изготовляются вручную, и поэтому возможны незначительные расхождения между фотографиями и вновь изготовленными изделиями. Если Вас заинтересовало данное изделие, напишите запрос и мы вышлем фотографию реального изделия, находящегося на нашем складе.</p>
+			<p>Все ножи, продаваемые в магазине Русские Ножи - это хозяйственные и разделочные ножи. Каждый нож имеет соответсвующий сертификат по ГОСТ Р 51644-2000 «Ножи разделочные и шкуросъемные» или ГОСТ Р 51501-99 «Ножи туристические и специальные спортивные».</p>
+			<p>Ножи можно посмотреть и купить в нашем офисе (понедельник – суббота)</p>
+			<p>Возможна курьерская доставка товара по Москве, в Санкт-Петербург и Ленинградскую область (*)</p>
+			<p>Доставка товара почтой РФ по всей территории России.</p>
+
+		</div>
+	</div>
+</div>
+<div class="col-md-3 rcol">
+	<div class="panel panel-default articul">
+		<div class="panel-heading">Артикул: <?=$res[0]->ItemID?></div>
+		<div class="panel-body">
+			<p class="h2 text-center price"><?=$Price?> руб.</p>
+			<?php
+				if ($res[0]->status=='2') {
+			?>
+				<form method="post" action="<?=$SUB_FOLDER.$HTTP_ROOT_PATH?>modules/netshop/post.php" role="form">
+					<input type="hidden" name="redirect_url" value="<?=$GLOBALS[uri_path]?>">
+					<input type="hidden" name="cart_mode" value="add">
+					<input type="hidden" name="cart[57][<?=$res[0]->Message_ID?>]" value="1"> 
+					<center>
+						<input type="submit" class='btn btn-success' value="в корзину">
+					</center>
+				</form>
+			<?php
+			}
+			?>
+			<br>
+			<p class="small text-center">Наличие:<br>
+			<?php
+				if ($res[0]->status==3) {
+					echo "нет";
+				}
+				if ($res[0]->status==2) {
+					echo "<strong><span style='color:#00BF1B;'>есть на складе</span></strong>";
+				}
+				if ($res[0]->status==1) {
+					echo "<strong><span style='color:#FF6803;'>под заказ</span></strong>";
+				}
+			?>	
+			</p>
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">Новые поступления</div>
+		<div class="panel-body">
+			<?php
+				$query = "SELECT * FROM Subdivision WHERE Parent_Sub_ID=366 AND Checked=1 ORDER BY Subdivision_ID DESC LIMIT 9";
+				$res0 = (array) $nc_core->db->get_results($query);
+				for ($j=0; $j<count($res0); $j++) {  
+					$where=$res0[$j]->Subdivision_Name;
+
+				//echo $where;
+					if ($where) {				
+						$query="SELECT * FROM Waybills WHERE id=".intval($where);
+						$res1 = (array) $nc_core->db->get_results($query);
+						for ($i=0; $i<count($res1); $i++) {  //>
+							echo "<div class=\"newarr\"><b class=\"small\"><a href='/new-arrivals/".intval($where)."/'>".date("d.m.Y",strtotime($res1[$i]->created))."</a></b><br>\n";
+							echo (($res1[$i]->title!="") ? "<a class=\"small\" href='/new-arrivals/".intval($where)."/'>".($res1[$i]->title)."</a>" : "");
+							echo (($res1[$i]->intro!="") ? "<div class=\"small\">".$res1[$i]->intro."</div>" : "");
+							echo "</div>\n";			
+						}
+					}
+				}	
+			?>
+		</div>
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">Для заточки ножей</div>
+		<div class="panel-body">
+			<p class="small"><a href="/Netshop/catalogue/accessuar/">Бруски алмазные:</a><br>
+				<a href="/Netshop/catalogue/accessuar/"><img class="img_preview" src="/netcat_files/140/175/DSC09967_thumb1.jpeg" alt="Алмазный брусок доводочный" width="145"></a></p>  
+			<p class="small"><a href="/Netshop/catalogue/accessuar/">LANSKY:</a>
+				<a href="/Netshop/catalogue/accessuar/"><img class="img_preview" src="/netcat_files/140/175/1816a.JPG" alt="LANSKY" width="145"></a></p> 
+			<hr>
+			<p class="small">Для оформления подарка</p>
+			<p class="small"><b>Подарочные коробки:</b>
+				<a href='http://www.russian-knife.ru/Netshop/catalogue/accessuar/'><img class='img_preview' src='http://www.russian-knife.ru/netcat_files/140/175/406_1.JPG' alt='Подарочная коробка' width=145></a></p>  
+			<p class="small"><a href='http://www.russian-knife.ru/Netshop/catalogue/accessuar/'>Купить подарочную коробку</a></p>
+			<hr>
+			<?=(($res[0]->additional) ? "<p class=\"small\">Дополнительные предложения</p><p class=\"small\"><b>{$res[0]->additional}</b></p>" : "")?>
+					
+		</div>
+	</div>
+
+	<div class="panel panel-info">
+			<div class="panel-heading">Главная новость</div>
+			<div class="panel-body">
+			<?php
+			$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=134 AND Sub_Class_ID=170
+									ORDER BY Priority DESC LIMIT 1";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+				?>
+				<div class="h5"><a href="/news/news_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+				<div><?=$r->Announce?></div>
+				<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+					
+			<?php
+			}	
+			?>
+			</div>
+			<div class="panel-footer"><a href="/news/" class="small">Все новости</a></div>
+			
+	</div>
+	<div class="panel panel-info">
+		<div class="panel-heading">Акции</div>
+		<div class="panel-body">
+			<?php
+				$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=136 AND Sub_Class_ID=863
+						ORDER BY Priority DESC LIMIT 2";
+				$res = (array) $nc_core->db->get_results($query);
+				$j=0;
+				foreach ($res as $r) {
+			?>
+					<div>
+					<div class="h5"><a href="/special-offer/actions_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+					<?=$r->Announce?>
+					<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+					<?=(($j==0) ? "<hr>" : "")?>
+					</div>
+			<?php
+					$j=$j+1;
+				}	
+			?>
+			
+		</div>
+	</div>
+
+</div>
+<?php
+} else {
+	// show catalog page
+	//echo $newsub;
+	if ($newsub==0) {	
+	?>
+		<div class='col-md-9 rcolw'>
+		
+			<div style="padding:20px;">
+				<div class="xsmall">
+					<?=nc_browse_path($bcrumps)?>
+				</div>
+				<p class='h1'><?=$current_sub['Subdivision_Name']?></p>
+			</div>
+			
+	<?
+		if ($sub==1720) {
+			echo  "<div>
+		<div>
+		<p class='h2'>Новинки</p>";
+			$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+						FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+						  LEFT JOIN Message57 as parent
+							ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+						  
+						WHERE m.`Checked`=1 AND m.`Status`=2 AND m.showrkfive=1
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID` AND m.additcharacter NOT LIKE '%,16,%'
+									AND m.new=1 ORDER BY m.Status ASC,m.Name ASC";
+			$res1 = (array) $nc_core->db->get_results($query);
+			if (count($res1)>0) { 
+				for ($i=0;$i<count($res1); $i++) { 
+					echo "<div class='col-md-3 itemcolb'>";
+					echo printItemById5($res1[$i]->Message_ID,$res1[$i]->Subdivision_ID,$res1[$i]->Sub_Class_ID,$res1[$i]->ItemID,$res1[$i]->Name,$res1[$i]->URL,$res1[$i]->StockUnits,$res1[$i]->Image,$res1[$i]->Price,$res1[$i]->status);
+					echo "</div>";		
+				}
+			}
+			echo  "<br clear='both'>
+			<p class='h2'>Специальные предложения</p>";
+			$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+						FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+						  LEFT JOIN Message57 as parent
+							ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+						  
+						WHERE m.`Checked`=1 AND m.`Status`=2 AND m.showrkfive=1
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID` AND m.additcharacter NOT LIKE '%,16,%'
+									AND m.special=1 ORDER BY m.Status ASC,m.Name ASC";
+
+			$res1 = (array) $nc_core->db->get_results($query);
+			if (count($res1)>0) { 
+				for ($i=0;$i<count($res1); $i++) { 
+					echo "<div class='col-md-3 itemcolb'>";
+					echo printItemById5($res1[$i]->Message_ID,$res1[$i]->Subdivision_ID,$res1[$i]->Sub_Class_ID,$res1[$i]->ItemID,$res1[$i]->Name,$res1[$i]->URL,$res1[$i]->StockUnits,$res1[$i]->Image,$res1[$i]->Price,$res1[$i]->status);
+					echo "</div>";		
+				}
+			}
+		//echo "</div>";
+		} else {
+	?>
+		<div class='panel panel-info'>
+			<div class='panel-body'>
+	<?php
+		}
+	} else {
+	?>
+		<div class='col-md-9 rcolw'>
+			<div style="padding:20px;">
+				<div class="xsmall">
+					<?=nc_browse_path($bcrumps)?>
+				</div>
+				<p class='h1'><?=$current_sub['Subdivision_Name']?></p>
+			</div>
+		<?php
+		$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+						FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+						  LEFT JOIN Message57 as parent
+							ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+						  
+						WHERE m.`Checked`=1 AND m.`Status`=2 AND m.showtop=1
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID` AND m.additcharacter NOT LIKE '%,16,%'
+									AND m.Subdivision_ID={$newsub} ORDER BY RAND() LIMIT 2";
+		//echo $query;
+		$res1 = (array) $nc_core->db->get_results($query);
+		//print_r($res1);
+		if (count($res1)>0) { 
+			//echo "<div class=\"row\">";
+			for ($i=0;$i<count($res1); $i++) { 
+				echo "<div class='col-md-6 itemcolb'>";
+				echo printItemById5b($res1[$i]->Message_ID,$res1[$i]->Subdivision_ID,$res1[$i]->Sub_Class_ID,$res1[$i]->ItemID,$res1[$i]->Name,$res1[$i]->URL,$res1[$i]->StockUnits,$res1[$i]->Image,$res1[$i]->Price,$res1[$i]->status);
+				echo "</div>";		
+			}
+			//echo "</div>";
+		}
+		$orstr="ORDER BY m.Status ASC, m.Name ASC";
+		$sql="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+						FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+						  LEFT JOIN Message57 as parent
+							ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+						  
+						WHERE m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID` AND m.additcharacter NOT LIKE '%,16,%'
+							AND m.`Subdivision_ID`={$newsub}
+						{$orstr} ";
+		$res = (array) $nc_core->db->get_results($sql);
+		echo "<br clear=\"both\"><p>Всего товаров: ".count($res)."</p>";
+		for ($i=0;$i<count($res); $i++) { // >	
+			echo "<div class='col-md-3 itemcol'>";
+			echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+			echo "</div>";
+		}
+		?>
+		</div>
+		<?php
+	}
+}
+?>

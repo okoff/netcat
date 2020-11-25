@@ -1,0 +1,141 @@
+<?php
+//echo $sub;
+// Cart
+if (strstr($_SERVER['REQUEST_URI'],'cart')) {
+echo "<h1>".$template_settings[page_main_header]."</h1><br>
+<h1>Ваша корзина</h1><br>
+";
+
+$has_discounts = ($shop->TotalDiscountSum != $shop->CartDiscountSum);
+
+if ($shop->CartCount()) {
+    $result .= "<form method='post' action='/modules/netshop/post.php' class='cart_contents' id='netshop_cart_contents'>
+                    <input type=hidden name='redirect_url' value='$_SERVER[REQUEST_URI]'>";
+
+
+
+    $result .= "<table border='0' cellspacing='0' cellpadding='0' width='100%'>
+         <tr>
+          <th class='name' width='35%'>".NETCAT_MODULE_NETSHOP_ITEM."</th>".
+            ($has_discounts ? "<th>".NETCAT_MODULE_NETSHOP_DISCOUNT."</th>" : "").
+            "<th>".NETCAT_MODULE_NETSHOP_ITEM_PRICE."</th>".
+            "<th width='10%'>".NETCAT_MODULE_NETSHOP_QTY."</th>".
+            "<th>".NETCAT_MODULE_NETSHOP_COST."</th>".
+            "<th>".NETCAT_MODULE_NETSHOP_ITEM_DELETE."</th></tr>";
+
+    $i = 0;
+    foreach ($shop->CartContents as $row) {
+        $result .= "<tr class='".(++$i % 2 ? "odd" : "even")."' align='center'>
+        <td class='name'><a href='/knives/knife_{$row['Message_ID']}.html' target='_blank'>{$row['Name']}</a>";
+        if ($has_discounts) {
+            if ($row['OriginalPrice'] - $row['ItemPrice']) {
+                $result .= "<td>".$shop->FormatCurrency($row['OriginalPrice'] - $row['ItemPrice'])."</td>";
+            } else {
+                $result .= "<td>&mdash;</td>";
+            }
+        }
+
+
+        $result .= "<td>{$row['ItemPriceF']}</td>
+                <td class='qty'><input type='text' size='2' name='cart{$row['RowID']}' value='{$row['Qty']}'> {$row['Units']}</td>
+                <td>{$row['TotalPriceF']}</td>
+                <td><input type='checkbox' name='cart{$row['RowID']}' value='-1'></td>
+                </tr>";
+    }
+    if ($shop->CartDiscounts) {
+        foreach ($shop->CartDiscounts as $discount) {
+            $result .= "<tr align='center' class='cart_discount'><td colspan='".
+                    ($has_discounts ? 4 : 3)."' class='name'>
+                            <b>{$discount['Name']}</b>".
+                    ($discount['Description'] ? "<br>{$discount['Description']}" : "").
+                    "</td><td>".($discount['Sum'] > 0 ? "-" : "")."{$discount['SumF']}</td>
+                         <td>&nbsp;</td></tr>\n";
+        }
+    }
+
+    $result .= "<tr align='center' class='totals'><td colspan='".
+            ($has_item_discounts ? 4 : 3)."' class='name'>".NETCAT_MODULE_NETSHOP_SUM."</td><td>".
+            ($shop->FormatCurrency($shop->CartSum()))."</td><td>&nbsp;</td></tr>";
+
+    if (ini_get("session.use_trans_sid")) {
+        $sname = session_name();
+        $sid = "?$sname=$GLOBALS[$sname]";
+    } else {
+        $sid = "";
+    }
+
+    $result .= "</table>";
+    $result .= "<div class='cart_buttons'>
+         <input type='submit' value='".NETCAT_MODULE_NETSHOP_REFRESH."'>
+         <input type='button' onclick='window.location=\"{$GLOBALS[NETSHOP][Netshop_OrderURL]}$sid\"' value='".NETCAT_MODULE_NETSHOP_CART_CHECKOUT."'>
+         <input type='button' onclick='window.location=\"?ClearCart=1\"' value='Очистить корзину'>
+       </div>
+      </form>";
+} else {
+    $result .= NETCAT_MODULE_NETSHOP_CART_EMPTY;
+}
+ 
+echo $result;
+}
+if (strstr($_SERVER[REQUEST_URI], "/netcat/modules/auth/password_recovery.php")) {
+	include("/netcat/modules/auth/password_recovery.php");
+}
+
+
+if ($sub==258) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=1 ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+if ($sub==259) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND steel=28  ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+if ($sub==260) {
+	$query = "SELECT Message_ID, Name, ItemID, Price, Preview, Image FROM Message57 WHERE Vendor=14 AND Subdivision_ID=147  ORDER BY Name";
+	$res = (array) $nc_core->db->get_results($query);
+}
+
+if ((is_array($res)) && (($sub==258) || ($sub==259) || ($sub==260))) {
+	foreach ($res as $r) {
+		//print_r($r);
+		$image_arr = explode(":", $r->Preview);
+		$image_url = "/netcat_files/".$image_arr[3];
+		$image_arr1 = explode(":", $r->Image);
+		$image_url1 = "/netcat_files/".$image_arr1[3];
+		echo "<div class='item'><p class='aligncenter'><a href='/knives/knife_{$r->Message_ID}.html'><strong>{$r->Name}</strong></a></p>
+	<div class='whitebox'><a href='/knives/knife_{$r->Message_ID}.html'><img src='{$image_url}' alt='' width='200' style='border:0;' /></a>
+	<a class='libox' href='{$image_url1}'><img src='/images/91/zoom.png' alt='увеличить' style='border:0;' /></a><br></div>
+	<p class='price'>{$r->Price}&nbsp;руб.</p></div>";
+	}
+}
+
+
+?>
+</td>
+</tr>
+</table>
+		</div>
+		<div id='footer'>
+			<table cellpadding='0' cellspacing='0' border='0' width='99%'>
+			<tr><td align='left' valign='top' width='40%'>
+				<p>&copy; 2013 г. <a href="/">Купить ножи Пампухи Игоря Юрьевича в Москве</a></p>
+			</td><td align='left' valign='top' width='50%'><p>Телефоны: +7 (495) 225-54-92, 225-76-84, +7 (916) 061-11-22 (моб.) </p>
+				        
+			</td><td align='right' valign='top' width='10%'><p>
+				<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t26.2;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число посетителей за"+
+" сегодня' "+
+"border='0' width='88' height='15'><\/a>")
+//--></script><!--/LiveInternet--></p>
+			</td></tr>
+			</table><br><br>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+%Header
+<div class='col-md-9 rcolw'>
+<div style="padding:0 20px;">
+<p class="h1"><?=$nc_core->page->get_h1()?></p>
+<?php							
+
+	echo "<table cellpadding='0' cellspacing='0' border='1' width='96%' style='margin:0 auto;'>";							
+							//echo "<tr><td colspan='7'><p class='hh2'>".$categories[$k]["name"]."</p>";
+	$query = "SELECT m.Name,m.ItemID,m.Price,m.Status,CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		WHERE m.Checked=1 AND s.`Subdivision_ID` = m.`Subdivision_ID`
+		AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+		AND u.`Subdivision_ID` = m.`Subdivision_ID` 
+		AND m.Subdivision_ID NOT IN (153,161,102,139,280, 108,154,155,149,162,195)  AND m.additcharacter NOT LIKE '%,16,%' AND m.showrkfive=1
+							
+		ORDER BY ItemID ASC";
+	
+							//echo $query;
+
+	$res = (array) $nc_core->db->get_results($query);
+	echo "<tr><td style='padding:3px;'><b>Артикул</b></td><td style='padding:3px;'><b>Статус</b></td><td style='padding:3px;'><b>Название</b></td><td style='padding:3px;'><b>Цена,&nbsp;руб.</b></td></tr>
+		";
+	$i=0;
+	$disquery="SELECT Name, Description, UserGroups, Goods, ValidFrom, ValidTo, `Condition`,
+                 Function, FunctionDestination, FunctionOperator, StopItem
+            FROM Message54
+           WHERE AppliesTo = 1
+             AND ((ValidFrom IS NULL AND ValidTo IS NULL) OR
+                  (ValidFrom <= NOW() AND ValidTo >= NOW()))
+             AND Checked = 1
+			 
+           ORDER BY Priority DESC";	
+	$disres=(array) $nc_core->db->get_results($disquery);	
+							
+	for ($i=0; $i<count($res); $i++) { 	// >
+		$disco=0;
+							
+		for ($j=0; $j<count($disres); $j++){
+							//echo strpos($disres[$j]->Goods,"57:".$res[$i]->Message_ID.",");
+			$tmp=explode(",", $disres[$j]->Goods);
+			foreach ($tmp as $t) {
+				if ($t=="57:".$res[$i]->Message_ID) {
+					if ($disres[$j]->FunctionOperator=="*=") {
+						$disco=$res[$i]->Price*$disres[$j]->Function;
+						break;
+					}
+					if ($disres[$j]->FunctionOperator=="-=") {
+						$disco=$res[$i]->Price-$disres[$j]->Function;
+						break;
+					}
+				}
+			}
+		}
+		echo "<tr><td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->ItemID."</a>&nbsp;</td>
+		<td style='padding:3px;white-space: nowrap; ".$bg."'>".(($res[$i]->Status==1) ? "под заказ" : "").(($res[$i]->Status==2) ? "на&nbsp;складе" : "").(($res[$i]->Status==3) ? "нет" : "")."</td>
+		<td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->Name."</a></td>
+		<td style='padding:3px;text-align:right;white-space:nowrap;'>".(($disco)? $disco." <strike>".$res[$i]->Price."</strike>" : $res[$i]->Price)."</td></tr>";
+	}
+
+							
+							
+// get image url
+//$image_arr = explode(":", $res[0]->Image);
+//$image_url = "/netcat_files/".$image_arr[3];
+						
+
+echo "</table>";	
+
+?>
+<br>

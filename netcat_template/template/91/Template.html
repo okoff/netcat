@@ -1,0 +1,97 @@
+<!-- Header --><!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Ножи Пампухи Игоря Юрьевича</title>
+	<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+	<link rel='stylesheet' type='text/css' media='all' href='/images/91/style.css' />
+	
+	<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+    <script type='text/javascript' src='/js/jquery.js'></script>
+    <script type='text/javascript' src='/js/jquery.lightbox-0.5.js'></script>
+    <link rel='stylesheet' type='text/css' href='/css/jquery.lightbox-0.5.css' media='screen' />
+    <!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+	<script type='text/javascript'>
+    $(function() {
+        $('a.libox').lightBox();
+    });
+    </script>
+</head>
+<body>
+	<div id='wrap'>
+		<div id='sname'>
+			<a href='/'><img src='/images/91/logo.jpg' alt='Ножи Пампухи Игоря Юрьевича' style='border:0;' /></a>
+			<br />
+			<h1>Пампуха Игорь Юрьевич</h1>
+			<p><h2>Купить ножи у официального представителя в Москве</h2></p>
+		</div>
+		<br class='clear' />
+		<div id='context'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+	<td width='200' valign='top'>
+	<div id='lmenu'>
+<div class='whitebox'>
+<div style='padding:0 10px;'>
+<p><b>Булатные ножи:</b></p>
+<ul>
+	<li><a href='/bulat-legirovanii'>легированный булат</a></li>
+	<li><a href='/bulat-nerj.html'>нержавеющий булат</a></li>
+</ul>
+
+<p><b>Авторские ножи:</b></p>
+<ul>
+	<li><a href='/avtor-damassk.html'>мозаичный дамаск</a></li>
+	<li><a href='/avtor-bulat.html'>булат</a></li>
+	<li><a href='/avtor-composicii.html'>композиции</a></li>
+</ul>
+</div>
+<br />
+</div>	
+
+<a href="/contacts"><strong>Контакты</strong></a>
+
+<br><br><br>	
+		</div>
+	</td>
+	<td valign='top'>
+		<div id='rcontent'>
+<?php
+if ($sub==258) {
+	$query = "SELECT Message_ID, Name, ItemID, Price FROM Message57 WHERE Vendor=14 AND steel=1";
+	$res = (array) $nc_core->db->get_results($query);
+	print_r($res);
+}
+
+
+?><!-- /Header -->
+
+<!-- Footer -->		
+		</div>
+	</td>
+</tr>
+</table>
+		</div>
+		<div id='footer'>
+			<table cellpadding='0' cellspacing='0' border='0' width='99%'>
+			<tr><td align='left' valign='top' width='40%'>
+				<p>&copy; 2013 г. <a href="/">Купить ножи Пампухи Игоря Юрьевича в Москве</a></p>
+			</td><td align='left' valign='top' width='50%'><p>Телефоны: +7 (495) 225-54-92, 225-76-84, +7 (916) 061-11-22 (моб.) </p>
+				        
+			</td><td align='right' valign='top' width='10%'><p>
+				<!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t26.2;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet: показано число посетителей за"+
+" сегодня' "+
+"border='0' width='88' height='15'><\/a>")
+//--></script><!--/LiveInternet--></p>
+			</td></tr>
+			</table><br><br>
+		</div>
+	</div>
+</body>
+</html><!-- /Footer -->

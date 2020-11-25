@@ -1,0 +1,140 @@
+<?php
+
+if (!class_exists("nc_System")) die("Unable to load file.");
+
+/**
+ * Реализация файлового кэша
+ */
+class nc_cache_io_memcache extends nc_cache_io {
+
+    protected $memcache;
+    protected $host, $port;
+
+    protected function __construct() {
+        parent::__construct();
+
+        $this->set_server($settings['Memcached_Host'], $settings['Memcached_Port']);
+        // проверка наличия расширения
+        if (!class_exists('Memcache')) {
+            throw new Exception(NETCAT_MODULE_CACHE_ADMIN_SETTINGS_MEMCACHED_DOESNT_EXIST);
+        }
+        $this->memcache = new Memcache();
+        // соединение с сервером
+        if (!@$this->memcache->connect($this->host, $this->port)) {
+            throw new Exception(NETCAT_MODULE_CACHE_ADMIN_SETTINGS_MEMCACHED_ERROR);
+        }
+    }
+
+    /**
+     * Получение экземпляра класса
+     * @static
+     * @return <type>
+     */
+    public static function get_object($settings) {
+        // call as static
+        static $storage;
+        // check inited object
+        if (!isset($storage)) $storage = new self($settings);
+
+        // return object
+        return is_object($storage) ? $storage : false;
+    }
+
+    /**
+     * Установить сервер
+     *
+     * @param string $host хост
+     * @param int $port порт
+     */
+    public function set_server($host, $port) {
+        // данные по умолчанию
+        if (!$host) $host = 'localhost';
+        $port = intval($port);
+        //if ( !$port ) $port = 11211;
+
+        $this->host = $host;
+        $this->port = $port;
+    }
+
+    /**
+     * Добавлние в кэш данных
+     *
+     * @param string $key ключ
+     * @param string $value значние
+     *
+     * @return int размер записанных данных, байты
+     */
+    public function add($key, $value) {
+        if (!$this->memcache->add($key, $value)) {
+            $this->memcache->replace($key, $value);
+        }
+
+        return strlen($value);
+    }
+
+    /**
+     * Чтение данных из кэша
+     *
+     * @param string $key ключ
+     *
+     * @return mixed данные из кэша или false, если их нет
+     */
+    public function read($key) {
+        return $this->memcache->get($key);
+    }
+
+    /**
+     * Удаление определенной кэш-записи
+     *
+     * @param string $key ключ
+     *
+     * @return int количество удаленных байт
+     */
+    public function delete($key) {
+        $size = $this->get_size($key);
+        $this->memcache->delete($key);
+
+        return $size;
+    }
+
+    /**
+     * Очистка кэша
+     */
+    public function drop() {
+        $this->memcache->flush();
+    }
+
+    /**
+     * Количество занимаемого места определенной кэш-записи
+     *
+     * @param string $key ключ
+     *
+     * @return int размер
+     */
+    public function get_size($key) {
+        return strlen($this->read($key));
+    }
+
+    /**
+     * Получение статистики определенного кэша
+     *
+     * @param string $essence тип кэша
+     *
+     * @return int размер кэша
+     */
+    public function get_stat($essence) {
+        return $this->read('netcat_stat_'.$essence);
+    }
+
+    /**
+     * Обновить статистику
+     *
+     * @param string $essence тип кэша
+     * @param int  $size количество прибавляемых байтах
+     */
+    public function update_stat($essence, $size) {
+        $current = $this->read('netcat_stat_'.$essence);
+        $this->add('netcat_stat_'.$essence, $current + $size);
+    }
+
+}

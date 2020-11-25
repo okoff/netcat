@@ -1,0 +1,74 @@
+%Header
+
+<div class="col-md-9 rcolw">
+<div style="padding:20px;">
+<div class="xsmall"><?=nc_browse_path($bcrumps)?></div>
+<?
+
+$url=explode("/",$_SERVER['REQUEST_URI']);
+//print_r($url);
+//echo "<!--p class='hh2'>".$current_sub[Subdivision_Name]."</p-->";
+$where="";
+
+if ($url[2]=="") {
+	echo "<p class='hh2'>".$current_sub['Subdivision_Name']."</p>";
+	$query="SELECT * FROM Waybills WHERE onsite=1 ORDER BY id DESC";
+	$res = (array) $nc_core->db->get_results($query);
+	for ($i=0; $i<count($res); $i++) {  //>
+echo "<p>".date("d.m.Y",strtotime($res[$i]->created))."</p>";
+		echo (($res[$i]->title!="") ? "<p><strong><a href='/new-arrivals/".($res[$i]->id)."/'>".($res[$i]->title)."</a></strong></p>" : "");
+		echo (($res[$i]->intro!="") ? $res[$i]->intro : "");
+		echo "<br>";
+	}
+
+	echo "</div>";
+} else {
+	$query="SELECT * FROM Waybills WHERE id=".intval($url[2]);
+	
+	$res = (array) $nc_core->db->get_results($query);
+
+	for ($i=0; $i<count($res); $i++) {  //>
+		echo "<p class='h2'>".date("d.m.Y",strtotime($res[$i]->created))."</p>";
+		echo (($res[$i]->title!="") ? "<p class='h2'>".($res[$i]->title)."</p>" : "");
+		echo (($res[$i]->description!="") ? $res[$i]->description."<br>" : "");
+	}
+	
+	$query="SELECT * FROM Waybills_goods
+			   WHERE waybill_id=".intval($url[2])."
+			   ORDER BY id ASC";
+
+	$res = (array) $nc_core->db->get_results($query);
+
+	for ($i=0; $i<count($res); $i++) {  //>
+		$where.=(($where) ? " OR " : "")." m.Message_ID=".$res[$i]->item_id;
+	}
+	//echo $where."<br>";
+	$query="SELECT * FROM Message57 WHERE ".$where;
+	$query="SELECT Name, ItemID, Subdivision_ID, Sub_Class_ID, Status,StockUnits
+			FROM Message57
+			WHERE Status=2 AND (".$where.") AND StockUnits>0
+			ORDER BY Status ASC, Name ASC";				$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+                FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+                  LEFT JOIN Message57 as parent
+                    ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+                  
+                WHERE m.`status`=2 AND m.`Checked`=1 AND m.showrkfive=1
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+					AND (".$where.") AND m.StockUnits>0
+			ORDER BY m.Status ASC, m.Name ASC";			
+//echo "<!--".$query."-->";
+	$res = (array) $nc_core->db->get_results($query);
+	echo "<p>Всего товаров: ".count($res)."</p>";
+	echo "</div>";
+	for ($i=0;$i<count($res); $i++) { // >	
+		echo "<div class='col-md-3 itemcol'>";
+		echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+		echo "</div>";	
+	}							
+}							
+
+?>
+		
+</div>

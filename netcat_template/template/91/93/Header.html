@@ -1,0 +1,46 @@
+%Header
+<?php
+if (is_numeric($_GET['f_articul'])) {
+$query = "SELECT * FROM Message57 WHERE Message_ID=".(int)$_GET['f_articul'];
+
+$res = (array) $nc_core->db->get_results($query);
+//print_r($res);
+//echo "<br>";
+echo "<h2>Заказ ножа ".$res[0]->Name."</h2>";
+?>
+
+<script>
+function checkForm() {
+	if ((document.forms["frm1"]["f_fam"].value==null || document.forms["frm1"]["f_fam"].value=="") ||
+		(document.forms["frm1"]["f_name"].value==null || document.forms["frm1"]["f_name"].value=="") ||
+		(document.forms["frm1"]["f_phone"].value==null || document.forms["frm1"]["f_phone"].value==""))	{
+		alert("Вы не заполнили обязательниые поля в форме!");
+		return false;
+	}
+	return true;
+}
+</script>	
+
+<form action="/order-send.php" name="frm1" id="frm1" onsubmit="return checkForm();" method="post"  style="border:0;">
+<fieldset style="border:0;">
+<input type="hidden" name="f_articul" id="f_articul" value="<?php echo $_GET['f_articul']; ?>" />
+<table>
+<tr><td>Фамилия:</td><td><input type="text" name="f_fam" id="f_fam" /><span class="red">*</span></td></tr>
+<tr><td>Имя:</td><td><input type="text" name="f_name" id="f_name" /><span class="red">*</span></td></tr>
+<tr><td>Отчество:</td><td><input type="text" name="f_otch" id="f_otch" /></td></tr>
+<tr><td>Телефон:</td><td><input type="text" name="f_phone" id="f_phone" /><span class="red">*</span></td></tr>
+<tr><td>e-mail:</td><td><input type="text" name="f_email" id="f_email" /></td></tr>
+<tr><td>Адрес доставки:</td><td><input type="text" name="f_address" id="f_address" size="90" /></td></tr>
+<tr><td>Комментарий:</td><td><textarea name="f_comm" id="f_comm" cols="70"></textarea></td></tr>
+<tr><td><img src="/CaptchaSecurityImages.php?width=100&height=40&characters=5" /></td><td>
+<label for="security_code">Введите цифры с картинки: </label><input id="security_code" name="security_code" type="text" /></td></tr>
+<tr><td colspan="2"><input type="submit" class="btn_submit" /></td></tr>
+</table>
+</fieldset>
+</form>
+<p style="font-size:10px;"><span class="red">*</span> обязательно для заполнения</p>
+<?php
+} else {
+	echo "<h1 class='red'>Для заказа нужно выбрать нож!</h1>";
+}
+?>

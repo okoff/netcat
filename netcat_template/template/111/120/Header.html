@@ -1,0 +1,58 @@
+%Header
+<div class='col-md-9 rcolw'>
+<div style="padding:0 20px;">
+
+<?php
+$url=$nc_core->url->get_parsed_url();
+if ((strpos($url['path'],".html"))&&(strpos($url['path'],"cart.html")==0)) {
+	// article
+	$hidden_url="";
+	$engname="";
+	$mesid="";
+	$tmp=explode("/",$url['path']);
+	for ($j=0;$j<count($tmp)-1;$j++) {
+		$hidden_url.=$tmp[$j]."/";
+	}
+	$tmp1=explode("_",$tmp[count($tmp)-1]);
+	$engname=$tmp1[0];
+	$tmp2=explode(".",$tmp1[1]);
+	$mesid=intval($tmp2[0]);
+	$sql="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message23` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message23 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND u.Hidden_URL LIKE '{$hidden_url}' AND s.EnglishName LIKE '{$engname}' AND m.Message_ID={$mesid}";
+	//echo $sql;
+	$res = (array) $nc_core->db->get_results($sql);
+	echo "<p class=\"h1\">{$res[0]->Title}</p>";
+	echo $res[0]->Text;
+							
+} else {
+	echo "<p class=\"h1\">{$nc_core->page->get_h1()}</p>";
+	// list of articles
+	$sql="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message23` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message23 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+		ORDER BY Message_ID DESC";
+							
+							//AND u.Hidden_URL LIKE '{$hidden_url}' AND s.EnglishName LIKE '{$engname}' AND m.Message_ID={$mesid}";
+	//echo $sql;
+	$res = (array) $nc_core->db->get_results($sql);
+	foreach ($res as $r) {
+?>
+		<div>
+		<div class="h4"><a href="/articles/articles_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+		<?=$r->Announce?>
+		</div>
+		<br>
+<?php
+	}	
+}
+?>

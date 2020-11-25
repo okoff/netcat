@@ -1,0 +1,201 @@
+<?php
+
+/* $Id: task.php 8366 2012-11-07 16:30:14Z aix $ */
+
+/**
+ * Задача переиндексатора: хранит состояние сессии переиндексации
+ */
+class nc_search_indexer_task extends nc_search_data_persistent {
+
+    protected $table_name = "Search_Task";
+    protected $links;
+   // nc_search_indexer_link_manager
+    protected $options = array(
+            'id' => null,
+            'area' => null, // nc_search_area
+            'disallowed' => null, // nc_search_area
+            'rule_id' => null, // integer|null
+            'token' => null, // для предотвращения конфликтов при неправильном запуске переинедксации "из веба"
+            'last_activity' => null, // timestamp (integer)
+            'start_time' => null, // timestamp (integer)
+            'total_processed' => 0, // number of indexed documents
+            'total_checked' => 0, // number of checked links
+            'total_not_found' => 0, // number of 'broken' links
+            'total_deleted' => 0, // number of deleted documents
+    );
+    protected $mapping = array(
+            'id' => 'Task_ID',
+            '_generate' => true,
+    );
+    protected $serialized_options = array("area", "disallowed");
+
+    /**
+     *
+     */
+    public function __construct(array $values = null) {
+        $this->links = new nc_search_indexer_link_manager();
+        $this->set('start_time', time());
+        $this->set('token', rand(-2147483647, 2147483647));
+        parent::__construct($values);
+    }
+
+    /**
+     * 
+     */
+    public function set($option, $value, $add_new_option = false) {
+        if ($option == 'area' && !($value instanceof nc_search_area)) {
+            $value = new nc_search_area($value);
+        }
+        if ($option == 'rule_id' && $value) {
+            // обновить время последнего запуска в свойствах правила
+            $rule = new nc_search_rule;
+            $rule->load($value)->set('last_start_time', $this->get('start_time'))->save();
+        }
+        return parent::set($option, $value, $add_new_option);
+    }
+
+    /**
+     *
+     */
+    public function increment($option) {
+        $this->options[$option]++;
+        return $this;
+    }
+
+    /**
+     *
+     * @param array $urls
+     * @param string $referrer
+     * @return nc_search_indexer_task
+     */
+    public function add_links(array $urls, $referrer = null) {
+        return $this->links->add_links($urls, $referrer);
+    }
+
+    /**
+     * 
+     */
+    public function add_link($url, $referrer = null) {
+        return $this->links->add_link($url, $referrer);
+    }
+
+    /**
+     *
+     */
+    public function get_links_as_string() {
+        return $this->links->get_all_urls();
+    }
+
+    /**
+     * Возвращает следующую необработанную ссылку
+     * @return nc_search_indexer_link|null
+     */
+    public function get_next_link() {
+        return $this->links->get_next_link();
+    }
+
+    /**
+     * @return nc_search_rule|NULL
+     */
+    public function get_rule() {
+        if ($this->get('rule_id')) {
+            $rule = new nc_search_rule();
+            return $rule->load($this->get('rule_id'));
+        }
+        return null;
+    }
+
+    /**
+     * Входит ли данная страница в задачу по индексированию?
+     * @param string $url
+     * @return boolean
+     */
+    public function should_index($url) {
+        return $this->get('area')->includes($url);
+    }
+
+    /**
+     * Запрещён ли указанный путь к индексированию?
+     * @param string $url
+     * @return boolean
+     */
+    public function is_url_disallowed($url) {
+        if (!$this->get('disallowed')) {
+            $this->set('disallowed', $this->get_disallowed_areas());
+        }
+        return $this->get('disallowed')->includes($url);
+    }
+
+    /**
+     *
+     */
+    protected function get_disallowed_areas() {
+        $disallowed = array();
+
+        // (1) robots.txt
+        if (nc_search::should('CrawlerObeyRobotsTxt')) {
+            $disallowed = $this->get_robots_txt_area_parts();
+        }
+
+        // (2) Settings (ExcludeUrlRegexps)
+        $regexps = preg_split("/\s*\n/u", nc_search::get_setting('ExcludeUrlRegexps'), -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($regexps as $regexp) {
+            $regexp = "@".addcslashes($regexp, "@")."@u";
+            $disallowed[] = new nc_search_area_regexp(array('regexp' => $regexp));
+        }
+
+        // done
+        return new nc_search_area($disallowed);
+    }
+
+    /**
+     * 
+     */
+    protected function get_robots_txt_area_parts() {
+        $disallowed = array();
+        $robots_parser = new nc_search_robots;
+        $site_ids = array_keys(nc_Core::get_object()->catalogue->get_all());
+
+        foreach ($site_ids as $site_id) {
+            $site_area = array(new nc_search_area_site(array('site_id' => $site_id)));
+            $robots = $robots_parser->get_directives($site_id);
+            $all = array();
+            foreach ($robots["allow"] as $url) {
+                $all[$url] = true;
+            }
+            foreach ($robots["disallow"] as $url) {
+                $all[$url] = false;
+            }
+            ksort($all);
+
+            foreach ($all as $url => $is_excluded) {
+                $url = rawurldecode($url);
+                if (strpos($url, "*") !== false || strpos($url, "$") !== false) {
+                    $regexp = preg_quote($url, '@');
+                    $regexp = str_replace("\*", ".+", $regexp);
+                    $regexp = str_replace("\\$", "$", $regexp);
+                    $disallowed[] = new nc_search_area_regexp(
+                                    array('regexp' => "@$regexp@u",
+                                            'is_excluded' => $is_excluded,
+                                            'sites' => $site_area));
+                } else {
+                    $disallowed[] = new nc_search_area_page(
+                                    array('url' => $url,
+                                            'is_excluded' => $is_excluded,
+                                            'include_descendants' => true,
+                                            'sites' => $site_area));
+                }
+            }
+        }
+        return $disallowed;
+    }
+
+    /**
+     *
+     */
+    public function save() {
+        $this->set('last_activity', time());
+        return parent::save();
+    }
+
+}

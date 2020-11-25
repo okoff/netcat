@@ -1,0 +1,19 @@
+%Header
+<div class='col-md-9 rcolw'>
+<?php
+if (isset($current_user)) {
+	$url="/profile/profile_".$current_user['User_ID'].".html";
+	echo '<script type="text/javascript">'; 
+	echo 'window.location.href="'.$url.'";'; 
+	echo '</script>'; 
+} else {
+?>
+<div class="panel panel-info">
+	<div class='panel-heading'><?=$nc_core->page->get_h1()?></div>
+	<div class='panel-body'>
+		<?=$nc_auth->auth_form()?>
+	</div>
+</div>
+<?php
+}
+?>

@@ -1,0 +1,41 @@
+<?php
+$newsub=0;
+switch ($current_sub['Subdivision_ID']) {
+	case 1721: $newsub=141; break;	
+	case 1722: $newsub=103; break;
+	case 1723: $newsub=138; break;
+	case 1724: $newsub=102; break;
+	case 1725: $newsub=139; break;
+	case 1726: $newsub=106; break;
+	case 1727: $newsub=109; break;
+	case 1728: $newsub=147; break;
+	case 1729: $newsub=140; break;
+	case 1730: $newsub=151; break;
+	case 1731: $newsub=157; break;
+	case 1732: $newsub=280; break;
+	case 1733: $newsub=108; break;
+	case 1734: $newsub=154; break;
+	case 1735: $newsub=155; break;
+	case 1736: $newsub=131; break;
+	case 1737: $newsub=149; break;
+	case 1738: $newsub=162; break;
+	case 1739: $newsub=195; break;
+	case 1740: $newsub=355; break;
+	case 1741: $newsub=289; break;
+	case 1742: $newsub=356; break;
+	case 1743: $newsub=1041; break;
+	default:break;
+}
+//echo $newsub;
+if ($newsub==0) {	
+	$url=$nc_core->url->get_parsed_url();
+	if ((strpos($url['path'],"add_order.html")>0)&&(isset($current_user))) {
+		echo "</div></div>";
+	} else {
+		echo "</div></div></div>";
+	}
+} else {
+	//echo "</div>";
+}
+?>
+%Footer

@@ -1,0 +1,132 @@
+%Header
+
+<?php
+
+$url=$_SERVER['REQUEST_URI'];
+$tmp=explode("/",$url);
+	$bcrumps['prefix']      = "";
+	$bcrumps['suffix']      = "";
+	$bcrumps['active']      = "%NAME";
+	$bcrumps['active_link'] = "%NAME";
+	$bcrumps['unactive']    = "<a href=\"%URL\">%NAME</a>";
+	$bcrumps['divider']     = "&nbsp;&gt;&nbsp;";
+	
+if (($current_sub['Subdivision_ID']==1718)&&(count($tmp)<4)) {
+	// список производителей с модел€ми
+	echo "<div class=\"col-md-9 rcolw\">";
+	echo "<div style=\"padding:20px;\">";
+	echo "<div class=\"xsmall\">".nc_browse_path($bcrumps)."</div>";
+	echo "<p class='h1'>".$current_sub["Subdivision_Name"]."</p>";
+	$query="SELECT  Classificator_Manufacturer.* FROM Classificator_Manufacturer 
+				RIGHT JOIN Classificator_model ON (Classificator_model.manufacturer_id=Classificator_Manufacturer.Manufacturer_ID)
+				WHERE Classificator_model.checked=1
+				GROUP BY Classificator_Manufacturer.`Manufacturer_ID` ORDER BY Classificator_Manufacturer.`Manufacturer_Name`";
+	$res=(array) $nc_core->db->get_results($query);
+	for ($i=0; $i<count($res); $i++) { //>
+		if (($res[$i]->Manufacturer_Name!="")&&($res[$i]->Manufacturer_ID!=50)&&($res[$i]->Manufacturer_ID!=60)&&($res[$i]->Manufacturer_ID!=23)&&($res[$i]->Manufacturer_ID!=6)&&($res[$i]->Manufacturer_ID!=29)) {
+		
+			$url="/Manufacturer/Manufacturer-{$res[$i]->Manufacturer_ID}/models/"; 
+?>
+			<div class="col-md-3 itemcol">
+			<div class="panel panel-default item">
+			<div class="panel-body">
+				<div><a href='<?=$url?>'><b><?=$res[$i]->Manufacturer_Name?></b></a></div>
+				<div class='itemimg'>
+				<?=(($res[$i]->Preview!="") ? "<a href='{$url}'><img class='img_preview' src='/netcat_files/vendors/{$res[$i]->Preview}' alt='{$res[$i]->model_Name}' style='display:block;height:140;width:80%;margin:0 auto;'></a>" : "")?>
+				</div>
+			</div>
+			</div>
+			</div>
+<?php
+		}
+	}
+	echo "</div>";
+	echo "</div>";
+}
+
+
+//print_r($current_sub);
+//print_r($tmp);
+if ((isset($tmp[4]))&&($tmp[4]=="")) {
+// список моделей
+	echo "<div class='col-md-9 rcolw'>
+	<div style=\"padding:20px 0 0 0;\">
+	<div class=\"xsmall\">".nc_browse_path($bcrumps)."</div>
+	<p class='h1'>".$current_sub['Subdivision_Name']."</p>";
+	$tmp1=explode("-",$tmp[2]);
+	//echo $tmp1[1];
+	$query="SELECT * FROM Classificator_model WHERE manufacturer_id=".$tmp1[1]." AND Checked=1 AND Classificator_model.showrkfive=1  ORDER BY model_Name ASC";
+	$res=(array) $nc_core->db->get_results($query);
+	for ($i=0; $i<count($res); $i++) { //>
+		$nall=0;
+		$nskl=0;
+		$query1="SELECT StockUnits,status FROM Message57 WHERE Vendor=".$tmp1[1]." AND Checked=1 AND model=".$res[$i]->model_ID." AND showrkfive=1 ORDER BY ItemID ASC";
+//echo "<!-- {$query1} -->";
+		$res1=(array) $nc_core->db->get_results($query1);
+		for ($j=0;$j<count($res1);$j++) { //>
+			if (($res1[$j]->StockUnits>0)&&($res1[$j]->status==2)) {
+				$nskl=$nskl+1;
+			}
+//$nall=$nall+1;
+		}
+		$nall=count($res1);
+		$url=$current_sub['Hidden_URL'].$res[$i]->model_ID."/";
+		echo "<div class='col-md-3 itemcol'>
+		<div class='panel panel-default item'>
+		<div class=\"panel-body\">
+		<div class='title'><a href='{$url}'><b>Ќожи &quot;{$res[$i]->model_Name}&quot;</b></a> ({$nall}/{$nskl})</div>
+  	<div class='itemimg'>";
+		if ($res[$i]->certificate4!="") {		
+			echo "	<a href='{$url}'><img class='img_preview' src='/netcat_files/certificates/{$res[$i]->certificate4}' alt='{$res[$i]->model_Name}' width='200'></a>";
+		}
+	echo "</div>
+	</div>
+			
+	</div>
+	</div>";
+	}
+	echo "</div>";
+	echo "</div>";
+} else {
+	// просмотр модели
+	if (is_numeric($tmp[4])) {
+		$ttmp=explode("-",$tmp[2]);
+		$query="SELECT Classificator_model.*,Classificator_Manufacturer.Manufacturer_Name FROM Classificator_model 
+			INNER JOIN Classificator_Manufacturer ON (Classificator_Manufacturer.Manufacturer_ID=Classificator_model.manufacturer_id)
+			WHERE Classificator_model.manufacturer_id=".$ttmp[1]." AND model_ID=".intval($tmp[4])." AND Classificator_model.Checked=1 AND Classificator_model.showrkfive=1 ORDER BY model_Name ASC";
+//echo "<!-- {$query} -->";
+		$res=(array) $nc_core->db->get_results($query);
+		$mnf="";
+		$mdl="";
+		for ($i=0; $i<count($res); $i++) { //>
+			if ($res[$i]->Manufacturer_Name) {
+				$mnf=$res[$i]->Manufacturer_Name;
+				$mdl=$res[$i]->model_Name;
+			}
+		}
+		echo "<div class='col-md-9 rcolw'>
+		<div style='padding:20px;'> 
+		<div class=\"xsmall\">".nc_browse_path($bcrumps)."</div>
+		<p class='h1'>Ќожи &quot;".$current_sub[Subdivision_Name]."&quot;, ".$mnf."</h1>
+		</div>";
+$query="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+                WHERE  m.`Checked`=1 
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+					AND m.Subdivision_ID NOT IN (153,161,102,139,280, 108,154,155,149,162,195)  AND m.additcharacter NOT LIKE '%,16,%' AND m.showrkfive=1
+					AND m.model=".intval($tmp[4])." AND m.Vendor=".intval($ttmp[1])." 
+			ORDER BY m.StockUnits DESC, m.Name ASC";	
+//echo " {$query}";
+		$res=(array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res); $i++) { 
+			echo "<div class='col-md-3 itemcol'>";
+			echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+			echo "</div>";	
+		}
+		echo "</div>";
+	}
+}
+?>

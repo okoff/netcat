@@ -1,0 +1,166 @@
+%Header
+<?php
+parse_str($_SERVER['QUERY_STRING']);
+//echo $u."<br>";
+
+$query = "SELECT * FROM Message57 WHERE Message_ID=".$u;
+
+$res = (array) $nc_core->db->get_results($query);
+//print_r($res);
+//echo "<br>";
+//echo $res[0]->Name;
+
+$Price = $res[0]->Price;
+
+// get image url
+$image_arr = explode(":", $res[0]->Image);
+$image_url = "/netcat_files/".$image_arr[3];
+
+if (strlen($res[0]->addImage1)>0) {
+	$image_arr = explode(":", $res[0]->addImage1);
+	$image_url1 = "/netcat_files/".$image_arr[3];
+} else {
+	$image_url1 = "";
+}
+
+if (strlen($res[0]->addImage2)>0) {
+	$image_arr = explode(":", $res[0]->addImage2);
+	$image_url2 = "/netcat_files/".$image_arr[3];
+} else {
+	$image_url2 = "";
+}
+
+if (strlen($res[0]->addImage3)>0) {
+	$image_arr = explode(":", $res[0]->addImage3);
+	$image_url3 = "/netcat_files/".$image_arr[3];
+} else {
+	$image_url3 = "";
+}
+
+if (strlen($res[0]->addImage4)>0) {
+	$image_arr = explode(":", $res[0]->addImage4);
+	$image_url4 = "/netcat_files/".$image_arr[3];
+} else {
+	$image_url4 = "";
+}
+
+if (strlen($res[0]->addImage5)>0) {
+	$image_arr = explode(":", $res[0]->addImage5);
+	$image_url5 = "/netcat_files/".$image_arr[3];
+} else {
+	$image_url5 = "";
+}
+
+$discount = $GLOBALS["shop"]->ItemDiscountSum($sub, $classID, $f_RowID, $Price, $Currency);
+?>
+
+<table width='98%'>
+<tr>
+<td valign='top'>
+<h1><?php echo $res[0]->Name; ?></h1>
+<div class='whitebox'>
+<a href='<?php echo $image_url; ?>' target='_blank'><img src='<?php echo $image_url; ?>' alt='<?php echo $res[0]->Name; ?>' title='<?php echo $res[0]->Name; ?>' width='500' class='img_preview clear'></a>
+</div>
+</td>	
+<td class='rightcol' style='vertical-align:top;'>
+<br>
+<div class='articul'>
+	<div style='padding:25px;'>
+	<p>Артикул: <strong><?php echo $res[0]->ItemID; ?></strong></p>
+	<hr>
+	<div style='padding:25px; text-align:center;'>
+	
+	<?php
+		if ($res[0]->status==3) {
+			echo "нет";
+		}
+		if ($res[0]->status==2) {
+			echo "<strong><span style='color:#00BF1B; font-size:16px;'>есть на складе</span><strong>";
+		}
+		if ($res[0]->status==1) {
+			echo "<strong><span style='color:#FF6803; font-size:16px;'>под заказ</span></strong>";
+		}
+
+	?>
+
+	</div>
+	<hr>
+	<br>
+	<p><b>Цена: &nbsp;&nbsp; <span class='red'><?php echo $Price; ?> руб.</span></b></p><br>
+
+<?php 
+	if ($res[0]->status!='3')  {
+?>	
+	<form method=post action='/netcat/modules/netshop/post.php' style='margin:0'>
+	          <input type=hidden name=redirect_url value='<?php echo $GLOBALS[uri_path]; ?>'>
+	          <input type=hidden name=cart_mode value=add>
+	          <input type=hidden name='cart[57][<?php echo $res[0]->Message_ID; ?>]' value=1> 
+	          <center>
+	          <input type=submit class='btn_cart1'>
+	      	  </center>
+	        </form>
+<?php
+}
+?>
+	     <br>   
+	    <form method='get' action='/knives/order/' style='border:0; padding:0; margin:0;'><fieldset style='border:0; padding:0; margin:0;'>
+		<input type='hidden' name='f_articul' id='f_articul' value='<?php echo $res[0]->Message_ID; ?>'/>
+		<input type='submit' class='btn_submit' /></fieldset></form>
+	</div>
+</div>
+</td>
+</tr>
+</table>
+<p class='hh2'>Характеристики:</p>
+<table width='98%'>
+<tr>
+<td valign='top' width='50%'>
+<table>
+<tr><td width='60%'>Марка стали клинка:</td><td><b><?php echo $res[0]->steel; ?></b></td></tr>
+<tr><td>Длина ножа (мм):</td><td> <b><?php echo $res[0]->knifelength; ?></b></td></tr>
+<tr><td>Длина клинка (мм):</td><td> <b><?php echo $res[0]->klinoklength; ?></b></td></tr>
+<tr><td>Длина рукояти (мм):</td><td> <b><?php echo $res[0]->hoselength; ?></b></td></tr>
+<tr><td>Длина хвостовика (мм):</td><td> <b><?php echo $res[0]->Hvostlength; ?></b></td></tr>
+<tr><td>Наибольшая ширина клинка (мм):</td><td> <b><?php echo $res[0]->klinokwide; ?></b></td></tr>
+<tr><td>Толщина обуха (мм):</td><td> <b><?php echo $res[0]->obuh; ?></b></td></tr>
+<tr><td>Твердость стали:</td><td><b><?php echo $res[0]->strong; ?></b></td></tr>
+</table>
+</td><td valign='top'>
+<table>
+<tr><td width='60%'>Вес (без ножен):</td><td> <b><?php echo $res[0]->weight; ?></b></td></tr>
+<tr><td>Материал рукояти:</td><td><b><?php echo $res[0]->handle; ?></b></td></tr>
+<tr><td>Материал ножен:</td><td><b><?php echo $res[0]->hose; ?></b></td></tr>
+<tr><td>Страна&nbsp;изготовитель:</td><td><b><?php echo listQuery("SELECT * FROM  Classificator_Country WHERE Country_ID=".$res[0]->country." AND Checked=1", 
+		'$data[Country_Name]'); ?></b></td></tr>
+<tr><td>Производитель:</td><td><b><?php echo listQuery("SELECT * FROM  Classificator_Manufacturer WHERE Manufacturer_ID=".$res[0]->Vendor." AND Checked=1", 
+		'$data[Manufacturer_Name]'); ?></b></td></tr>
+<tr><td colspan='2'> <div class='share42init'></div>
+<script type='text/javascript' src='http://folding-knives.ru/share42/share42.js'></script> </td></tr>
+</table>
+</td></tr></table>
+<br />
+
+<?php echo $res[0]->deliverytime; ?>
+
+<p class='hh2'>Изображения</p>
+<?php echo ((strlen($image_url1)>0) ? "<a target='_blank' href='".$image_url1."'><img src='".$image_url1."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img_preview' width='200' /></a>" : "")."
+".((strlen($image_url2)>0) ? "<a target='_blank' href='".$image_url2."'><img src='".$image_url2."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img_preview' width='200' /></a>" : "")."
+".((strlen($image_url3)>0) ? "<a target='_blank' href='".$image_url3."'><img src='".$image_url3."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img_preview' width='200' /></a>" : "")."
+".((strlen($image_url4)>0) ? "<a target='_blank' href='".$image_url4."'><img src='".$image_url4."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img_preview' width='200' /></a>" : "")."
+".((strlen($image_url5)>0) ? "<a target='_blank' href='".$image_url5."'><img src='".$image_url5."' alt='".$res[0]->Name."' title='".$res[0]->Name."' class='img_preview' width='200' /></a>" : "")."
+	
+".(($res[0]->Details) ? "<p class='hh2'>Описание</p>".$res[0]->Details : ""); ?>
+
+<p class='smalltext'>Все ножи, представленные на сайте, изготовляются вручную, и поэтому возможны незначительные расхождения между фотографиями и вновь изготовленными
+ изделиями. Если Вас заинтересовало данное изделие, напишите запрос и мы вышлем фотографию реального изделия, находящегося на нашем складе.</p>
+<p class='smalltext'>Все ножи, продаваемые в магазине Русские Ножи - это хозяйственные и разделочные ножи. Каждый нож имеет соответсвующий сертификат по ГОСТ Р 51644-2000 «Ножи разделочные и шкуросъемные» или ГОСТ Р 51501-99 «Ножи туристические и специальные спортивные».
+<br><br />
+Ножи можно посмотреть и купить <a href='http://www.russian-knife.ru/contacts/'>в нашем офисе</a> (понедельник – воскресенье)<br /><br />
+
+Возможна <a href='http://russian-knife.ru/delivery/'>курьерская доставка товара по Москве, в Санкт-Петербург и Ленинградскую область</a> (*)<br /><br />
+
+Доставка товара почтой РФ по всей территории России.<br /><br />
+
+<p><br />
+</div>
+

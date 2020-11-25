@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Ножи Пампухи Игоря Юрьевича</title>
+	<meta content='text/html; charset=utf-8' http-equiv='content-type' />
+	<link rel='stylesheet' type='text/css' media='all' href='/images/91/style.css' />
+	
+	<!-- Arquivos utilizados pelo jQuery lightBox plugin -->
+    <script type='text/javascript' src='/js/jquery.js'></script>
+    <script type='text/javascript' src='/js/jquery.lightbox-0.5.js'></script>
+    <link rel='stylesheet' type='text/css' href='/css/jquery.lightbox-0.5.css' media='screen' />
+    <!-- / fim dos arquivos utilizados pelo jQuery lightBox plugin -->
+	<script type='text/javascript'>
+    $(function() {
+        $('a.libox').lightBox();
+    });
+    </script>
+</head>
+<body>
+	<div id='wrap'>
+		<div id='sname'>
+			<a href='/'><img src='/images/91/logo.jpg' alt='Ножи Пампухи Игоря Юрьевича' style='border:0;' /></a>
+			<br />
+<table>
+<tr><td>
+			<h1>Пампуха Игорь Юрьевич</h1>
+			<p><h2>Купить ножи у официального представителя в Москве</h2></p>
+</td>
+<td>
+<table>
+	<tr><td colspan='2' class='title' nowrap>Личный кабинет</td></tr>
+	<tr><td colspan='2' class='td1'>
+<?php
+if ($MODULE_VARS['auth']) {
+	if ($AUTH_USER_ID) {
+?>
+		<form action=''><br>
+			Здравствуйте, <b><a href='/profile/profile_<?php echo $AUTH_USER_ID; ?>.html'><?php echo $PHP_AUTH_USER; ?></a></b>!<br><br>
+			<a href='/netcat/modules/auth/?logoff=1&amp;REQUESTED_FROM=<?php echo $REQUEST_URI; ?>&amp;REQUESTED_BY=<?php echo $REQUEST_METHOD; ?>'><b>Завершить сеанс</b></a>
+		</form>
+		</td></tr>
+<?php
+	} else {
+?>
+	<form action='/netcat/modules/auth/' method='POST'>
+			<input type='hidden' name='AuthPhase' value='1'/>
+			<input type='hidden' name='REQUESTED_FROM' value='<?php echo htmlspecialchars($REQUESTED_FROM ? $REQUESTED_FROM : $REQUEST_URI, ENT_QUOTES); ?>'/>
+			<input type='hidden' name='REQUESTED_BY' value='<?php echo $REQUEST_METHOD; ?>'/>
+			<input type='hidden' name='catalogue' value='<?php echo $catalogue; ?>'/>
+			<input type='hidden' name='sub' value='<?php echo $sub; ?>'/>
+			<input type='hidden' name='cc' value='<?php echo $cc; ?>'/>
+			E-mail: <input type='text' class='form_text'  name='AUTH_USER' size='25' /></td></tr>
+			<tr><td colspan='2' class='td1'>Пароль: <input type='password' name='AUTH_PW' size='25' class='form_text' /></td></tr>	
+			<tr><td class='td1'><a href='/profile/registration/'>Регистрация</a><br />
+				<a href='/netcat/modules/auth/password_recovery.php'>Забыли&nbsp;пароль?</a>
+				</td><td valign='middle'><input type='submit' class='btn_enter' value='вход' /></td></tr>
+				
+			</form>
+<?php
+	}
+} 
+?>
+</table>		
+</td>
+<td class='cart'>
+	<form method='post' action='/cart/'>
+<table>
+<tr><td class='title' nowrap><a style='text-decoration:none;' href='/cart/'>Ваша корзина</a><br><br></td></tr>
+<tr><td class='td2'>Товаров: <?php echo sizeof($Netshop_CartContents); ?><br />На сумму: <?php echo $shop->CartSum(); ?>&nbsp;руб.</td></tr>
+<tr><td class='td2'><input type='submit' value='заказ' class='btn_order' /></td></tr>
+</table>
+</form>
+</td>	
+</tr>
+</table>
+</td></tr></table>
+		</div>
+		<br class='clear' />
+		<div id='context'>
+<table cellpadding='0' cellspacing='0' border='0'>
+<tr>
+	<td width='200' valign='top'>
+	<div id='lmenu'>
+<div class='whitebox'>
+<div style='padding:0 10px;'>
+<p><b>Булатные ножи:</b></p>
+<ul>
+	<li><a href='/bulat-legirovanii'>легированный булат</a></li>
+	<li><a href='/bulat-nerj'>нержавеющий булат</a></li>
+	<li><a href='/avtor-damassk'>мозаичный дамаск</a></li>
+</ul>
+</div>
+<br />
+</div>	
+<div class='whitebox'>
+<div style='padding:10px;'>
+<a href="/contacts"><strong>Контакты</strong></a>
+</div>
+</div>
+<br>	
+<p><strong><a href='/news'>Новости</a></strong></p>
+<?php
+$query = "SELECT * FROM Message22 WHERE Subdivision_ID=266 AND Sub_Class_ID=303 AND Checked=1 ORDER BY Message_ID DESC";
+$res = (array) $nc_core->db->get_results($query);
+if (is_array($res)) {
+	foreach ($res as $r) {
+		echo "<a href='/news/news_".$r->Message_ID.".html'>".$r->Title."</a><br>".$r->Announce;
+	}
+}
+
+?>
+		</div>
+	</td>
+	<td valign='top' style='vertical-align:top;'>
+		<div id='rcontent'>

@@ -1,0 +1,243 @@
+%Header
+<div class="col-md-6 colcentr">
+<div class="h1">Ножи со скидкой!</div>
+<?php
+
+	$query="SELECT Name, Description, UserGroups, Goods, ValidFrom, ValidTo, `Condition`,
+                 Function, FunctionDestination, FunctionOperator, StopItem
+            FROM Message54
+           WHERE AppliesTo = 1
+             AND ((ValidFrom IS NULL AND ValidTo IS NULL) OR
+                  (ValidFrom <= NOW() AND ValidTo >= NOW()))
+             AND Checked = 1 
+           ORDER BY Priority DESC";
+	
+	$res = (array) $nc_core->db->get_results($query);
+	for ($i=0; $i<count($res); $i++) {  //>
+		$tmp=explode(",", $res[$i]->Goods);
+		foreach ($tmp as $t) {
+			if ($t) {
+				$itemid=substr($t, 3);
+				//echo $itemid."<br>";
+				
+				$where.=(($where) ? "," : "") . $itemid;
+			}
+		}
+	}
+	$query="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID NOT IN (153,161,102,139,280, 108,154,155,149,162,195)  AND m.additcharacter NOT LIKE '%,16,%'
+							AND m.Status=2 AND m.Message_ID IN (".$where.") AND m.StockUnits>0 
+					ORDER BY RAND() LIMIT 0,6";
+	//echo $query; m.StockUnits DESC, m.Name ASC
+	$res = (array) $nc_core->db->get_results($query);
+	//echo "<p>Всего товаров со скидкой: ".count($res)."</p>";
+	$strsearch="";
+	for ($i=0;$i<count($res); $i++) { 
+		echo "<div class='col-md-4 itemcol'>";
+		echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);					
+		echo "</div>";
+	}
+	
+	
+	
+?>
+<br>
+<br>
+<p class='h1'>Здесь можно купить ножи! Хиты продаж:</p>
+<?php
+$query="SELECT m . * , CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		LEFT JOIN Message57 AS parent ON ( m.`Parent_Message_ID` !=0 AND m.`Parent_Message_ID` = parent.`Message_ID` )  
+						WHERE  m.`Checked`=1 
+							AND s.`Subdivision_ID` = m.`Subdivision_ID`
+							AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+							AND u.`Subdivision_ID` = m.`Subdivision_ID`
+							AND m.Subdivision_ID NOT IN (153,161,102,139,280, 108,154,155,149,162,195)  AND m.additcharacter NOT LIKE '%,16,%'
+							AND m.Status=2 AND m.StockUnits>0 AND m.special=1
+					ORDER BY m.StockUnits DESC ";
+	//echo $query; //m.StockUnits DESC, m.Name ASC // 
+	$res = (array) $nc_core->db->get_results($query);
+	//echo "<p>Всего товаров со скидкой: ".count($res)."</p>";
+	$strsearch="";
+	for ($i=0;$i<count($res); $i++) { 
+		echo "<div class='col-md-4 itemcol'>";
+		echo printItemById5($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);					
+		echo "</div>";
+	}
+?>
+<br /><br />
+			<?=s_list_class(3,26,"recNum=1")?>
+			<div class="panel panel-default">
+				<div class="panel-heading">О магазине Русские Ножи</div>
+				<div class="panel-body"><p>Интернет-магазин<b> &quot;Русские ножи&quot; </b>предлагает Вам <b>купить ножи  
+Российского и зарубежного производства</b>. Наше предложение включает качественные охотничьи, туристические, складные и кухонные/поварские ножи. 
+Многие представленные на сайте ножи являются работой российских мастеров из Ворсмы и Павлово.  </p><br>
+Мы представляем только качественные ножи, среди которых есть булатные ножи и ножи из дамасской стали. 
+На сайте представлены авторские ножи и ножи ручной работы известных мастеров, а для ножевиков и любителей мы 
+предлагаем  клинки для ножей, экзотическое дерево под рукояти и литье под гарды и навершия.<br><br>
+<b>Наш магазин Русские Ножи предлагает Вам <b>купить ножи</b>, которые не являются оружием - это хозяйственные и разделочные ножи. Каждый нож имеет соответсвующий сертификат по 
+ГОСТ Р 51644-2000 «Ножи разделочные и шкуросъемные» или  ГОСТ Р 51501-99 «Ножи туристические и специальные спортивные»</b>. <br><br>
+Посмотреть и купить выбранный нож можно <a href='http://russian-knife.ru/contacts/'>в офисе магазина «Русские Ножи»</a> или <a href='http://russian-knife.ru/delivery/'>заказать доставку</a> на указанный адрес.<br><br>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Наш магазин в интернете и социальных сетях:</div>
+				<div class="panel-body">
+				<table cellpadding='0' cellspacing='2' style='margin-left:40px;'>
+					<tr><td><img src='/share42/guns.jpg' /></td><td><a target='_blank' href='http://forum.guns.ru/forummessage/143/864978.html'>на форуме Guns.ru</a></td></tr> 
+					<tr><td><img src='/share42/facebook.png' /></td><td><a target='_blank' href='http://www.facebook.com/RussianKnife'>в сети Facebook</a></td></tr>
+					<tr><td><img src='/share42/youtube.jpg' /></td><td><a target='_blank' href='http://www.youtube.com/user/zaborchik09'>видео-канал на Youtube</a></td></tr>
+					<tr><td><img src='/share42/vkontakte.png' /></td><td><a target='_blank' href='http://vk.com/club20605944'>страница Вконтакте</a></td></tr>
+					<tr><td><img src='/images/twitter.png' /></td><td><a target='_blank' href='https://twitter.com/RussianKnifeRu'>страница в Twitter</a></td></tr>
+					<tr><td><img src='/images/vimeo.jpg' /></td><td><a target='_blank' href='https://vimeo.com/user19279777'>Мы на Vimeo</a></td></tr>
+				</table><br />
+				</div>
+			</div>
+
+</div>
+<div class="col-md-3 rcol">
+		<div class="panel panel-info">
+			<div class="panel-heading">Главная новость</div>
+			<div class="panel-body">
+			<?php
+			$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=134 AND Sub_Class_ID=170
+									ORDER BY Priority DESC LIMIT 1";
+			$res = (array) $nc_core->db->get_results($query);
+			foreach ($res as $r) {
+				?>
+				<div class="h5"><a href="/news/news_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+				<?=$r->Announce?>
+				<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+					
+			<?php
+			}	
+			?>
+			</div>
+			<div class="panel-footer"><a href="/news/" class="small">Все новости</a></div>
+			
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">Акции</div>
+			<div class="panel-body">
+				<?php
+					$query = "SELECT * FROM Message22  WHERE Checked=1 AND Subdivision_ID=136 AND Sub_Class_ID=863
+							ORDER BY Priority DESC LIMIT 2";
+					$res = (array) $nc_core->db->get_results($query);
+					$j=0;
+					foreach ($res as $r) {
+				?>
+						<div>
+						<div class="h5"><a href="/special-offer/actions_<?=$r->Message_ID?>.html"><?=$r->Title?></a></div>
+						<?=$r->Announce?>
+						<div><?=date("d.m.Y",strtotime($r->Date))?></div>
+						<?=(($j==0) ? "<hr>" : "")?>
+						</div>
+				<?php
+						$j=$j+1;
+					}	
+				?>
+				
+			</div>
+			
+		</div>
+		<div class="panel panel-info">
+			<div class="panel-heading">Новые поступления</div>
+			<div class="panel-body">
+				<?php
+					$query = "SELECT * FROM Subdivision WHERE Parent_Sub_ID=366 AND Checked=1 ORDER BY Subdivision_ID DESC LIMIT 9";
+					$res = (array) $nc_core->db->get_results($query);
+					for ($j=0; $j<count($res); $j++) {  
+						$where=$res[$j]->Subdivision_Name;
+
+					//echo $where;
+						if ($where) {				
+							$query="SELECT * FROM Waybills WHERE id=".intval($where);
+							$res1 = (array) $nc_core->db->get_results($query);
+							for ($i=0; $i<count($res1); $i++) {  //>
+								echo "<p><b><a href='/new-arrivals/".intval($where)."/'>".date("d.m.Y",strtotime($res1[$i]->created))."</a></b></p>";
+								echo (($res1[$i]->title!="") ? "<p><a href='/new-arrivals/".intval($where)."/'>".($res1[$i]->title)."</a></p>" : "");
+								echo $res1[$i]->intro."<br>";			
+								
+							}
+						}
+					}	
+				?>
+				
+			</div>
+			
+		</div>
+			
+			
+			<!--
+			<table cellpadding='0' cellspacing='0' border='0' style='margin-top:30px;'>
+				<tr><td class='rightcol_top'></td></tr>
+				<tr><td class='rightcol'>
+					<div id='lcol'>
+						<p class='hh2'>Новые поступления</p>";								
+$query="SELECT * FROM Subdivision WHERE Parent_Sub_ID=366 AND Checked=1 ORDER BY Subdivision_ID DESC LIMIT 9";
+$res = (array) $nc_core->db->get_results($query);
+for ($j=0; $j<count($res); $j++) {  //>
+	$where=$res[$j]->Subdivision_Name;
+
+//echo $where;
+	if ($where) {				
+		$query="SELECT * FROM Waybills WHERE id=".intval($where);
+		$res1 = (array) $nc_core->db->get_results($query);
+		for ($i=0; $i<count($res1); $i++) {  //>
+			echo "<p><b><a href='/new-arrivals/".intval($where)."/'>".date("d.m.Y",strtotime($res1[$i]->created))."</a></b></p>";
+			echo (($res1[$i]->title!="") ? "<p><a href='/new-arrivals/".intval($where)."/'>".($res1[$i]->title)."</a></p>" : "");
+			echo $res1[$i]->intro."<br>";			
+			
+		}
+	}
+}	
+				
+	echo "</div>
+					</td>
+				</tr>
+				<tr><td class='rightcol_btm'></td></tr>
+			</table>
+			<table cellpadding='0' cellspacing='0' border='0' style='margin-top:30px;'>
+				<tr><td class='rightcol_top'></td></tr>
+				<tr>
+					<td class='rightcol'>
+						<div id='lcol'>
+							<p class='hh2'>Новинки</p>
+						".s_list_class(141,176,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(103,136,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(138,173,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(102,135,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(139,174,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(106,139,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(109,142,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(147,182,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(140,175,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(151,185,"&srchPat[6]=1&srchPat[15]=2")
+.s_list_class(153,187,"&srchPat[6]=1&srchPat[15]=2")      
+.s_list_class(157,191,"&srchPat[6]=1&srchPat[15]=2") 
+.s_list_class(161,195,"&srchPat[6]=1&srchPat[15]=2")     
+  .s_list_class(280,325,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(154,188,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(155,189,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(131,166,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(149,183,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(162,196,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(195,229,"&srchPat[6]=1&srchPat[15]=2")
+  .s_list_class(355,400,"&srchPat[6]=1&srchPat[15]=2")
+.s_list_class(289,334,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(356,401,"&srchPat[6]=1&srchPat[15]=2")
+ .s_list_class(1041,892,"&srchPat[6]=1&srchPat[15]=2")."
+						<br>	
+						</div>
+					</td>
+				</tr>
+				<tr><td class='rightcol_btm'></td></tr>
+			</table-->
+</div>
