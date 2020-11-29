@@ -1,0 +1,112 @@
+%Header
+";
+//print_r($_GET);
+$querystring = "?";
+foreach($_GET as $k=>$v) {
+	if(is_array($v)) {
+		foreach($v as $k1=>$v1) {
+			$querystring.=$k.'['.$k1.']='.$v1.'&';
+		}
+	} else {
+		$querystring .= $k."=".$v.'&';
+	}
+}
+$url= substr($querystring, 0, -1);
+echo "<p class='hh2'>".$current_sub[Subdivision_Name]."</p>
+<p>Сортировать по цене <a href='/searchres/{$url}&orprice=1'>возр.</a> | 
+	<a href='/searchres/{$url}&orprice=2'>убыв.</a>	
+</p>";
+$wsrch="";
+
+$name=((strlen($_GET[srchPat][0])>0) ? $_GET[srchPat][0] : "");
+if (strlen($name)>0) {
+	$vowels = array("'", "&", "<", ">", "\"");
+	$name = str_replace($vowels, "", $name);
+	$wsrch.=((strlen($name)>0) ? " m.Name LIKE '%".$name."%'" : "" );
+}
+$art=((strlen($_GET[srchPat][2])>0) ? $_GET[srchPat][2] : "");
+if (strlen($art)>0) {
+	$vowels = array("'", "&", "<", ">", "\"");
+	$name = str_replace($vowels, "", $art);
+	$wsrch.=((strlen($art)>0) ? " m.ItemId LIKE '%".$art."%'" : "" );
+}
+
+//$wsrch.=(($name) ? (($wsrch) ? " AND " : "")." m.Name LIKE '%".$name."%'" : "" );
+
+
+$wsrch.=(($_GET[srchPat][1])  ? (($wsrch) ? " AND " : "")." m.Vendor=".intval($_GET[srchPat][1]) : "" );
+$wsrch.=(($_GET[srchPat][4])  ? (($wsrch) ? " AND " : "")." m.steel=".intval($_GET[srchPat][4]) : "" );
+$wsrch.=(($wsrch) ? " AND " : "")." m.Price > ".(($_GET[srchPat][10])  ? intval($_GET[srchPat][10]) : 0);
+$wsrch.=(($_GET[srchPat][11])  ? (($wsrch) ? " AND " : "")." m.Price < ".intval($_GET[srchPat][11]) : "");   // echo "<br>";
+
+
+//$wsrch.=(($_GET[srchPat][12])  ? (($wsrch) ? " AND " : "")." m.locktype=".intval($_GET[srchPat][12]) : "" );
+//$wsrch.=(($_GET[srchPat][13])  ? (($wsrch) ? " AND " : "")." m.bladelen=".intval($_GET[srchPat][13]) : "" );
+//$wsrch.=(($_GET[srchPat][15])  ? (($wsrch) ? " AND " : "")." m.Status=".intval($_GET[srchPat][15]) : "" );
+
+$orstr="ORDER By m.Status ASC, m.Name ASC";
+if ($_GET['orprice']) {
+	$orstr=" ORDER BY m.Price ".(($_GET['orprice']==1) ? " ASC " : " DESC ");
+}
+
+$insertsql="INSERT INTO Stats_Search (created,name,vendor,steel,pricemin,pricemax)
+VALUES ('".date("Y-m-d H:i:s")."',
+		'".$name."',
+		".intval($_GET[srchPat][1]).",
+		".intval($_GET[srchPat][4]).",
+		".intval($_GET[srchPat][10]).",
+		".intval($_GET[srchPat][11]).")";
+
+//echo $insertsql;
+$nc_core->db->query($insertsql);
+//echo $nc_core->db->insert_id;				
+
+$query="SELECT m.*, CONCAT(u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html') as URL
+                FROM (`Message57` as m, `Subdivision` as u, `Sub_Class` as s)
+                  LEFT JOIN Message57 as parent
+                    ON (m.`Parent_Message_ID` != 0 AND m.`Parent_Message_ID` = parent.`Message_ID`)
+                  
+                WHERE m.`Checked`=1 
+					AND s.`Subdivision_ID` = m.`Subdivision_ID`
+                    AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+                    AND u.`Subdivision_ID` = m.`Subdivision_ID`
+					AND (".$wsrch.") 
+			".$orstr;			
+//echo $query."<br>";
+//AND NOT m.Subdivision_ID=162 AND NOT m.Subdivision_ID=195 AND NOT m.Subdivision_ID=355 AND NOT m.Subdivision_ID=154 AND NOT m.Subdivision_ID=155
+					
+	$res = (array) $nc_core->db->get_results($query);
+	echo "<br><p>Всего товаров: ".count($res)."</p><br>";
+	for ($i=0;$i<count($res); $i++) { // >	
+		echo printItemById($res[$i]->Message_ID,$res[$i]->Subdivision_ID,$res[$i]->Sub_Class_ID,$res[$i]->ItemID,$res[$i]->Name,$res[$i]->URL,$res[$i]->StockUnits,$res[$i]->Preview,$res[$i]->Price,$res[$i]->status);
+			
+	}	
+
+/*$srch="";
+	
+	(($_GET[srchPat][1])  ? $srch.="&srchPat[1]=".$_GET[srchPat][1] : "" );
+	(($_GET[srchPat][4])  ? $srch.="&srchPat[4]=".$_GET[srchPat][4] : "" );
+	(($_GET[srchPat][12]) ? $srch.="&srchPat[12]=".$_GET[srchPat][12] : "" );
+	(($_GET[srchPat][10]) ? $srch.="&srchPat[10]=".$_GET[srchPat][10] : $srch.="&srchPat[10]=0" );
+	(($_GET[srchPat][11]) ? $srch.="&srchPat[11]=".$_GET[srchPat][11] : "" );
+	(($_GET[srchPat][13]) ? $srch.="&srchPat[13]=".$_GET[srchPat][13] : "" );
+	(($_GET[srchPat][15]==2) ? $srch.="&srchPat[15]=2" : "" );
+	(($_GET[srchPat][15]==3) ? $srch.="&srchPat[15]=3" : "" );
+	
+
+	
+//echo s_list_class(102,135,$srch."&recNum=1000").s_list_class(139,174,$srch."&recNum=1000").s_list_class(280,325,$srch."&recNum=1000");
+
+echo s_list_class(141,176,$srch."&recNum=1000").s_list_class(103,136,$srch."&recNum=1000").s_list_class(138,173,$srch."&recNum=1000").
+s_list_class(102,135,$srch."&recNum=1000").s_list_class(139,174,$srch."&recNum=1000").
+s_list_class(106,139,$srch."&recNum=1000").s_list_class(109,142,$srch."&recNum=1000").s_list_class(147,182,$srch."&recNum=1000").
+s_list_class(151,185,$srch."&recNum=1000").s_list_class(153,187,$srch."&recNum=1000").s_list_class(157,191,$srch."&recNum=1000").
+s_list_class(161,195,$srch."&recNum=1000").s_list_class(280,325,$srch."&recNum=1000").
+s_list_class(108,141,$srch."&recNum=1000").s_list_class(131,166,$srch."&recNum=1000").s_list_class(149,183,$srch."&recNum=1000");							
+
+*/							
+							
+if ($_SERVER['REQUEST_URI']=="/") {
+	echo "";
+}
+echo "

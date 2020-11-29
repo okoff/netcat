@@ -21,9 +21,9 @@ class Validator
      * @param string $phone
      * @return boolean
      */
-	public static function isValidPhone($phone)
+	public static function isValidPhone($phone, $pattern = '#\+7 \(\d{3}\) \d{3}\-\d{2}-\d{2}#')
 	{
-		return preg_match("#\+7 \(\d{3}\) \d{3}\-\d{2}-\d#", $phone);
+		return preg_match($pattern, $phone);
 	}
 
 	/**

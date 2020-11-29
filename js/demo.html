@@ -1,0 +1,418 @@
+<html>
+<head>
+<link href="./jquery.multiselect.std.css" rel="stylesheet" />
+<script type='text/javascript' src='./jquery.min.js'></script>
+<script type='text/javascript'>var $nc = jQuery.noConflict();</script>
+<script type='text/javascript'>if (typeof $ == 'undefined') $ = jQuery;</script>
+<script type='text/javascript' src="./jquery.multiselect.js"></script>
+<link href="./nouislider.min.css" rel="stylesheet" />
+<script type='text/javascript' src="./nouislider.min.js"></script>
+
+<style>
+.header1 {
+  border: 2px black solid;
+  width: 10%;
+  height: 90%;
+  left: 1%;
+  top: 0;
+  position: absolute;
+}
+.header2 {
+  border: 2px black solid;
+  width: 15%;
+  height: 90%;
+  left: 12%;
+  top: 0;
+  position: absolute;
+}
+.hmenu {
+  border: 2px black solid;
+  !list-style-type: none;
+  margin: 8px;
+  padding: 8px;
+  !width: 95%;
+  height: 60px;
+  !box-sizing: border-box;
+}
+.hitem {
+  !border: 1px red solid;
+  float: left;
+  display: box;
+  padding: 4px;
+  background-color: #dddddd;
+  !height: 60px;
+  position: relative;
+}
+#select-steelx .ms-options > ul label {
+    !position: relative;
+    !display: inline-block;
+    !width: 100%;
+    !height: 16px;
+    !padding: 1px 1px 1px 1px;
+    margin: 1px 0;
+    border: 1px dotted transparent;
+    !overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#select-steelx button:after {
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    border: 6px solid rgba(0, 0, 0, 0);
+    border-top-color: #999;
+    margin-top: -3px;
+}
+#select-steelx .ms-options-wrap > button:focus,
+#select-steelx .ms-options-wrap > button {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    padding: 0px 15px 0px 2px;
+    !margin-top: 1px;
+    !font-size: 12px;
+    color: black;
+    outline-offset: 1px;
+    white-space: nowrap;
+}
+#select-steel-boxx .ms-options-wrap > .ms-options > .ms-search input {
+    width: 80%;
+    margin: 0px 0px 0px 4px;
+    !border: 1px solid;
+    !border-bottom: 1px groove;
+    outline: none;
+	!color: red;
+}
+
+#select-steel-boxx .ms-options-wrap > .ms-options > .ms-selectall {
+    !display: block;
+    !margin: 2px 20px 2px 0;
+    border: 1px;
+    !font-size: .9em;
+    !text-transform: lowercase;
+    !text-decoration: none;
+	!color: blue;
+}
+#select-steel-boxx .ms-options-wrap > .ms-options .ms-selectall:hover {
+    text-decoration: none;
+    background-color: #efefef;
+	!font-weight:bold;
+    border-color: black;
+}
+#select-steel-boxx .ms-options-wrap > .ms-options > .ms-selectall.global {
+    padding: 1px 12px 0 12px;
+	border: 1px solid;
+}
+
+.range-widget__slider {
+  margin: 3px 0 0 0;
+  width: 100%;
+}
+.range-widget .noUi-horizontal {
+  !height: 8px;
+  border-radius: 1px;
+  border: 0 none;
+  !box-shadow: 0 1px 0 #fff, inset 0 1px 1px rgba(0,0,0,0.15);
+}
+.range-widget .noUi-connect {
+  top: 3px;
+  height: 12px;
+  border-radius: 1px;
+  background: #099aff;
+  box-shadow: 0 1px 0 #fff, inset 0 1px 1px rgba(121,139,81,0.49);
+}
+.range-widget .noUi-horizontal .noUi-handle {
+  left: 5px;
+  top: 0px;
+  width: 15px;
+  height: 17px;
+  !border-radius: 50%;
+  !outline: 0 none;
+  border: 1px solid;
+  background-color: #f5f5f5;
+  background-image: -webkit-linear-gradient(bottom, rgba(121,139,81,0.09) 0%, rgba(121,139,81,0) 100%);
+  background-image: linear-gradient(to top, rgba(121,139,81,0.09) 0%, rgba(121,139,81,0) 100%);
+  box-shadow: 0 1px 3px rgba(121,139,81,0.61);
+}
+.range-widget .noUi-horizontal .noUi-handle:before,
+.range-widget .noUi-horizontal .noUi-handle:after {
+  display: none;
+}
+#select-steel-box .ms-options {
+    width: 350%;
+}
+#select-manuf-box .ms-options {
+    width: 400%;
+}
+#select-state-box .ms-options {
+    width: 100%;
+	right: 0;
+}
+#select-mater-box .ms-options {
+    width: 500px;
+	left: -300px;
+}
+
+</style>
+</head>
+<body>
+search array = <span id='prm'></span><br>
+<div style='width:100%; border: 3px blue solid;'>
+<form class='hmenu' style='visibility: visible'>
+<div id='select-price-box' class='hitem' style='width: 134px;'>
+<b>Цена,&nbsp;р.</b><br>
+  	<div data-min-value='0' data-max-value='20000' margin='3000' step='100' class='range-widget js-range'>
+		<input type='text' name='price1' class='range-widget-min' style='width:60px;' size='5' maxlength='16'>
+		-
+		<input type='text' name='price2' class='range-widget-max' style='width:60px;' size='5' maxlength='16'>
+		<div class='range-widget__slider'></div>
+	</div>
+</div>
+<div id='select-steel-box' class='hitem' style='width: 160px;'>
+<b>Сталь:</b><br>
+    <select id='select-steel' name='steel' multiple class='3col active' style='width: 100%; padding: 1px 1px 1px 1px;'>
+  	</select>
+</div>
+<div id='select-strong-box' class='hitem' style='width: 94px;'>
+<b>Твердость:</b><br>
+  	<div data-min-value='0' data-max-value='100' currentMaxValue='100' class='range-widget js-range'>
+		<input type='text' name='stron1' class='range-widget-min' style='width:40px;' size='3' maxlength='16'>
+		-
+		<input type='text' name='stron2' class='range-widget-max' style='width:40px;' size='3' maxlength='16'>
+		<div class='range-widget__slider'></div>
+	</div>
+</div>
+<div id='select-manuf-box' class='hitem' style='width: 160px;'>
+<b>Производитель:</b><br>
+    <select id='select-manuf' name='manuf' multiple class='3col active' style='width: 100%; padding: 1px 1px 1px 1px;'>
+  	</select>
+</div>
+<div id='select-state-box' class='hitem' style='width: 120px;'>
+<b>Страна:</b><br>
+    <select id='select-state' name='state' multiple class='3col active' style='width: 100%; padding: 1px 1px 1px 1px;'>
+  	</select>
+</div>
+<div id='select-length-box' class='hitem' style='width: 114px;'>
+<b>Клинок,&nbsp;мм.:</b><br>
+  	<div data-min-value='0' data-max-value='100' currentMaxValue='100' class='range-widget js-range'>
+		<input type='text' name='lengt1' class='range-widget-min' style='width:40px;' size='4' maxlength='16'>
+		-
+		<input type='text' name='lengt2' class='range-widget-max' style='width:40px;' size='4' maxlength='16'>
+		<div class='range-widget__slider'></div>
+	</div>
+</div>
+<div id='select-mater-box' class='hitem' style='width: 180px;'>
+<b>Материал рукояти:</b><br>
+    <select id='select-mater' name='mater' multiple class='3col active' style='width: 100%; padding: 1px 1px 1px 1px;'>
+  	</select>
+</div>
+<button id='submit-search' type='submit' formmethod='get' formaction='#' style='float:right'>
+<b>Поиск</b>
+</button>
+</form>
+<br><span id='ajax-result'><span>
+</div>
+
+<script>
+$(function () {
+
+	const steel = $('#select-steel-box [name=steel]'); 
+//	steel.prop('multiple', 'multiple');
+	steel.multiselect({
+		columns: 3,
+		placeholder: '---------Все---------',
+		search: true,
+		searchOptions: {
+		  'default': '<найти по названию>'
+		},
+		texts: {
+		  selectedOptions: ' выбрано',
+		  selectAll: 'Отметить все',
+		  unselectAll: 'Убрать все'
+		},
+		selectAll: true,
+		//checkboxAutoFit: true
+	});
+//	steel.find('option:first').remove();
+
+	const manuf = $('#select-manuf-box [name=manuf]'); 
+//	manuf.prop('multiple', 'multiple');
+	manuf.multiselect({
+		columns: 4,
+		placeholder: '---------Все---------',
+		search: true,
+		searchOptions: {
+		  'default': '<найти по названию>'
+		},
+		texts: {
+		  selectedOptions: ' выбрано',
+		  selectAll: 'Отметить все',
+		  unselectAll: 'Убрать все'
+		},
+		selectAll: true,
+		//checkboxAutoFit: true
+	});
+	
+	const state = $('#select-state-box [name=state]'); 
+//	manuf.prop('multiple', 'multiple');
+	state.multiselect({
+		columns: 1,
+		placeholder: '---------Все---------',
+		//search: true,
+		//searchOptions: {
+		//  'default': '<найти по названию>'
+		//},
+		texts: {
+		  selectedOptions: ' выбрано',
+		  selectAll: 'Отметить все',
+		  unselectAll: 'Убрать все'
+		},
+		selectAll: true,
+		//checkboxAutoFit: true
+	});
+
+	const mater = $('#select-mater-box [name=mater]'); 
+//	manuf.prop('multiple', 'multiple');
+	mater.multiselect({
+		columns: 3,
+		placeholder: '---------Все---------',
+		search: true,
+		searchOptions: {
+		  'default': '<найти по названию>'
+		},
+		texts: {
+		  selectedOptions: ' выбрано',
+		  selectAll: 'Отметить все',
+		  unselectAll: 'Убрать все'
+		},
+		selectAll: true,
+		//checkboxAutoFit: true
+	});
+
+	function get_opts(data, prms, nameeq) {
+		let opts = [];
+		for (const x in data) {
+//			alert(x+' '+data[x].id+'='+data[x].name);
+			let opt = {
+				name: 	data[x].name,
+				value: 	data[x].id,
+				checked: (prms.indexOf(nameeq+data[x].id+'&')>=0 ? true : false)
+			};
+			opts.push(opt);
+		};
+		return opts;
+	}
+
+	$.getJSON('./search.api.php')
+	.done(function(data){
+//		alert(JSON.stringify(data));
+//		$('#ajax-result').text(JSON.stringify(data));
+//		let items = [];
+		let getprms = window.location.search.replace('#','&')+'&';
+//		alert(JSON.stringify(opts));
+		steel.multiselect ('loadOptions', get_opts(data.steel, getprms, 'steel='), true, true);
+		manuf.multiselect ('loadOptions', get_opts(data.manuf, getprms, 'manuf='), true, true);
+		state.multiselect ('loadOptions', get_opts(data.state, getprms, 'state='), true, true);
+		mater.multiselect ('loadOptions', get_opts(data.mater, getprms, 'mater='), true, true);
+//		$('<ul/>', {
+//			html: items.join('')
+//		}).appendTo('body');		
+	})
+	.fail(function(e){
+//		alert('error '+e);
+		$('#ajax-result').html('Ошибка обращения к серверу:<br>'+JSON.stringify(e));
+	});
+
+	let prms = window.location.search.replace('?','').split('&');
+	$('#prm').text(JSON.stringify(prms));
+	for (let prm in prms) {
+		if (prms[prm].slice(0,7)=='price1=') {
+			let selval = prms[prm].slice(7);
+//			alert('price1='+selval+' ('+$('#price1').val()+')');
+			$('#select-price-box input[name=price1]').val(selval);
+		} else
+		if (prms[prm].slice(0,7)=='price2=') {
+			let selval = prms[prm].slice(7);
+			$('#price2').val(selval);
+			$('#select-price-box input[name=price2]').val(selval);
+		} else
+		if (prms[prm].slice(0,7)=='stron1=') {
+			let selval = prms[prm].slice(7);
+			$('#select-strong-box input[name=stron1]').val(selval);
+		} else
+		if (prms[prm].slice(0,7)=='stron2=') {
+			let selval = prms[prm].slice(7);
+			$('#select-strong-box input[name=stron2]').val(selval);
+		} else
+		if (prms[prm].slice(0,7)=='lengt1=') {
+			let selval = prms[prm].slice(7);
+			$('#select-length-box input[name=lengt1]').val(selval);
+		} else
+		if (prms[prm].slice(0,7)=='lengt2=') {
+			let selval = prms[prm].slice(7);
+			$('#select-length-box input[name=lengt2]').val(selval);
+		}
+	}
+
+//	steel.multiselect('reload');
+
+	let navRange = $('.js-range');
+	navRange.each(function () {
+		let min = parseInt($(this).data('minValue') || 0),
+			max = parseInt($(this).data('maxValue') || 1000),
+			margin = parseInt($(this).data('margin') || 0),
+			step = parseInt($(this).data('step') || 0),
+			inputMin = $(this).find('.range-widget-min'),
+			inputMax = $(this).find('.range-widget-max'),
+			currentMin = (inputMin.val() || 0 ? inputMin.val() : parseInt($(this).data('currentMinValue') || 0)),
+			currentMax = (inputMax.val() || 0 ? inputMax.val() : parseInt($(this).data('currentMaxValue') || 0)),
+			slider = $(this).find('.range-widget__slider');
+
+//		alert('min='+inputMin.val()+' max='+inputMax.val());
+ 
+		if(inputMin.length && inputMax.length && slider.length) {
+		  let inputs = [inputMin[0], inputMax[0]],
+			  keypressSlider = slider[0];
+		  noUiSlider.create(keypressSlider, {
+			  start: [currentMin, currentMax],
+			  connect: true,
+			  'margin': margin,
+			  direction: 'ltr',
+			  'step': step,
+			  range: {
+				'min': min,
+				'max': max
+			  }
+		  });
+		  keypressSlider.noUiSlider.on('update', function( values, handle ) {
+			  inputs[handle].value = parseInt(values[handle]);
+		  });
+		  inputMin[0].addEventListener('change', function(){
+			let slider = keypressSlider.noUiSlider;
+			let newval = this.value;
+			if (!newval || newval < slider.options.range.min) newval = slider.options.range.min;
+			if (newval > slider.get()[1]) newval = parseInt(slider.get()[1]) - slider.options.margin;
+			slider.setHandle(0, newval, true, true);
+		  });
+		  inputMax[0].addEventListener('change', function(){
+			let slider = keypressSlider.noUiSlider;
+			let newval = this.value;
+//			alert(newval+'\n'+slider.get());
+			if (!newval || newval > slider.options.range.max) newval = slider.options.range.max;
+			if (newval < slider.get()[0]) newval = parseInt(slider.get()[0]) + slider.options.margin;
+			slider.setHandle(1, newval, true, true);
+		  });
+		}
+	});
+
+	$('.hmenu').css('visibility', 'visible');
+	
+});
+</script>
+</body>
+</html>

@@ -1,6 +1,14 @@
 <?php
 include "../vars.inc.php";
 
+//function abort($msg) {
+//	$buf = ob_get_clean();
+//	header("HTTP/1.0 400 Bad Request");
+//	echo $buf;
+//	ob_end_flush();
+//	exit;
+//}
+
 session_start();
 
 	// utm parms +OPE 2020.11.07
@@ -22,8 +30,7 @@ require_once './mailer/Validator.php';
 require_once './mailer/ContactMailer.php';
 
 if (!Validator::isAjax() || !Validator::isPost()) {
-	echo 'Доступ запрещен!';
-	exit;
+	die('Доступ запрещен!');
 }
 	// str_replace +OPE 2020.11.07
 $name = isset($_POST['name']) ? trim(strip_tags(str_replace("'",'`',$_POST['name']))) : null;
@@ -37,19 +44,17 @@ $itemart = isset($_POST['itemart']) ? trim(strip_tags($_POST['itemart'])) : '0-1
 $itemname = isset($_POST['itemname']) ? trim(strip_tags($_POST['itemname'])) : 'Нож Японский (дамасская сталь), береста';
 
 if (empty($name) || empty($phone)) {
-	echo 'Поля, отмеченные *, обязательны для заполнения.';
-	exit;
+	die(iconv("UTF-8","windows-1251//TRANSLIT", 'Поля, отмеченные *, обязательны для заполнения.'));
 }
 
 if (($email!="")&&(!Validator::isValidEmail($email))) {
-	echo 'E-mail не соответствует формату.';
-	exit;
+	die(iconv("UTF-8","windows-1251//TRANSLIT", 'E-mail не соответствует формату.'));
 }
 
-if (!Validator::isValidPhone($phone)) {
-	echo 'Телефон не соответствует формату.';
-	exit;
+if (!Validator::isValidPhone($phone, '#\+\d{1} \(\d{3}\) \d{3}\-\d{2}-\d{2}#')) {
+	die(iconv("UTF-8","windows-1251//TRANSLIT", 'Телефон не соответствует формату.'));
 }
+
 // save order in DB 
 // 2 - fast order / type
 // 5 - new order / status
@@ -176,8 +181,8 @@ if (!Validator::isValidPhone($phone)) {
 	mysqli_close($link);
 
 if (ContactMailer::send($name, $email, $phone, $message, $itemid, $itemart, $itemname, ceil($itemprice), $itemorprice, $order_id)) {
-	echo iconv("UTF-8","windows-1251//TRANSLIT",htmlspecialchars($name).', ваш заказ №'.$order_id.' успешно отправлен. Наш менеджер свяжется с Вами в ближайшее время. ');
+	echo iconv("UTF-8","windows-1251//TRANSLIT", 'OK!'.htmlspecialchars($name).', ваш заказ №'.$order_id.' успешно отправлен. Наш менеджер свяжется с Вами в ближайшее время. ');
 } else {
-	echo 'Произошла ошибка! Не удалось отправить сообщение.';
+	echo iconv("UTF-8","windows-1251//TRANSLIT", 'Произошла ошибка! Не удалось отправить сообщение.');
 }
 exit;

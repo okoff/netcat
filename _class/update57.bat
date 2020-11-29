@@ -1,0 +1,1 @@
+update.bat 57 RecordTemplateFull

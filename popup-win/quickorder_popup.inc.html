@@ -1,0 +1,51 @@
+	<div class='modal fade' id='quickOrder' tabindex='-1' role='dialog' aria-labelledby='quickOrderLabel' aria-hidden='true'>
+		<div class='modal-dialog' role='document'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h3 class='modal-title' id='quickOrderLabel'>Быстрый заказ</h3>
+					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+						<span aria-hidden='true'>&times;</span>
+					</button>
+				</div>
+				<div class='modal-body'>
+					<div id='quickOrderfrmfields'>
+						<form id='quickOrderForm'>
+							<input type='hidden' id='itemid' name='itemid'>
+							<input type='hidden' id='itemart' name='itemart'>
+							<input type='hidden' id='itemname' name='itemname'>
+							<input type='hidden' id='itemprice' name='itemprice'>
+							<input type='hidden' id='itemorprice' name='itemorprice'>
+							<div class='form-group'>
+								<label for='name'>* Ваше имя:</label>
+								<input id='name' class='form-control form-control-sm' name='name' required type='text'>
+							</div>
+							<div class='form-group'>
+								<label for='phone'>* Ваш телефон:</label>
+								<input id='phone' class='form-control form-control-sm' name='phone' required type='text' placeholder='+_ (___) ___-__-__'>
+							</div>
+							<div class='form-group'>
+								<label for='email'>Ваш E-mail:</label>
+								<input id='email' class='form-control form-control-sm' name='email' type='text'>
+							</div>
+							<div class='form-group'>
+								<label for='message'>Текст сообщения:</label>
+								<textarea id='message' class='form-control form-control-sm' name='message' rows='2'></textarea>
+							</div>
+							<div class='form-group form-check'>
+								<input id='check' class='form-check-input' checked type='checkbox'>
+								<label class='form-check-label' for='check'>* Я принимаю 
+								<a target='_blank' href='/about/agreement/'>соглашение об обработке и хранении персональных данных
+								</a></label>
+							</div>
+							<div><small>* для обязательного заполнения</small><br><br></div>
+							<button id='quickOrderSubmit' class='btn btn-success' type='submit' onClick=\"ym(2308948, 'reachGoal', 'fastorder'); return true;\">Отправить заказ</button>
+						</form>
+					</div>
+					<div class='result'>
+						<span id='quickOrderAnswer'></span>
+						<span id='quickOrderLoader' style='display:none'><img src='/popup-win/images/loader.gif' alt=''></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
