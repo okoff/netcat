@@ -1,7 +1,7 @@
 //jQuery(document).ready(function($) {
 document.addEventListener('DOMContentLoaded', function() {
 
-    // Добавляем маску для поля с номера телефона
+    	// Обработка маски для поля с номером телефона
 	$('#phone').on('keypress', function(e) {
 		e = e || window.event;
 		var target = e.target || e.srcElement;
@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			char=String.fromCharCode(code);
 			if ('0123456789'.indexOf(char) == -1) return false;
 
-			let	p = this.placeholder,
+			let	t = this.getAttribute('template'),
+				p = this.placeholder,
 				c = this.selectionStart
 				r = null;
 
@@ -22,18 +23,19 @@ document.addEventListener('DOMContentLoaded', function() {
 				c = 4;
 			}
 
-			for (let s = c; s < p.length; s++) {
-				if (p[s] == '_' || p[s] == '7') {
+			for (let s = c; s < t.length; s++) {
+				if (t[s] == '9') {
 					if (!r) {
 						r = s;
+						this.value = this.value.slice(0,s) + char +  this.value.slice(s+1)
 						this.setRangeText(char, r, r+1, 'end'); 
 					} else {
 						this.selectionStart = s;
 						this.selectionEnd = s;
-						return false;
+		  				return false;
 					}
 				}
-			}
+		    	}
 		}	
 		return true;
 	});
@@ -46,13 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				return true;
 			}
 		
-		let	p = this.placeholder,
+		let	t = this.getAttribute('template'),
+			p = this.placeholder,
 			c = this.selectionStart,
 			fp = 0,
 			fv = '';
-		
-		for (let s = 0; s < p.length; s++) {
-			if ((p[s] == '_' || p[s] == '7') && fp < f.length) {
+	
+		for (let s = 0; s < t.length; s++) {
+			if (t[s] == '9' && fp < f.length) {
 				if (fp == 0 && (f[fp] == '8' || f[fp] == '_')) {
 					fv += '7';
 				} else {
@@ -90,30 +93,30 @@ document.addEventListener('DOMContentLoaded', function() {
             button = $('#quickOrderSubmit'),
             answer = $('#quickOrderAnswer'),
             loader = $('#quickOrderLoader'),
-			frmfields = $('#quickOrderfrmfields');
+	    frmfields = $('#quickOrderfrmfields');
 
         var jqxhr = $.ajax({
             url: '/popup-win/handler.php',
             type: 'POST',
             data: form.serialize(),
             beforeSend: function() {
-				answer.text('Отправка запроса...');
+		answer.text('Отправка запроса...');
                 button.attr('disabled', true).css('margin-bottom', '20px');
                 loader.fadeIn();
             },
             success: function(result, textStatus, request) {
-				if (result.substr(0,3) == 'OK!') {
-					loader.fadeOut(300, function() {
-						frmfields.empty();
-						answer.text(result.substr(3));
-					});
-					form.find('.form-control').val(' ');
-					button.attr('disabled', true);
-				} else {
-					loader.fadeOut(300, function() {
-						answer.text(result);
-					});
-					button.attr('disabled', false);			
+		if (result.substr(0,3) == 'OK!') {
+			loader.fadeOut(300, function() {
+				frmfields.empty();
+				answer.text(result.substr(3));
+			});
+			form.find('.form-control').val(' ');
+			button.attr('disabled', true);
+		} else {
+			loader.fadeOut(300, function() {
+				answer.text(result);
+			});
+			button.attr('disabled', false);			
                 }				
             },
             error: function(request, textStatus, errorThrown) {
