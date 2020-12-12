@@ -104,13 +104,13 @@ function getStatusDate($id,$status) {
 
 function printOrder($row) {
 	$html="
-	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMin']))."</td>
-	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMax']))."</td>
-	<td style='vertical-align:top;'>".$row['domain']."</td>
 	<td style='vertical-align:top;'>".$row['campaign']."</td>
+	<td style='vertical-align:top;'>".$row['domain']."</td>
 	<td style='vertical-align:top;'>".$row['orders']."</td>
 	<td style='vertical-align:top;'>".$row['amount']."</td>
 	<td style='vertical-align:top;'>".$row['delivery']."</td>
+	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMin']))."</td>
+	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMax']))."</td>
 	</tr>";
 	return $html;
 }
@@ -232,22 +232,22 @@ FROM (
 		href
 ) S 
 GROUP BY
-	domain,
-	campaign
+	campaign,
+	domain
 ORDER BY
-	domain,
-	campaign";
+	campaign,
+	domain";
 
 	if ($incoming['start']!=1) {
 		$html.="<table cellpadding='2' cellspacing='0' border='1'>
 	<tr style='font-weight:bold;'>
-		<td>Дата минимум</td>
-		<td>Дата максимум</td>
-		<td>Домен</td>
 		<td>Кампания</td>
+		<td>Домен</td>
 		<td>Всего заказов</td>
 		<td>На сумму</td>
 		<td>Доставка</td>
+		<td>Дата минимум</td>
+		<td>Дата максимум</td>
 	</tr>";
 		if ($result=mysql_query($sql)) {
 			$html="<p>Всего кампаний: <b>".mysql_num_rows($result)."</b></p>".$html;

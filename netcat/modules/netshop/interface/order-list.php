@@ -1,10 +1,107 @@
 <?php
 // 12.11.2013 Elen
-// 14.10.2020 OPE
+// 14.10.2020 OPE отображение utm, href
+// 12.12.2020 OPE фильтр по utm, href
 // поиск и просмотр списка заказов
 include_once ("../../../../vars.inc.php");
 session_start();
 // ------------------------------------------------------------------------------------------------
+function selectOrderDomain($sel="") {
+	$res="";
+	$res="<select name='domain' id='domain'>
+		<option value=''>---</option>";
+	$sql="
+SELECT DISTINCT
+    LEFT(
+        RIGHT(
+            `href` ,
+            length(`href`) - (position('//' IN `href`) + 1)
+        ) ,
+        position(
+            '/' IN RIGHT(
+                `href` ,
+                length(`href`) - (position('//' IN `href`) + 1)
+            )
+        ) - 1
+    ) AS domain
+FROM
+	Message51
+WHERE
+	LENGTH(IFNULL(href,''))>0
+ORDER BY
+	domain";
+	if ($result=mysql_query($sql)) {
+		while($row = mysql_fetch_array($result)) {
+			$res.="<option value='{$row['domain']}' ".(($row['domain']==$sel) ? "selected" : "").">{$row['domain']}</option>";
+		}
+	}
+	$res.="</select>";
+	return $res;
+}
+function selectOrderCampaign($sel="") {
+	$res="";
+	$res="<select name='campaign' id='campaign'>
+		<option value=''>---</option>";
+	$sql="
+SELECT DISTINCT
+    LEFT(
+        RIGHT(
+            `utm` ,
+            length(`utm`) - (position('utm_campaign=' IN `utm`) + 12)
+        ) ,
+        position(
+            ';' IN RIGHT(
+                `utm` ,
+                length(`utm`) - (position('utm_campaign=' IN `utm`) + 12)
+            )
+        ) - 1
+    ) AS campaign
+FROM
+	Message51
+WHERE
+	LENGTH(IFNULL(utm,''))>0
+ORDER BY
+	campaign";
+	if ($result=mysql_query($sql)) {
+		while($row = mysql_fetch_array($result)) {
+			$res.="<option value='{$row['campaign']}' ".(($row['campaign']==$sel) ? "selected" : "").">{$row['campaign']}</option>";
+		}
+	}
+	$res.="</select>";
+	return $res;
+}
+function selectOrderSource($sel="") {
+	$res="";
+	$res="<select name='source' id='source'>
+		<option value=''>---</option>";
+	$sql="
+SELECT DISTINCT
+    LEFT(
+        RIGHT(
+            `utm` ,
+            length(`utm`) - (position('utm_source=' IN `utm`) + 10)
+        ) ,
+        position(
+            ';' IN RIGHT(
+                `utm` ,
+                length(`utm`) - (position('utm_source=' IN `utm`) + 10)
+            )
+        ) - 1
+    ) AS source
+FROM
+	Message51
+WHERE
+	LENGTH(IFNULL(utm,''))>0
+ORDER BY
+	source";
+	if ($result=mysql_query($sql)) {
+		while($row = mysql_fetch_array($result)) {
+			$res.="<option value='{$row['source']}' ".(($row['source']==$sel) ? "selected" : "").">{$row['source']}</option>";
+		}
+	}
+	$res.="</select>";
+	return $res;
+}
 function selectOrderType($sel="") {
 	$res="";
 	$res="<select name='type' id='type'>
@@ -150,6 +247,21 @@ function getOrderList($incoming) {
 	$where="";
 	$closed=0;
 	
+	if ((isset($incoming['domain'])) && ($incoming['domain']!="")) {
+		(strlen($where)>3) ? $where.=" AND " : "";
+		$where.=" Message51.href LIKE '%//".$incoming['domain']."/%'";
+		$closed=1;
+	}
+	if ((isset($incoming['campaign'])) && ($incoming['campaign']!="")) {
+		(strlen($where)>3) ? $where.=" AND " : "";
+		$where.=" Message51.utm LIKE '%utm_campaign=".$incoming['campaign'].";%'";
+		$closed=1;
+	}
+	if ((isset($incoming['source'])) && ($incoming['source']!="")) {
+		(strlen($where)>3) ? $where.=" AND " : "";
+		$where.=" Message51.utm LIKE '%utm_source=".$incoming['source'].";%'";
+		$closed=1;
+	}
 	if ((isset($incoming['type'])) && ($incoming['type']!="")) {
 		(strlen($where)>3) ? $where.=" AND " : "";
 		$where.=" Message51.Type=".$incoming['type'];
@@ -408,6 +520,19 @@ if ((isset($_SESSION['nc_token_rand'])) || ((isset($_SESSION['insideadmin'])) &&
 			<td><input type='text' value='<?php echo ((isset($incoming['phone'])) ? $incoming['phone'] : "");  ?>' name='phone' id='phone'></td>
 			<td align='right'>Баркод:</td>
 			<td><input type='text' value='<?php echo ((isset($incoming['barcode'])) ? $incoming['barcode'] : "");  ?>' name='barcode' id='barcode'></td>
+		</tr>
+		</tr><tr>
+			<td align='right'>Реклама:</td>
+			<td colspan="3">
+				<table cellpadding="0" cellspacing="5" border="0"><tr>
+					<td align='right'>Кампания:</td>
+					<td><?php echo selectOrderCampaign(((isset($incoming['campaign'])) ? $incoming['campaign'] : "")); ?></td>
+					<td align='right'>Источник:</td>
+					<td><?php echo selectOrderSource(((isset($incoming['source'])) ? $incoming['source'] : "")); ?></td>
+					<td align='right'>Домен:</td>
+					<td><?php echo selectOrderDomain(((isset($incoming['domain'])) ? $incoming['domain'] : "")); ?></td>
+				</tr></table>
+			</td>					
 		</tr>
 		<tr>
 			<td colspan="4">
