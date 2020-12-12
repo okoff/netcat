@@ -260,6 +260,7 @@ function printMenu() {
 		<li style='padding:0 0 3px 0;'><a href='/netcat/modules/netshop/interface/clients.php?start=1'>Клиенты</a></li>
 		<li style='padding:0 0 3px 0;'><a href='/netcat/modules/netshop/interface/clients-requests.php'>Заявки</a></li>
 		<li style='padding:0 0 3px 0;'><a href='/netcat/modules/netshop/interface/retail-list.php'>Розничные продажи</a></li>
+		<li style='padding:0 0 3px 0;'><a href='/netcat/modules/netshop/interface/order-utm-stat.php'>Рекламные кампании</a></li>
 	</ul>
 	</td><td style='vertical-align:top;font-size:11px;'>
 	<ul style='margin:0 0 0 15px;padding:0;'>

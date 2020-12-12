@@ -104,14 +104,13 @@ function getStatusDate($id,$status) {
 
 function printOrder($row) {
 	$html="
-	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['Created']))."</td>
-	<td style='vertical-align:top;'>".str_replace(";","<BR>",$row['utm'])."</td>
-	<td style='vertical-align:top;'>".
-	((strlen($row['href'])>24) 
-		? "<div class='tooltip'>".substr($row['href'],0,59)."<span class='tooltiptext'>".$row['href']."</span></div>"
-		: $row['href']
-	)."</td>
-	<td style='vertical-align:top;'>".$row['Daily']."</td>
+	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMin']))."</td>
+	<td style='vertical-align:top;{$stylecom}'>".date("d.m.Y", strtotime($row['DateMax']))."</td>
+	<td style='vertical-align:top;'>".$row['domain']."</td>
+	<td style='vertical-align:top;'>".$row['campaign']."</td>
+	<td style='vertical-align:top;'>".$row['orders']."</td>
+	<td style='vertical-align:top;'>".$row['amount']."</td>
+	<td style='vertical-align:top;'>".$row['delivery']."</td>
 	</tr>";
 	return $html;
 }
@@ -177,34 +176,81 @@ function getOrderList($incoming) {
 	}
 	
 	($closed) ? $where=" NOT  Message51.closed=1 AND ".$where : "";
-	($where!="") ? $where=" WHERE ".$where : $where=" WHERE Message51.Created BETWEEN '".date("Y-m-d 00:00:00")."' AND '".date("Y-m-d 23:59:59")."'";
+	($where!="") ? $where=" AND ".$where : $where=" AND Message51.Created BETWEEN '".date("Y-m-d 00:00:00")."' AND '".date("Y-m-d 23:59:59")."'";
 	//echo $where."<br>";
 	$sql="
-	SELECT 
-		DATE(Message51.Created) Created,
-		IFNULL(Message51.utm,'') utm,
-		IFNULL(Message51.href,'') href,
-		COUNT( * ) Daily
-	FROM Message51
-		".$where."
-	GROUP BY 
-		DATE(Message51.Created), 
-		IFNULL(Message51.utm,''), 
-		IFNULL(Message51.href,'')
-	ORDER BY 
-		DATE(Message51.Created) DESC,
-		Message51.utm, 
-		Message51.href";
+SELECT
+	MIN(Created) AS DateMin,
+	MAX(Created) AS DateMax,
+    LEFT(
+        RIGHT(
+            `href` ,
+            length(`href`) - (position('//' IN `href`) + 1)
+        ) ,
+        position(
+            '/' IN RIGHT(
+                `href` ,
+                length(`href`) - (position('//' IN `href`) + 1)
+            )
+        ) - 1
+    ) AS domain,
+
+    LEFT(
+        RIGHT(
+            `utm` ,
+            length(`utm`) - (position('utm_campaign=' IN `utm`) + 12)
+        ) ,
+        position(
+            ';' IN RIGHT(
+                `utm` ,
+                length(`utm`) - (position('utm_campaign=' IN `utm`) + 12)
+            )
+        ) - 1
+    ) AS campaign,
+	COUNT(*) AS orders,
+	SUM(cost) AS amount,
+	SUM(DeliveryCost) AS delivery
+FROM (
+	SELECT
+		Message_ID,
+		Created,
+		utm,
+		href,
+		SUM(G.ItemPrice*G.Qty) cost,
+		DeliveryCost
+	FROM
+		Message51
+		LEFT JOIN Netshop_OrderGoods G ON G.Order_ID=Message51.Message_ID
+	WHERE
+		LENGTH(CONCAT(IFNULL(utm,''),IFNULL(href,'')))>0 AND
+		POSITION('knife.ru' IN href)=0
+    		".$where."
+	GROUP BY
+		Message_ID,
+		Created,
+		utm,
+		href
+) S 
+GROUP BY
+	domain,
+	campaign
+ORDER BY
+	domain,
+	campaign";
+
 	if ($incoming['start']!=1) {
 		$html.="<table cellpadding='2' cellspacing='0' border='1'>
 	<tr style='font-weight:bold;'>
-		<td>Дата</td>
-		<td>UTM</td>
-		<td>HREF</td>
-		<td>Лидов</td>
+		<td>Дата минимум</td>
+		<td>Дата максимум</td>
+		<td>Домен</td>
+		<td>Кампания</td>
+		<td>Всего заказов</td>
+		<td>На сумму</td>
+		<td>Доставка</td>
 	</tr>";
 		if ($result=mysql_query($sql)) {
-			$html="<p>Всего лидов: <b>".mysql_num_rows($result)."</b></p>".$html;
+			$html="<p>Всего кампаний: <b>".mysql_num_rows($result)."</b></p>".$html;
 			while($row = mysql_fetch_array($result)) {
 				$html.=printOrder($row);
 			}
@@ -229,51 +275,20 @@ if (!$con) {
 }
 
 mysql_select_db($MYSQL_DB_NAME, $con);
-//mysql_set_charset("cp1251", $con);
 mysql_set_charset("utf8", $con);
-$where="";
-//print_r($incoming);
-switch ($incoming['action']) {
-	
-	default:
-		$html=getOrderList($incoming);
-		break;
-}
+$html = getOrderList($incoming);
 
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Статистика по лидам заказов</title>
+	<title>Статистика по рекламным кампаниям</title>
 	<meta content='text/html;charset=windows1251' http-equiv='content-type' />
 	<style>
 	body, td {
 		font-size:10pt;
 		font-family:Tahoma;
 	}
-	.tooltip {
-	  position: relative;
-	  display: inline-block;
-	  border-bottom: 1px dotted black;
-	}
-	.tooltip .tooltiptext {
-	  visibility: hidden;
-	  width: 480px;
-	  background-color: black;
-	  color: #fff;
-	  text-align: left;
-	  border-radius: 6px;
-	  padding: 5px 0;
- 
-	  /* Position the tooltip */
-	  position: absolute;
-	  left: 0;
-	  z-index: 1;
-	}
-	.tooltip:hover .tooltiptext {
-	  visibility: visible;
-	}
-</style>
 	</style>
 </head>
 <body>
@@ -282,7 +297,7 @@ switch ($incoming['action']) {
 if ((isset($_SESSION['nc_token_rand'])) || ((isset($_SESSION['insideadmin'])) && ($_SESSION['insideadmin']==1))) {
 	echo printMenu();
 ?>
-	<h1>Статистика по лидам заказов</h1>
+	<h1>Статистика по рекламным кампаниям</h1>
 	<form action="/netcat/modules/netshop/interface/order-utm-stat.php" method="post" name="frm1" id="frm1">
 	<fieldset style='border:0;'>
 	<table cellpadding='2' cellspacing='0' border='1'>
