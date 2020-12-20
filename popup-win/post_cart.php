@@ -62,13 +62,13 @@ if ($_POST["cart"]) {
 		   "<tr>
 		   <td".$highlight.">".$row["Name"]."</td>
 		   <td>".$row["Qty"]." ".$row["Units"]."</td>
-		   <td>".$shop->FormatCurrency($row["ItemPrice"])."</td>
-		   <td>".$shop->FormatCurrency($row["ItemPrice"]*$row["Qty"])."</td>
+		   <td>".$row["ItemPrice"]."</td>
+		   <td>".($row["ItemPrice"]*$row["Qty"])."</td>
 		   </tr>";
 		$highlight = "";
 	}
 	$html .= 
-	   "<tr>
+	   "<tr><td></td></tr><tr>
 	   <td><b>Всего:</b></td>
 	   <td><b>".$qty."</b></td>
 	   <td><b>Итого:</b></td>
