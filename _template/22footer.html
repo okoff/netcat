@@ -1,13 +1,48 @@
-					
-".(($action!="full") ? "</td></tr><tr><td class='maincol1_btm'></td></tr></table>" : "")."	
-
-			<div style='margin:30px; color:#000000;'>
-			".(($action!="full") ? $current_sub[ftext] : "")."	
-			</div>				
-		</td>
-		
-	</tr>
+<!-- Footer 22 -->					
+".(($action!="full") ? 
+"</td></tr><tr><td class='maincol1_btm'></td></tr></table>" 
+: "")."	
+<div style='margin:30px; color:#000000;'>
+".(($action!="full") ? $current_sub[ftext] : "")."	
+</div>				
+</td></tr>
 </table>
 </div>
+if (!$admin_mode) {
+<link rel='stylesheet' href='/popup-win/modal.css'>
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js' integrity='sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ' crossorigin='anonymous'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js' integrity='sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm' crossorigin='anonymous'></script>
 
+<style>
+.form-group {
+    margin-bottom: 0;
+}
+.modal-header,
+.modal-body {
+	padding: 10px;
+}
+</style>
+";
+
+$quickcart_name = $NETCAT_FOLDER."popup-win/quickcart_popup.inc.html";
+$quickcart_form = file_get_contents($quickcart_name);
+
+echo "<!-- Загрузка формы добавления в корзину (".$quickcart_name.") размер:".strlen($quickcart_form)." -->
+"; 
+if ($quickcart_form) {
+	echo $quickcart_form;
+}
+
+echo "	
+<script type=\"text/javascript\">
+	let 	cart_key = null,
+		cart_add = null,
+		cart_uri = null; 
+</script>
+<script src='/popup-win/js/quick_cart_popup.js'></script>
+";
+echo "
+<!-- Cart Popup -->
+}
 %Footer

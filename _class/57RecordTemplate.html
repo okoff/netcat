@@ -1,0 +1,143 @@
+".( !($RowNum%$NumCols) && $RowNum ? "" : NULL )."
+<!--td $ColWidth-->
+";
+// если мы в режиме редактирования, то далее следует формирование элементов управление товарами
+if($admin_mode) 
+	{
+	// формируем ссылку на добавление дочернего объекта
+  	$add_child_link = $SUB_FOLDER.$HTTP_ROOT_PATH."add.php?catalogue=$catalogue&sub=$sub&cc=$cc&f_Parent_Message_ID=$f_RowID&curPos=$curPos";
+    
+    // создаем строки таблицы дочерних товаров если они существуют
+    $f_this_item_variants = listQuery("SELECT * FROM Message$classID WHERE Parent_Message_ID=$f_RowID ORDER BY Priority DESC",' 
+  <tr>
+		<td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\' width=\'60%\'>
+        <img src=\''.$ADMIN_PATH.'images/arrow_sec.gif\' width=\'14\' height=\'10\' alt=\'\'>
+        <b>$data[Message_ID].</b> 
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'full.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]\'>$data[Name]</a>
+		</td>
+		<td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\' width=\'15%\' align=\'right\'>
+    <nobr> 
+      ".($data[$GLOBALS["shop"]->PriceColumn] 
+            ? $GLOBALS["shop"]->FormatCurrency($data[$GLOBALS["shop"]->PriceColumn], $data[$GLOBALS["shop"]->CurrencyColumn])
+            : "цена не указана")."
+          </nobr>
+		</td>
+       <td style=\'border-bottom:1px solid #D3D2C9; font-size:100%;\'> </td>
+       <td align=\'right\' style=\'border-bottom:1px solid #D3D2C9;\' width=\'1%\'>
+        <nobr>
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&curPos=$GLOBALS[curPos]\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_edit.gif\' border=\'0\' width=\'16\' height=\'16\' alt=\''.NETCAT_MODERATION_CHANGE.'\'></a>
+      
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&delete=1&curPos=$GLOBALS[curPos]\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_delete.gif\' border=\'0\' width=\'16\' height=\'16\' alt=\''.NETCAT_MODERATION_DELETE.'\'></a>
+      
+        <a href=\''.$SUB_FOLDER.$HTTP_ROOT_PATH.'message.php?catalogue=$GLOBALS[catalogue]&sub=$GLOBALS[sub]&cc=$GLOBALS[cc]&message=$data[Message_ID]&admin_mode=1&posting=1&curPos=$GLOBALS[curPos]&checked=".($data["Checked"] ? 1 : 2)."\'>
+        <img src=\''.$ADMIN_PATH.'skins/default/img/i_obj_turn".($data[Checked] ? "on" : "off").".gif\' border=\'0\' width=\'16\' height=\'16\' alt=\'".($data["Checked"] ? NETCAT_MODERATION_TURNTOON : NETCAT_MODERATION_TURNTOOFF )."\'></a>
+        </nobr>
+       </td>
+    </tr>');
+}
+ 
+// далее идёт непосредственно вывод для фронт-фейса 
+if (($admin_mode) || ($sub==204)) {
+$result .="
+<tr>
+<td width='40'>
+	$f_RowID</td>
+	<td width='50'>$f_ItemID</td>
+  	<td width='200'>
+		<a href='$fullLink'>$f_Name</a>
+	</td>
+     	<td width='70' nowrap>
+		<b class='price'> ".$shop->FormatCurrency($Price, $Currency, true)."</b><br>
+			Скидка: ".$shop->ItemDiscountSum($sub, $classID, $f_RowID, $f_Price, $f_Currency)."
+	</td>
+	<td width='50'>$f_StockUnits</td>
+	<td width='600'>
+		<form method=post action='".$SUB_FOLDER.$HTTP_ROOT_PATH."modules/netshop/post.php' style='margin:0'>
+		$f_AdminButtons
+		</form>
+		$fullLink
+	</td>
+	<td>
+		<a href='$add_child_link'>Добавить вариант товара</a>
+		<table cellspacing='0' cellpadding='0' width='100%' style='border-collapse:collapse;'>
+		   	$f_this_item_variants
+		</table>
+	</td>
+</tr>
+";
+} else {
+$url='';
+if (strstr($_SERVER['SERVER_NAME'],'folding-knives.ru')) {
+	$url='/knives/knife_'.$f_RowID.'.html' ;
+	$preview=$f_Preview; //(strstr($f_Preview, ".")) ? $f_Preview : $f_Preview;
+} else {
+	$preview=$f_Preview;
+}
+$result .="<div class='item'>
+$f_AdminButtons
+<div style='margin:0'>
+<table border=0 cellspacing=0 cellpadding=0 width='100%'>
+<tr valign=top>
+  	<td colspan='2' align='center' height='40'>
+		<p class='hh4'><a href='".((strlen($url)>0) ? $url : $fullLink)."'><b>$f_Name</b> $f_ItemID</a> ($f_StockUnits)</p>
+	</td>
+</tr>
+<tr valign=top>
+  	<td colspan='2' align='center' height='70'>
+		".opt($f_Image, "<a href='".((strlen($url)>0) ? $url : $fullLink)."'><img class='img_preview' src='$preview' alt='$f_Name'></a>")."
+	</td>
+</tr>
+<tr>
+    <td align='center' width='50%' valign='middle' nowrap>
+     	<!--a class='libox' href='$f_Image'><img src='/zoom.png' alt='увеличить' width='16' style='width:16px; height:16px; align:right; float:left;' /></a-->
+	<b class='price'>".number_format(($Price - $shop->ItemDiscountSum($sub, $classID, $f_RowID, $f_Price, $f_Currency)),0,'.',' ')." руб.</b>
+			".(($shop->ItemDiscountSum($sub, $classID, $f_RowID, $f_Price, $f_Currency)!=0) ? "<br><span style='text-decoration:line-through;'>".number_format($Price,0,'.',' ')."</span> руб." : "")."  
+	</td>
+	<td> 
+		".(!$admin_mode ? 
+			(($db->get_var("SELECT COUNT(*) as n FROM Message$classID WHERE Parent_Message_ID=$f_RowID AND Checked=1") >> 0) ?
+				"<a href='$fullLink'><b>Подробнее...</b></a>" :
+				($f_status=='нет' ? "" : 
+					($f_status=='под заказ' ? 
+						"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+							data-toggle='modal' data-target='#quickCart'
+							onclick=\"
+								cart_key = 'cart[$classID][$f_RowID]'; 
+								cart_add = 'Товар: ".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')." <br>Цена: $Price';
+								cart_uri = '$GLOBALS[uri_path]';
+							\">под заказ
+						</a>" :
+						"<a style='width:75px; background:transparent; text-decoration:underline;'
+							data-toggle='modal' data-target='#quickCart'
+							onclick=\"
+								cart_key = 'cart[$classID][$f_RowID]'; 
+								cart_add = 'Товар: ".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')." <br>Цена: $Price';
+								cart_uri = '$GLOBALS[uri_path]'; 
+								yaAddCart('".$f_ItemID."', '".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+							\">в корзину
+						</a>"
+					)
+				)
+			)
+		:"")."
+	</td>
+</tr>
+</table>
+</div>
+".
+/*если мы в режиме редактирования, то далее идёт список дочерних товаров сформированный выше*/
+($admin_mode? "  
+		<div style='margin:14px 0px 6px;'>
+         <img src='".$ADMIN_PATH."skins/default/img/i_obj_add.gif' width='16' height='16' style='vertical-align:middle' border='0' alt='Добавить вариант товара'>
+         <a href='$add_child_link'>Добавить вариант товара</a>
+        </b>
+    </div>
+    <table cellspacing='0' cellpadding='0' width='100%' style='border-collapse:collapse;'>
+    	$f_this_item_variants
+    </table>" : NULL)."
+<!--/td-->
+</div>
+";}
+$result.=opt($RowNum++, "")."

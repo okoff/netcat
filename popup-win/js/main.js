@@ -93,31 +93,31 @@ document.addEventListener('DOMContentLoaded', function() {
             button = $('#quickOrderSubmit'),
             answer = $('#quickOrderAnswer'),
             loader = $('#quickOrderLoader'),
-	    frmfields = $('#quickOrderfrmfields');
+			frmfields = $('#quickOrderfrmfields');
 
         var jqxhr = $.ajax({
             url: '/popup-win/handler.php',
             type: 'POST',
             data: form.serialize(),
             beforeSend: function() {
-		answer.text('Отправка запроса...');
+				answer.text('Отправка запроса...');
                 button.attr('disabled', true).css('margin-bottom', '20px');
                 loader.fadeIn();
             },
             success: function(result, textStatus, request) {
-		if (result.substr(0,3) == 'OK!') {
-			loader.fadeOut(300, function() {
-				frmfields.empty();
-				answer.text(result.substr(3));
-			});
-			form.find('.form-control').val(' ');
-			button.attr('disabled', true);
-		} else {
-			loader.fadeOut(300, function() {
-				answer.text(result);
-			});
-			button.attr('disabled', false);			
-                }				
+				if (result.substr(0,3) == 'OK!') {
+					loader.fadeOut(300, function() {
+						frmfields.empty();
+						answer.text(result.substr(3));
+					});
+					form.find('.form-control').val(' ');
+					button.attr('disabled', true);
+				} else {
+					loader.fadeOut(300, function() {
+						answer.text(result);
+					});
+					button.attr('disabled', false);			
+				}				
             },
             error: function(request, textStatus, errorThrown) {
                 loader.fadeOut(300, function() {

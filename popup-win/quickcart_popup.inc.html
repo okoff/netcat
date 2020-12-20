@@ -1,0 +1,27 @@
+	<div class='modal fade' id='quickCart' tabindex='-1' role='dialog' aria-labelledby='quickCartLabel' aria-hidden='true'>
+		<div class='modal-dialog' role='document'>
+			<div class='modal-content'>
+				<div class='modal-header'>
+					<h3 id='quickCartTitle' class='modal-title'>Добавление товара в корзину</h3>
+					<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+						<span aria-hidden='true'>&times;</span>
+					</button>
+				</div>		
+				<div class='modal-body'>	
+					<input type='hidden' id='cartkey'>
+					<input type='hidden' id='cartadd'>
+					<span id='quickCartStart'></span>
+					<div class='form-group'>
+						<div id='quickCartAnswer' style='max-height: 360px; overflow: auto;'></div>
+					</div>		
+					<div class='form-group'>
+						<a id='quickCartSubmit' class='btn btn-success' style='display:none'>Оформить заказ</a>
+						<a id='quickCartContinue' data-dismiss='modal' class='btn' style='display:none'>Продолжить покупки</a>
+					</div>		
+					<div class='form-group'>
+						<span id='quickCartLoader' style='display:none'><img src='/popup-win/images/loader.gif' alt=''></span>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>

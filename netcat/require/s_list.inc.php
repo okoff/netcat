@@ -83,7 +83,7 @@ function printItemById($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Prev
 	$currency=getCurrency();
 	
 	$result.="<div class='item'>";
-	$result.="<form method='post' action='/netcat/modules/netshop/post.php' style='margin:0'>
+	$result.="<div style='margin:0'>
 <table border='0' cellspacing='0' cellpadding='0' width='100%'>
 <tr valign='top'>
   	<td colspan='2' align='center' height='40'>
@@ -102,17 +102,31 @@ function printItemById($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Prev
 	".(($discount!=$Price) ? "<br><span style='text-decoration:line-through;'>".number_format($Price,0,'.',' ')."</span>&nbsp;{$currency}" : "")."&nbsp;&nbsp;	
 	</td>
 	<td> 
-		<input type='hidden' name='redirect_url' value=''>
-	    <input type='hidden' name='cart_mode' value='add'>
-	    <input type='hidden' name='cart[57][{$RowID}]' value='1'>
 		".($status==4 ? "" : 
-	     	($status==3 ? "<button style='width:75px; background:transparent;' type='submit'><span style='color:#FF6803;text-decoration:underline;'>".getItemStatus(3)."</span></button>" :
-	     	"<button style='width:75px;background:transparent;' type='submit'><span class='btn_cart1'>".getItemStatus(2)."</span></button>")."")."
-
+	     	($status==3 ? 
+				"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+					data-toggle='modal' data-target='#quickCart'
+					onclick=\"
+						cart_key = 'cart[57][$RowID]'; 
+						cart_add = 'Товар: ".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."<br>Цена: $Price';
+						cart_uri = '';
+					\">".getItemStatus(3)."
+				</a>" :
+				"<a style='width:75px; background:transparent; text-decoration:underline;'
+					data-toggle='modal' data-target='#quickCart'
+					onclick=\"
+						cart_key = 'cart[57][$RowID]'; 
+						cart_add = 'Товар: ".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."<br>Цена: $Price';
+						cart_uri = '';
+						yaAddCart('$RowID', '".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+					\">".getItemStatus(2)."
+				</a>"
+			)
+		)."
 	</td>
 </tr>
 </table>
-</form>";
+</div>";
 	
 	$result.="</div>";
 	return $result;
@@ -204,7 +218,7 @@ function printItemByIdb($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Pre
 	$currency=getCurrency();
 	
 	$result.="<div class='item'>";
-	$result.="<form method='post' action='/netcat/modules/netshop/post.php' style='margin:0'>
+	$result.="<div style='margin:0'>
 <table border='0' cellspacing='0' cellpadding='0' width='100%'>
 <tr valign='top'>
   	<td colspan='2' align='center' height='40'>
@@ -218,22 +232,35 @@ function printItemByIdb($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Pre
 </tr>
 <tr>
     <td align='center' width='50%' valign='middle' nowrap>
-     	
 	<b class='price'>".number_format(($discount),0,'.',' ')."&nbsp;{$currency}</b>
 	".(($discount!=$Price) ? "<br><span style='text-decoration:line-through;'>".number_format($Price,0,'.',' ')."</span>&nbsp;{$currency}" : "")."&nbsp;&nbsp;	
 	</td>
 	<td> 
-		<input type='hidden' name='redirect_url' value=''>
-	    <input type='hidden' name='cart_mode' value='add'>
-	    <input type='hidden' name='cart[57][{$RowID}]' value='1'>
 		".($status==4 ? "" : 
-	     	($status==3 ? "<button style='width:75px; background:transparent;' type='submit'><span style='color:#FF6803;text-decoration:underline;'>".getItemStatus(3)."</span></button>" :
-	     	"<button style='width:75px;background:transparent;' type='submit'><span class='btn_cart1'>".getItemStatus(2)."</span></button>")."")."
-
+	     	($status==3 ? 
+				"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+					data-toggle='modal' data-target='#quickCart'
+					onclick=\"
+						cart_key = 'cart[57][$RowID]'; 
+						cart_add = 'Товар: ".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."<br>Цена: $Price';
+						cart_uri = '';
+					\">".getItemStatus(3)."
+				</a>" :
+				"<a style='width:75px; background:transparent; text-decoration:underline;'
+					data-toggle='modal' data-target='#quickCart'
+					onclick=\"
+						cart_key = 'cart[57][$RowID]'; 
+						cart_add = 'Товар: ".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."<br>Цена: $Price';
+						cart_uri = '';
+						yaAddCart('$RowID', '".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+					\">".getItemStatus(2)."
+				</a>"
+			)
+		)."
 	</td>
 </tr>
 </table>
-</form>";
+</div>";
 	
 	$result.="</div>";
 	return $result;
@@ -319,7 +346,7 @@ function showSearchForm($fldName, $fldType, $fldDoSearch, $fldFmt) {
         if (!$fldDoSearch[$i])
             continue;
 
-		$stringValue = htmlspecialchars(stripcslashes($srchPatValues[$j]), ENT_QUOTES);
+		$stringValue = htmlspecialchars(stripcslashes($srchPatValues[$j]), ENT_QUOTES,'utf-8');
         $stringValue = addcslashes($stringValue, '$');
         switch ($fldType[$i]) {
             case 1: // Char
@@ -507,7 +534,7 @@ function showSearchForm($fldName, $fldType, $fldDoSearch, $fldFmt) {
                         if ($lstID == $selected)
                             $temp_str = ($type_element == "select" ) ? " selected" : " checked";
 
-                        if ($type_element == 'select') {  #TODO СЃРґРµР»Р°С‚СЊ РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РїРµСЂРµРґР°РІР°С‚СЊ СЃРµР»РµРєС‚РµРґ РІ РІРёРґРµ РјР°СЃСЃРёРІР°
+                        if ($type_element == 'select') {  #TODO сделать возможность передавать селектед в виде массива
                             $result .= "<option value='" . $lstID . "' " . $temp_str . ">" . $lstName . "</option>";
                         } else {
                             $result .="<input type='checkbox' value='" . $lstID . "' name='srchPat[" . $j . "][]' " . $temp_str . "> " . $lstName . "<br>\r\n";
@@ -645,7 +672,7 @@ function getSearchParams($field_name, $field_type, $field_search, $srchPat) {
                         break;
                     }
 
-                    $id = array(); // РјР°СЃСЃРёРІ СЃ id РёСЃРєРѕРјС‹С… СЌР»РµРјРµРЅС‚РѕРІ
+                    $id = array(); // массив с id искомых элементов
 
                     if (is_array($srchPat[$j])) {
                         foreach ((array) $srchPat[$j] as $v) {
@@ -657,23 +684,23 @@ function getSearchParams($field_name, $field_type, $field_search, $srchPat) {
                             $id[] = +$v;
                         }
                     }
-                    $j++; //РІС‚РѕСЂРѕР№ РїР°СЂР°РјРµС‚СЂ - СЌС‚Рѕ С‚РёРї РїРѕСЃРёРєР°
+                    $j++; //второй параметр - это тип посика
 
                     if (empty($id))
                         break;
 
                     $fullSearchStr .= " AND (";
                     switch ($srchPat[$j]) {
-                        case 1: //РџРѕР»РЅРѕРµ СЃРѕРІРїР°РґРµРЅРёРµ
+                        case 1: //Полное совпадение
                             $fullSearchStr .= "a." . $field_name[$i] . " LIKE CONCAT(',' ,  '" . join(',', $id) . "', ',') ";
                             break;
 
-                        case 2: //РҐРѕС‚СЏ Р±С‹ РѕРґРёРЅ. Р’С‹Р±РѕСЂ РјРµР¶РґСѓ LIKE Рё REGEXP РІС‹РїР°Р» РІ СЃС‚РѕСЂРѕРЅСѓ РїРµСЂРІРѕРіРѕ
+                        case 2: //Хотя бы один. Выбор между LIKE и REGEXP выпал в сторону первого
                             foreach ($id as $v)
                                 $fullSearchStr .= "a." . $field_name[$i] . " LIKE CONCAT('%,', '" . $v . "', ',%') OR ";
-                            $fullSearchStr .= "0 "; //С‡С‚РѕР±С‹ "Р·Р°РєСЂС‹С‚СЊ" РїРѕСЃР»РµРґРЅРёР№ OR
+                            $fullSearchStr .= "0 "; //чтобы "закрыть" последний OR
                             break;
-                        case 0: // РєР°Рє РјРёРЅРёРјСѓРј РІС‹Р±СЂР°РЅРЅС‹Рµ - С‡Р°СЃС‚РёС‡РЅРѕРµ СЃРѕРІРїР°РґРµРЅРёРµ - РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+                        case 0: // как минимум выбранные - частичное совпадение - по умолчанию
                         default:
                             $srchPat[$j] = 0;
                             $fullSearchStr .= "a." . $field_name[$i] . "  REGEXP  \"((,[0-9]+)*)";
@@ -791,7 +818,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
     }
 
 
-    // Р·РµСЂРєР°Р»СЊРЅС‹Р№
+    // зеркальный
     if ($cc_env['SrcMirror']) {
         $mirror_data = $nc_core->sub_class->get_by_id($cc_env['SrcMirror']);
         $cc = $mirror_data['Sub_Class_ID'];
@@ -807,7 +834,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         $cc_env['Cache_Access_ID'] = 2;
     }
 
-    // РµСЃР»Рё preview РґР»СЏ РЅР°С€РµРіРѕ РєР»Р°СЃСЃР°, С‚Рѕ РїРѕРґРјРµРЅРёРј cc_env РёР· $_SESSION
+    // если preview для нашего класса, то подменим cc_env из $_SESSION
     if ($classPreview == ($cc_env["Class_Template_ID"] ? $cc_env["Class_Template_ID"] : $cc_env["Class_ID"])) {
         $magic_gpc = get_magic_quotes_gpc();
         if (!empty($_SESSION["PreviewClass"][$classPreview])) {
@@ -815,13 +842,13 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                 $cc_env[$tkey] = $magic_gpc ? stripslashes($tvalue) : $tvalue;
             }
         }
-        // Р—Р°РїСЂРµС‚РёРј РєРµС€РёСЂРѕРІР°РЅРёРµ РІ СЂРµР¶РёРјРµ РїСЂРµРґРїСЂРѕСЃРјРѕС‚СЂР°.
+        // Запретим кеширование в режиме предпросмотра.
         $cc_env['Cache_Access_ID'] = 2;
     }
 
-    // Р•СЃР»Рё РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РїР°СЂР°РјРµС‚СЂ isSubClassArray РІ РІС‹Р·РѕРІРµ С„СѓРЅРєС†РёРё s_list_class(), С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
-    // РІ РјР°СЃСЃРёРІ $cc_env СЌР»РµРјРµРЅС‚ cur_cc, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ СѓС‡Р°СЃС‚РІРѕРІР°С‚СЊ РІ С„РѕСЂРјРёСЂРѕРІР°РЅРёРё РЅР°РІРёРіР°С†РёРё РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
-    // РїСЂРё РѕС‚РѕР±СЂР°Р¶РµРЅРёРё РЅРµСЃРєРѕР»СЊРєРёС… С€Р°Р±Р»РѕРЅРѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
+    // Если присутствует параметр isSubClassArray в вызове функции s_list_class(), то добавляем
+    // в массив $cc_env элемент cur_cc, который будет участвовать в формировании навигации по страницам
+    // при отображении нескольких шаблонов на странице
     if (isset($isSubClassArray) && $isSubClassArray)
         $cc_env['cur_cc'] = $cc;
 
@@ -887,8 +914,8 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
     $cc_settings = &$cc_env["Sub_Class_Settings"];
 
-    // РїРµСЂРµРјРµРЅРЅС‹Рµ curPos, recNum РЅСѓР¶РЅРѕ РїСЂРёРІРµСЃС‚Рё Рє "РїСЂР°РІРёР»СЊРЅРѕРјСѓ" РІРёРґСѓ
-    // РґРѕ Р РїРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРёСЃС‚РµРјРЅС‹С… РЅР°СЃС‚СЂРѕРµРє РєРѕРјРїРѕРЅРµРЅС‚Р°
+    // переменные curPos, recNum нужно привести к "правильному" виду
+    // до И после выполнения системных настроек компонента
     $curPos = +$curPos;
     if ($curPos < 0)
         $curPos = 0;
@@ -923,8 +950,8 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         eval($cc_env['Settings']);
     }
 
-    // РїРµСЂРµРјРµРЅРЅС‹Рµ РїРѕРїР°РґР°СЋС‚ РІ Р·Р°РїСЂРѕСЃ
-    // РЅСѓР¶РЅРѕ РїСЂРёРІРµСЃС‚Рё Рє С†РµР»РѕРјСѓ С‚РёРїСѓ
+    // переменные попадают в запрос
+    // нужно привести к целому типу
     $curPos = +$curPos;
     if ($curPos < 0)
         $curPos = 0;
@@ -941,7 +968,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         $sort_by = $sortBy;
     }
 
-    //РІС‹Р№РґРµРј, РµСЃР»Рё РЅРµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° С€Р°Р±Р»РѕРЅР°, РїРѕСЃРєРѕР»СЊРєСѓ РґР°Р»СЊС€Рµ СЂР°Р±РѕС‚Р° С„СѓРЅРєС†РёРё Р±РµСЃСЃРјС‹СЃР»РµРЅРЅР°
+    //выйдем, если нет идентификатора шаблона, поскольку дальше работа функции бессмысленна
     if (!$classID)
         return false;
 
@@ -953,15 +980,15 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
     $multilist_fileds = $component->get_fields(10);
     $date_field = $component->get_date_field();
 
-    // СЂР°Р·СЂРµС€РёС‚СЊ html-С‚РµРіРё Рё РїРµСЂРµРЅРѕСЃ СЃС‚СЂРѕРєРё
+    // разрешить html-теги и перенос строки
     $cc_env['convert2txt'] = "";
     $text_fields = $component->get_fields(3);
     foreach ($text_fields as $field) {
         $format = nc_field_parse_format($field['format'], 3);
-        // СЂР°Р·СЂРµС€РёС‚СЊ html
+        // разрешить html
         if (!$cc_env['AllowTags'] && !$format['html'] || $format['html'] == 2)
             $cc_env['convert2txt'] .= "\$f_" . $field['name'] . " = htmlspecialchars_decode(\$f_" . $field['name'] . ");";
-        // РїРµСЂРµРЅРѕСЃ СЃС‚СЂРѕРєРё
+        // перенос строки
         if ($cc_env['NL2BR'] && !$format['br'] || $format['br'] == 1)
             $cc_env['convert2txt'] .= "\$f_" . $field['name'] . " = nl2br(\$f_" . $field['name'] . ");";
         if ($format['bbcode'])
@@ -980,8 +1007,8 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
     // $fullSearchParams = getSearchParams($field_name, $field_type, $field_search, $srchPat);
 
-    //$srchPat РґРІР°Р¶РґС‹ urldecodeРґ Рё "+" С‚РµСЂСЏРµС‚СЃСЏ, Р±РµСЂРµРј Р·РЅР°С‡РµРЅРёСЏ РёР· $_REQUEST РєРѕС‚РѕСЂС‹Рµ СѓР¶Рµ РѕРґРёРЅ СЂР°Р· urldecodeРґ
-    //РµСЃР»Рё $_REQUEST['srchPat'] РїСѓСЃС‚РѕР№, С‚Рѕ srchPat РїРµСЂРµРґР°Р»СЃСЏ С‡РµСЂРµР· s_list_class, СЃРѕС…СЂР°РЅСЏРµРј РµРіРѕ
+    //$srchPat дважды urldecodeд и "+" теряется, берем значения из $_REQUEST которые уже один раз urldecodeд
+    //если $_REQUEST['srchPat'] пустой, то srchPat передался через s_list_class, сохраняем его
     $fullSearchParams = $component->get_search_query(isset($srchPat) ? $_REQUEST['srchPat'] ? $_REQUEST['srchPat'] : $srchPat : array());
 
 
@@ -1033,19 +1060,15 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         $recNum = $maxRows;
     } else {
         $maxRows = $recNum;
-        // РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РІРµСЂСЃРёСЏРјРё РґРѕ 2.4.5 Рё 3.0.0
+        // для совместимости со старыми версиями до 2.4.5 и 3.0.0
         if (!isset($ignore_eval['maxRows']) || !$ignore_eval['maxRows'])
             eval("\$maxRows = \"" . $maxRows . "\";");
     }
 
     $maxRows = +$maxRows;
-
-
-
-    // РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РІРµСЂСЃРёСЏРјРё РґРѕ 2.4.5 Рё 3.0.0
+    // для совместимости со старыми версиями до 2.4.5 и 3.0.0
     if (!isset($ignore_eval['sort_by']) || !$ignore_eval['sort_by'])
         eval("\$sort_by = \"" . $sort_by . "\";");
-
 
     if (!$ignore_all) {
         $message_select = "SELECT" . (!$ignore_calc ? " SQL_CALC_FOUND_ROWS" : "") . " " . $cond_distinct . " " . $field_names . $cond_select . "
@@ -1210,7 +1233,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
     $_get_arr = $nc_core->input->fetch_get();
     $get_param_str = '';
-    // РІ nextLink Рё prevLink РЅСѓР¶РЅРѕ СЃРѕС…СЂР°РЅРёС‚СЊ get-РїР°СЂР°РјРµС‚СЂС‹
+    // в nextLink и prevLink нужно сохранить get-параметры
     if (!empty($_get_arr)) {
         // ignore array
         $ignore_arr = array('sid', 'ced', 'inside_admin', 'catalogue', 'sub', 'cc', 'curPos', 'cur_cc', 'REQUEST_URI');
@@ -1260,37 +1283,37 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
     if ($nc_prepared_data && isset($nc_data[0])) {
         $fetch_row = '$f_Checked = 1; ';
-        // РЅСѓР¶РЅРѕ РїРѕРґРіРѕС‚РѕРІРёС‚СЊ $fetch_row РІРёРґР°:
+        // нужно подготовить $fetch_row вида:
         // $f_a = $nc_data[$f_RowNum]['a']; $f_b = $nc_data[$f_RowNum]['b']; ...
-        // СЌР»РµРјРµРЅС‚С‹ $nc_data РјРѕРіСѓС‚ Р±С‹С‚СЊ РєР°Рє РјР°СЃСЃРёРІРѕРј, С‚Р°Рє Рё РѕР±СЉРµРєС‚РѕРј, СЂРµР°Р»РёР·СѓСЋС‰РёРј Iterator, РїРѕСЌС‚РѕРјСѓ array_keys РЅРµ РїРѕРґС…РѕРґРёС‚
+        // элементы $nc_data могут быть как массивом, так и объектом, реализующим Iterator, поэтому array_keys не подходит
         foreach ($nc_data[0] as $key => $value) {
             $fetch_row .= '$f_' . $key . ' = $nc_data[$f_RowNum]["' . $key . '"]; ';
         }
     }
 
-    // РџСЂР°РІРѕ РЅР° РјРѕРґРµСЂРёСЂРѕРІР°РЅРёРµ Рё РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ.
+    // Право на модерирование и изменение объектов.
     $modPerm = false;
     $changePerm = false;
 
     if ($admin_mode) {
-        $modPerm = CheckUserRights($cc, 'moderate', 1); // РїСЂР°РІРѕ РјРѕРґРµСЂР°С‚РѕСЂР°
-        $changePerm = s_auth($cc_env, 'change', 1); //               РёР»Рё РїСЂРѕСЃС‚Рѕ РЅР° РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ
+        $modPerm = CheckUserRights($cc, 'moderate', 1); // право модератора
+        $changePerm = s_auth($cc_env, 'change', 1); //               или просто на изменение объектов
 
         if (is_object($perm) && $perm->isBanned($cc_env, 'change'))
-            $modPerm = $changePerm = false; // РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ Р·Р°РїСЂРµС‚РёР»Рё РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ
+            $modPerm = $changePerm = false; // пользователю запретили изменение объектов
 
         $f_AdminCommon_add = $admin_url_prefix."add.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc;
         $addLink = $f_AdminCommon_add;
-        // СѓРґР°Р»РёС‚СЊ РІСЃРµ
+        // удалить все
         $f_AdminCommon_delete_all = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;delete=1";
-        // СЌРєСЃРїРѕСЂС‚ Рё РёРјРїРѕСЂС‚ РІ CSV
+        // экспорт и импорт в CSV
         $f_AdminCommon_export_csv = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;export=1";
         $f_AdminCommon_import_csv = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;import=1";
-        // СЌРєСЃРїРѕСЂС‚ Рё РёРјРїРѕСЂС‚ РІ XML
+        // экспорт и импорт в XML
         $f_AdminCommon_export_xml = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;export=2";
         $f_AdminCommon_import_xml = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;import=2";
 
-        // Js Рё С„РѕСЂРјР° РґР»СЏ РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё РѕР±СЉРµРєС‚РѕРІ
+        // Js и форма для пакетной обработки объектов
         /*$f_AdminCommon_package = "<script type='text/javascript' language='javascript'>\n";
         $f_AdminCommon_package.= "\tnc_package_obj.new_cc(".$cc.", '".NETCAT_MODERATION_NOTSELECTEDOBJ."');\n";
         $f_AdminCommon_package.= "</script>\n";*/
@@ -1304,7 +1327,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
         if ($list_mode != "select") {
             if ($inside_admin && $isMainContent && $UI_CONFIG) {
-                // РІ Р°РґРјРёРЅРєРµ РЅРµС‚ AdminCommon, РЅРѕ РЅСѓР¶РЅР° С‡Р°СЃС‚СЊ РґР»СЏ РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё
+                // в админке нет AdminCommon, но нужна часть для пакетной обработки
                 if ($totRows != 0)
                     $result.= $f_AdminCommon_package;
                 // add button
@@ -1316,7 +1339,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                         "align" => "left"
                 );
 
-                // РєРЅРѕРїРєРё РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё РЅСѓР¶РЅС‹ С‚РѕР»СЊРєРѕ РµСЃР»Рё РµСЃС‚СЊ РѕР±СЉРµРєС‚С‹
+                // кнопки пакетной обработки нужны только если есть объекты
                 if ($totRows != 0) {
                     //  button "delete all"
                     $UI_CONFIG->actionButtons[] = array(
@@ -1341,7 +1364,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         $f_AdminButtons = "";
     }
 
-    $row_ids = array(); // РјР°СЃСЃРёРІ, РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґСѓС‚ СЃРєР»Р°РґС‹РІР°С‚СЊСЃСЏ ID РІСЃРµС… СѓР·Р»РѕРІ
+    $row_ids = array(); // массив, в который будут складываться ID всех узлов
     for ($i = 0; $i < $rowCount; $i++) {
         $row_ids[] = $res[$i][0];
     }
@@ -1353,7 +1376,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         $result.= $f_AdminCommon;
     }
 
-    // РµСЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚, РІРЅСѓС‚СЂРё Р°РґРјРёРЅРєРё РЅСѓР¶РЅРѕ РїРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ "РЅРµС‚ РѕР±СЉРµРєС‚РѕРІ"
+    // если список пуст, внутри админки нужно показать сообщение "нет объектов"
     if ($inside_admin && $totRows == 0 && !nc_strlen(trim($result))) {
         $result.= nc_print_status(NETCAT_MODERATION_NO_OBJECTS_IN_SUBCLASS, 'info', null, 1);
         //"<div class='status_info'><span style='margin-left: 15px; padding-top: 15px; vertical-align: middle;'><p align='center'><b>" . NETCAT_MODERATION_NO_OBJECTS_IN_SUBCLASS . "</b></p></span></div>";
@@ -1366,7 +1389,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
             extract(nc_get_arrays_multifield_for_nc_object_list_and_full_php($multifile_fileds, $row_ids));
         }
 
-        // РїРѕР»СѓС‡Р°РµРј РІСЃРµ С„Р°Р№Р»С‹ РІС‹Р±СЂР°РЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
+        // получаем все файлы выбранных объектов
         $nc_fields_files = $component->get_fields(6, 0);
         $nc_files_in_class = array();
         if (!empty($nc_fields_files)) {
@@ -1390,7 +1413,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         }
     }
 
-    // С‚СЂРµР±СѓРµС‚СЃСЏ РїРѕР»СѓС‡РёС‚СЊ РІСЃРµ РіСЂСѓРїРїС‹ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+    // требуется получить все группы пользователей
     if ($user_table_mode && !empty($row_ids)) {
         $nc_user_group = $db->get_results("SELECT ug.`User_ID`, ug.`PermissionGroup_ID`, g.`PermissionGroup_Name`
                                        FROM `User_Group` AS ug,`PermissionGroup` AS g
@@ -1405,7 +1428,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
     }
 
 
-    // =========================  Р›РёСЃС‚РёРЅРі РѕР±СЉРµРєС‚РѕРІ ======================================
+    // =========================  Листинг объектов ======================================
 
     $cache_vars = array();
 
@@ -1450,14 +1473,14 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
 
         // Multiselect
         if (!empty($multilist_fileds)) {
-            // РїСЂРѕСЃРјРѕС‚СЂ РєР°Р¶РґРѕРіРѕ РїРѕР»СЏ С‚РёРїР° multiselect
+            // просмотр каждого поля типа multiselect
             foreach ($multilist_fileds as $multilist_filed) {
-                // С‚Р°Р±Р»РёС†Сѓ СЃ СЌР»РµРјРµРЅС‚Р°РјРё РјРѕР¶РЅРѕ РІР·СЏС‚СЊ РёС… РєСЌС€Р°, РµСЃР»Рё РµРµ С‚Р°Рј РЅРµС‚ - С‚Рѕ РґРѕР±Р°РІРёС‚СЊ
+                // таблицу с элементами можно взять их кэша, если ее там нет - то добавить
                 if (!$_cache['classificator'][$multilist_filed['table']]) {
                     $db_res = $db->get_results("SELECT `" . $multilist_filed['table'] . "_ID` AS ID, `" . $multilist_filed['table'] . "_Name` AS Name, `Value`
                                        FROM `Classificator_" . $multilist_filed['table'] . "`", ARRAY_A);
                     if (!empty($db_res)) {
-                        foreach ($db_res as $v) { // Р·Р°РїРёСЃСЊ РІ РєСЌС€
+                        foreach ($db_res as $v) { // запись в кэш
                             $_cache['classificator'][$multilist_filed['table']][$v['ID']] = array($v['Name'], $v['Value']);
                         }
                     }
@@ -1468,12 +1491,12 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                 ${"f_" . $multilist_filed['name'] . "_id"} = array();
                 ${"f_" . $multilist_filed['name'] . "_value"} = array();
 
-                if (($value = ${"f_" . $multilist_filed['name']})) { // Р·РЅР°С‡РµРЅРёРµ РёР· Р±Р°Р·С‹
+                if (($value = ${"f_" . $multilist_filed['name']})) { // значение из базы
                     ${"f_" . $multilist_filed['name']} = array();
                     ${"f_" . $multilist_filed['name'] . "_id"} = array();
                     $ids = explode(',', $value);
                     if (!empty($ids)) {
-                        foreach ($ids as $id) { // РґР»СЏ РєР°Р¶РґРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РїРѕ id РѕРїСЂРµРґРµР»СЏРµРј РёРјСЏ Рё Р·РЅР°С‡РµРЅРёРµ
+                        foreach ($ids as $id) { // для каждого элемента по id определяем имя и значение
                             if ($id) {
                                 array_push(${"f_" . $multilist_filed['name']}, $_cache['classificator'][$multilist_filed['table']][$id][0]);
                                 array_push(${"f_" . $multilist_filed['name'] . "_value"}, $_cache['classificator'][$multilist_filed['table']][$id][1]);
@@ -1505,7 +1528,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                     ${"f_" . $field_name . "_url"} = "";
                     continue;
                 }
-                //file_data - РјР°СЃСЃРёРІ СЃ РѕСЂРёРі.РЅР°Р·РІР°РЅРёРµРј, С‚РёРїРѕРј, СЂР°Р·РјРµСЂРѕРј, [РёРјРµРЅРµРј_С„Р°Р№Р»Р°_РЅР°_РґРёСЃРєРµ]
+                //file_data - массив с ориг.названием, типом, размером, [именем_файла_на_диске]
                 $file_data = explode(':', ${"f_" . $field_name});
 
 
@@ -1513,7 +1536,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                 ${"f_" . $field_name . "_name"} = $file_data[0];
                 ${"f_" . $field_name . "_type"} = $file_data[1];
                 ${"f_" . $field_name . "_size"} = $file_data[2];
-                // РѕР±РЅСѓР»РёРј
+                // обнулим
                 $Virt_Name = "";
                 $nc_download = 0;
 
@@ -1522,12 +1545,12 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                     list($Virt_Name, $Real_Name, $nc_download) = $nc_files_in_class[$f_RowID][$field_id];
                 }
 
-                if ($Virt_Name) { // С„Р°Р№Р»РѕРІР°СЏ СЃРёСЃС‚РµРјР° c Filetable
+                if ($Virt_Name) { // файловая система c Filetable
                     ${"f_" . $field_name} = $SUB_FOLDER . $HTTP_FILES_PATH . $filetable_path . "/h_" . $Virt_Name;
                     ${"f_" . $field_name . "_url"} = $SUB_FOLDER . $HTTP_FILES_PATH . $filetable_path . "/" . $Virt_Name;
                     ${"f_" . $field_name . "_download"} = $nc_download;
                 } else {
-                    if ($file_data[3]) { // С„Р°Р№Р»РѕРІР°СЏ СЃРёСЃС‚РµРјР° "Original"
+                    if ($file_data[3]) { // файловая система "Original"
                         ${"f_" . $field_name} = ${"f_" . $field_name . "_url"} = $SUB_FOLDER . $HTTP_FILES_PATH . $file_data[3];
                     } else {
                         $ext = substr($file_data[0], strrpos($file_data[0], "."));
@@ -1571,35 +1594,35 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
             $fullLink = nc_get_fullLink($admin_url_prefix, $catalogue, $sub, $cc, $f_RowID);
             $fullDateLink = nc_get_fullDateLink($fullLink, $dateLink);
 
-            // ID РѕР±СЉРµРєС‚Р° РІ С€Р°Р±Р»РѕРЅРµ
+            // ID объекта в шаблоне
             $f_AdminButtons_id = $f_RowID;
 
-            // РџСЂРёРѕСЂРёС‚РµС‚ РѕР±СЉРµРєС‚Р°
+            // Приоритет объекта
             $f_AdminButtons_priority = $f_Priority;
 
-            // ID РґРѕР±Р°РІРёРІС€РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+            // ID добавившего пользователя
             $f_AdminButtons_user_add = $f_UserID;
 
-            // ID РёР·РјРµРЅРёРІС€РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+            // ID изменившего пользователя
             $f_AdminButtons_user_change = nc_get_AdminButtons_user_change($f_LastUserID);
 
-            // РєРѕРїРёСЂРѕРІР°С‚СЊ РѕР±СЉРµРєС‚
+            // копировать объект
             $f_AdminButtons_copy = nc_get_AdminButtons_copy($ADMIN_PATH, $catalogue, $sub, $cc, $classID, $f_RowID);
 
-            // РёР·РјРµРЅРёС‚СЊ
+            // изменить
             $f_AdminButtons_change = nc_get_AdminButtons_change($SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $f_RowID, $curPos);
             $editLink = $f_AdminButtons_change;
 
-            // СѓРґР°Р»РёС‚СЊ
+            // удалить
             $f_AdminButtons_delete = nc_get_AdminButtons_delete($SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $f_RowID, $curPos);
             $deleteLink = $f_AdminButtons_delete;
             $dropLink = nc_get_dropLink($deleteLink, $nc_core);
 
-            // РІРєР»СЋС‡РёС‚СЊ-РІС‹РєР»СЋС‡РёС‚СЊ
+            // включить-выключить
             $f_AdminButtons_check = nc_get_AdminButtons_check($f_Checked, $any_url_prefix, $SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $classID, $f_RowID, $curPos, $admin_mode, $admin_url_prefix, $nc_core);
             $checkedLink = $f_AdminButtons_check;
 
-            // РІС‹Р±СЂР°С‚СЊ СЃРІСЏР·Р°РЅРЅС‹Р№ (JS РєРѕРґ!!!) -- РєРѕРіРґР° СЃРїРёСЃРѕРє РІС‹Р·РІР°РЅ РІ popup РґР»СЏ РІС‹Р±РѕСЂР° СЃРІСЏР·Р°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
+            // выбрать связанный (JS код!!!) -- когда список вызван в popup для выбора связанного объекта
             $f_AdminButtons_select = nc_get_AdminButtons_select($f_AdminButtons_id);
 
             if ($list_mode == 'select') {
@@ -1611,7 +1634,7 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                 } else {
                     $f_AdminButtons_buttons = nc_get_AdminButtons_buttons($f_RowID, $f_Checked, $f_AdminButtons_check, $f_AdminButtons_copy, $f_AdminButtons_change, $f_AdminButtons_delete, $classID);
                     $f_AdminButtons = nc_get_AdminButtons_prefix($f_Checked, $cc);
-                    // РїСЂРѕРІРµСЂРєР° РїСЂР°РІ
+                    // проверка прав
                     if ($modPerm || ($changePerm && $f_AdminButtons_user_add == $AUTH_USER_ID)) {
                         $f_AdminButtons.= nc_get_AdminButtons_modPerm($classID, $f_RowID, $f_AdminButtons_id, $f_AdminButtons_priority, $f_AdminInterface_user_add, $f_AdminButtons_user_add, $f_AdminInterface_user_change, $f_AdminButtons_user_change, $f_AdminButtons_buttons, $cc);
                     } else {
@@ -1662,15 +1685,15 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
             }
 
             if ($catalogue == $current_catalogue['Catalogue_ID']) {
-                $fullLink = $subLink . $msgLink . ".html"; // РїРѕР»РЅС‹Р№ РІС‹РІРѕРґ
+                $fullLink = $subLink . $msgLink . ".html"; // полный вывод
                 $fullRSSLink = $cc_env['AllowRSS'] ? $subLink . $msgLink . ".rss" : ""; // rss
                 $fullXMLLimk = $cc_env['AllowXML'] ? $subLink . $msgLink . ".xml" : "";
-                $fullDateLink = $subLink . $dateLink . $msgLink . ".html"; // РїРѕР»РЅС‹Р№ РІС‹РІРѕРґ СЃ РґР°С‚РѕР№
-                $editLink = $subLink . "edit_" . $msgLink . ".html"; // ccС‹Р»РєР° РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
-                $deleteLink = $subLink . "delete_" . $msgLink . ".html"; // СѓРґР°Р»РµРЅРёСЏ
-                $dropLink = $subLink . "drop_" . $msgLink . ".html" . ($nc_core->token->is_use('drop') ? "?" . $nc_core->token->get_url() : ""); // СѓРґР°Р»РµРЅРёСЏ Р±РµР· РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ
-                $checkedLink = $subLink . "checked_" . $msgLink . ".html"; // РІРєР»СЋС‡РµРЅРёСЏ\РІС‹РєР»СЋС‡РµРЅРёСЏ
-                $subscribeMessageLink = $subLink . "subscribe_" . $msgLink . ".html"; // РїРѕРґРїРёСЃРєР° РЅР° РѕР±СЉРµРєС‚
+                $fullDateLink = $subLink . $dateLink . $msgLink . ".html"; // полный вывод с датой
+                $editLink = $subLink . "edit_" . $msgLink . ".html"; // ccылка для редактирования
+                $deleteLink = $subLink . "delete_" . $msgLink . ".html"; // удаления
+                $dropLink = $subLink . "drop_" . $msgLink . ".html" . ($nc_core->token->is_use('drop') ? "?" . $nc_core->token->get_url() : ""); // удаления без подтверждения
+                $checkedLink = $subLink . "checked_" . $msgLink . ".html"; // включения\выключения
+                $subscribeMessageLink = $subLink . "subscribe_" . $msgLink . ".html"; // подписка на объект
             } else {
                 $fullLink = $subHost . $subLink . $msgLink . ".html";
                 $fullRSSLink = $cc_env['AllowRSS'] ? $subHost . $subLink . $msgLink . ".html" : "";
@@ -1680,10 +1703,10 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
                 $deleteLink = $subHost . "delete_" . $msgLink . ".html";
                 $dropLink = $subHost . "drop_" . $msgLink . ".html";
                 $checkedLink = $subHost . "checked_" . $msgLink . ".html";
-                $subscribeMessageLink = $subHost . "subscribe_" . $msgLink . ".html"; // РїРѕРґРїРёСЃРєР° РЅР° РѕР±СЉРµРєС‚
+                $subscribeMessageLink = $subHost . "subscribe_" . $msgLink . ".html"; // подписка на объект
             }
 
-            // Р•СЃР»Рё СЌС‚Рѕ РїСЂРµРІСЊСЋ РґР°РЅРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р° С‚Рѕ, РјС‹ РґРѕР±Р°РІР»СЏРµРј РїРµСЂРµРЅРјРµРЅРЅСѓСЋ Рє СЃСЃС‹Р»РєР°Рј РЅР° РїРѕР»РЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ РѕР±СЉРµРєС‚Р°
+            // Если это превью данного компонента то, мы добавляем перенменную к ссылкам на полный просмотр объекта
             if ($classPreview == $cc_env["Class_ID"]) {
                 $fullLink.= "?classPreview=" . $classPreview;
                 $fullDateLink.="?classPreview=" . $classPreview;
@@ -1692,14 +1715,14 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
         eval($cc_env['convert2txt']);
         eval("\$row = \"" . nc_preg_replace('/\$result\b/', '$row', $cc_env["RecordTemplate"]) . "\";");
 
-        // РІРЅСѓС‚СЂРё Р°РґРјРёРЅРєРё: РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РѕР±СЉРµРєС‚С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ РїРµСЂРµС‚Р°СЃРєРёРІР°С‚СЊ...
-        // ... СЃРґРµР»Р°РµРј "РѕР±РµСЂС‚РєСѓ" СЃ ID, РЅРѕРјРµСЂРѕРј РєР»Р°СЃСЃР° Рё ID СЂРѕРґРёС‚РµР»СЏ:
+        // внутри админки: для того, чтобы объекты можно было перетаскивать...
+        // ... сделаем "обертку" с ID, номером класса и ID родителя:
         if ($inside_admin) {
             $row_id_string = "id='message" . $classID . "-" . $f_RowID . "' messageParent='" . $parent_message . "' messageClass='" . $classID . "' messageSubclass='" . $cc . "' dragLabel='" . htmlspecialchars_decode($cc_env['Class_Name'] . " #" . $f_RowID) . "'";
-            // РїРѕРїС‹С‚Р°РµРјСЃСЏ РЅР°Р№С‚Рё С‚СЌРі, РІ РєРѕС‚РѕСЂС‹Р№ РІР»РѕР¶РµРЅР° СЃС‚СЂРѕРєР°...
+            // попытаемся найти тэг, в который вложена строка...
             if (nc_preg_match("@^\s*<(\w+).+</\\1>\s*$@s", $row, $regs)) {
                 $row = nc_preg_replace("@^(\s*<" . $regs[1] . ")@s", "$1 " . $row_id_string, $row);
-            } // РµСЃР»Рё РЅРµ СѓРґР°Р»РѕСЃСЊ - РґРѕР±Р°РІРёРј <div>
+            } // если не удалось - добавим <div>
             else {
                 $row = "<div " . $row_id_string . ">" . $row . "</div>";
             }
@@ -1711,9 +1734,9 @@ function nc_objects_list_db($sub, $cc, $query_string, $show_in_admin_mode) {
     if ($cc_env['FormSuffix'] && !$ignore_suffix) {
         eval("\$result .= \"" . $cc_env["FormSuffix"] . "\";");
     }
-    // РґРѕР±Р°РІРёС‚СЊ СЃРєСЂРёРїС‚ РґР»СЏ D&D
+    // добавить скрипт для D&D
     if ($inside_admin && !$user_table_mode && $perm->isSubClassAdmin($cc)) {
-        // РїСЂРёРѕСЂРёС‚РµС‚ РїРѕР·РІРѕР»СЏС‚СЊ РјРµРЅСЏС‚СЊ С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРѕ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (Priority DESC)
+        // приоритет позволять менять только если отсортировано по умолчанию (Priority DESC)
         $change_priority = (((preg_match('/^[\s]*[a.`]*Priority`?[\s]*(desc|asc)?[\s]*$/i', $cc_env['SortBy']) || !$cc_env['SortBy']) && !$query_order ) ? 'true' : 'false');
         $result.= "<script type='text/javascript' language='Javascript'>";
         $result.= "if (typeof formAsyncSaveEnabled!='undefined') messageInitDrag(" . nc_array_json(array($classID => $row_ids)) . ", " . $change_priority . ");";
@@ -1868,7 +1891,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $sub = $mirror_data['Subdivision_ID'];
     }
 
-    // Р·Р°РїРёСЃС‹РІР°РµРј СЂРµР°Р»СЊРЅС‹Р№ РЅРѕРјРµСЂ С€Р°Р±Р»РѕРЅР° РєРѕРјРїРѕРЅРµРЅС‚Р°
+    // записываем реальный номер шаблона компонента
     if ($nc_ctpl === 'title') {
         $nc_ctpl = $cc_env['Real_Class_ID'];
     }
@@ -1881,7 +1904,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $cc_env['Cache_Access_ID'] = 2;
     }
 
-    // РµСЃР»Рё preview РґР»СЏ РЅР°С€РµРіРѕ РєР»Р°СЃСЃР°, С‚Рѕ РїРѕРґРјРµРЅРёРј cc_env РёР· $_SESSION
+    // если preview для нашего класса, то подменим cc_env из $_SESSION
     if ($classPreview == ($cc_env["Class_Template_ID"] ? $cc_env["Class_Template_ID"] : $cc_env["Class_ID"])) {
         $magic_gpc = get_magic_quotes_gpc();
         if (!empty($_SESSION["PreviewClass"][$classPreview])) {
@@ -1889,13 +1912,13 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                 $cc_env[$tkey] = $magic_gpc ? stripslashes($tvalue) : $tvalue;
             }
         }
-        // Р—Р°РїСЂРµС‚РёРј РєРµС€РёСЂРѕРІР°РЅРёРµ РІ СЂРµР¶РёРјРµ РїСЂРµРґРїСЂРѕСЃРјРѕС‚СЂР°.
+        // Запретим кеширование в режиме предпросмотра.
         $cc_env['Cache_Access_ID'] = 2;
     }
 
-    // Р•СЃР»Рё РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚ РїР°СЂР°РјРµС‚СЂ isSubClassArray РІ РІС‹Р·РѕРІРµ С„СѓРЅРєС†РёРё s_list_class(), С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
-    // РІ РјР°СЃСЃРёРІ $cc_env СЌР»РµРјРµРЅС‚ cur_cc, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ СѓС‡Р°СЃС‚РІРѕРІР°С‚СЊ РІ С„РѕСЂРјРёСЂРѕРІР°РЅРёРё РЅР°РІРёРіР°С†РёРё РїРѕ СЃС‚СЂР°РЅРёС†Р°Рј
-    // РїСЂРё РѕС‚РѕР±СЂР°Р¶РµРЅРёРё РЅРµСЃРєРѕР»СЊРєРёС… С€Р°Р±Р»РѕРЅРѕРІ РЅР° СЃС‚СЂР°РЅРёС†Рµ
+    // Если присутствует параметр isSubClassArray в вызове функции s_list_class(), то добавляем
+    // в массив $cc_env элемент cur_cc, который будет участвовать в формировании навигации по страницам
+    // при отображении нескольких шаблонов на странице
     if (isset($isSubClassArray) && $isSubClassArray)
         $cc_env['cur_cc'] = $cc;
 
@@ -1964,8 +1987,8 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $ccLink = $subLink . $cc_keyword . '.html';
     }
 
-    // РїРµСЂРµРјРµРЅРЅС‹Рµ curPos, recNum РЅСѓР¶РЅРѕ РїСЂРёРІРµСЃС‚Рё Рє "РїСЂР°РІРёР»СЊРЅРѕРјСѓ" РІРёРґСѓ
-    // РґРѕ Р РїРѕСЃР»Рµ РІС‹РїРѕР»РЅРµРЅРёСЏ СЃРёСЃС‚РµРјРЅС‹С… РЅР°СЃС‚СЂРѕРµРє РєРѕРјРїРѕРЅРµРЅС‚Р°
+    // переменные curPos, recNum нужно привести к "правильному" виду
+    // до И после выполнения системных настроек компонента
     $curPos = +$curPos;
     if ($curPos < 0)
         $curPos = 0;
@@ -2036,7 +2059,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $sort_by = $sortBy;
     }
 
-    //РІС‹Р№РґРµРј, РµСЃР»Рё РЅРµС‚ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂР° С€Р°Р±Р»РѕРЅР°, РїРѕСЃРєРѕР»СЊРєСѓ РґР°Р»СЊС€Рµ СЂР°Р±РѕС‚Р° С„СѓРЅРєС†РёРё Р±РµСЃСЃРјС‹СЃР»РµРЅРЅР°
+    //выйдем, если нет идентификатора шаблона, поскольку дальше работа функции бессмысленна
     if (!$classID) {
         return false;
     }
@@ -2048,16 +2071,16 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
     $field_vars = $component->get_fields_vars();
     $multilist_fileds = $component->get_fields(10);
     $date_field = $component->get_date_field();
-    // СЂР°Р·СЂРµС€РёС‚СЊ html-С‚РµРіРё Рё РїРµСЂРµРЅРѕСЃ СЃС‚СЂРѕРєРё
+    // разрешить html-теги и перенос строки
     $cc_env['convert2txt'] = "";
 
     $text_fields = $component->get_fields(3);
     foreach ($text_fields as $field) {
         $format = nc_field_parse_format($field['format'], 3);
-        // СЂР°Р·СЂРµС€РёС‚СЊ html
+        // разрешить html
         if (!$cc_env['AllowTags'] && !$format['html'] || $format['html'] == 2)
             $cc_env['convert2txt'] .= "\$f_" . $field['name'] . " = htmlspecialchars(\$f_" . $field['name'] . ");";
-        // РїРµСЂРµРЅРѕСЃ СЃС‚СЂРѕРєРё
+        // перенос строки
         if ($cc_env['NL2BR'] && !$format['br'] || $format['br'] == 1)
             $cc_env['convert2txt'] .= "\$f_" . $field['name'] . " = nl2br(\$f_" . $field['name'] . ");";
         if ($format['bbcode'])
@@ -2075,8 +2098,8 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
     unset($format);
     unset($text_fields);
 
-    //$srchPat РґРІР°Р¶РґС‹ urldecodeРґ Рё "+" С‚РµСЂСЏРµС‚СЃСЏ, Р±РµСЂРµРј Р·РЅР°С‡РµРЅРёСЏ РёР· $_REQUEST РєРѕС‚РѕСЂС‹Рµ СѓР¶Рµ РѕРґРёРЅ СЂР°Р· urldecodeРґ
-    //РµСЃР»Рё $_REQUEST['srchPat'] РїСѓСЃС‚РѕР№, С‚Рѕ srchPat РїРµСЂРµРґР°Р»СЃСЏ С‡РµСЂРµР· s_list_class, СЃРѕС…СЂР°РЅСЏРµРј РµРіРѕ
+    //$srchPat дважды urldecodeд и "+" теряется, берем значения из $_REQUEST которые уже один раз urldecodeд
+    //если $_REQUEST['srchPat'] пустой, то srchPat передался через s_list_class, сохраняем его
     $fullSearchParams = $component->get_search_query(isset($srchPat) ? $_REQUEST['srchPat'] ? $_REQUEST['srchPat'] : $srchPat : array());
     $fullSearchStr = $fullSearchURL = '';
     if (!empty($fullSearchParams['query'])) {
@@ -2138,7 +2161,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $recNum = $maxRows;
     } else {
         $maxRows = $recNum;
-        // РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РІРµСЂСЃРёСЏРјРё РґРѕ 2.4.5 Рё 3.0.0
+        // для совместимости со старыми версиями до 2.4.5 и 3.0.0
         if (!isset($ignore_eval['maxRows']) || !$ignore_eval['maxRows']) {
             eval("\$maxRows = \"" . $maxRows . "\";");
         }
@@ -2146,7 +2169,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
 
     $maxRows = +$maxRows;
 
-    // РґР»СЏ СЃРѕРІРјРµСЃС‚РёРјРѕСЃС‚Рё СЃРѕ СЃС‚Р°СЂС‹РјРё РІРµСЂСЃРёСЏРјРё РґРѕ 2.4.5 Рё 3.0.0
+    // для совместимости со старыми версиями до 2.4.5 и 3.0.0
     if (!isset($ignore_eval['sort_by']) || !$ignore_eval['sort_by']) {
         eval("\$sort_by = \"" . $sort_by . "\";");
     }
@@ -2368,7 +2391,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
 
     $_get_arr = $nc_core->input->fetch_get();
     $get_param_str = '';
-    // РІ nextLink Рё prevLink РЅСѓР¶РЅРѕ СЃРѕС…СЂР°РЅРёС‚СЊ get-РїР°СЂР°РјРµС‚СЂС‹
+    // в nextLink и prevLink нужно сохранить get-параметры
     if (!empty($_get_arr)) {
 
         $ignore_arr = array('sid', 'ced', 'inside_admin', 'catalogue', 'sub', 'cc', 'curPos', 'cur_cc', 'REQUEST_URI');
@@ -2419,16 +2442,16 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $fetch_row = $res;
     }
 
-    // РџСЂР°РІРѕ РЅР° РјРѕРґРµСЂРёСЂРѕРІР°РЅРёРµ Рё РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ.
+    // Право на модерирование и изменение объектов.
     $modPerm = false;
     $changePerm = false;
 
     if ($admin_mode) {
-        $modPerm = CheckUserRights($cc, 'moderate', 1); // РїСЂР°РІРѕ РјРѕРґРµСЂР°С‚РѕСЂР°
-        $changePerm = s_auth($cc_env, 'change', 1); //               РёР»Рё РїСЂРѕСЃС‚Рѕ РЅР° РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ
+        $modPerm = CheckUserRights($cc, 'moderate', 1); // право модератора
+        $changePerm = s_auth($cc_env, 'change', 1); //               или просто на изменение объектов
 
         if (is_object($perm) && $perm->isBanned($cc_env, 'change'))
-            $modPerm = $changePerm = false; // РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ Р·Р°РїСЂРµС‚РёР»Рё РёР·РјРµРЅРµРЅРёРµ РѕР±СЉРµРєС‚РѕРІ
+            $modPerm = $changePerm = false; // пользователю запретили изменение объектов
 
         $f_AdminCommon_add = $admin_url_prefix."add.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc;
         $f_AdminCommon_delete_all = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;delete=1";
@@ -2437,7 +2460,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $f_AdminCommon_export_xml = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;export=2";
         $f_AdminCommon_import_xml = $admin_url_prefix."message.php?catalogue=".$catalogue."&amp;sub=".$sub."&amp;cc=".$cc."&amp;classID=".$classID."&amp;import=2";
 
-        // Js Рё С„РѕСЂРјР° РґР»СЏ РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё РѕР±СЉРµРєС‚РѕРІ
+        // Js и форма для пакетной обработки объектов
         /*$f_AdminCommon_package = "<script type='text/javascript' language='javascript'>\n";
         $f_AdminCommon_package.= "\tnc_package_obj.new_cc(".$cc.", '".NETCAT_MODERATION_NOTSELECTEDOBJ."');\n";
         $f_AdminCommon_package.= "</script>\n";*/
@@ -2451,7 +2474,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         if ($list_mode != "select") {
 
             if ($inside_admin && $isMainContent && $UI_CONFIG) {
-                // РІ Р°РґРјРёРЅРєРµ РЅРµС‚ AdminCommon, РЅРѕ РЅСѓР¶РЅР° С‡Р°СЃС‚СЊ РґР»СЏ РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё
+                // в админке нет AdminCommon, но нужна часть для пакетной обработки
                 if ($totRows != 0)
                     $result.= $f_AdminCommon_package;
                 // add button
@@ -2463,7 +2486,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                         "action" => "parent.nc_form('{$SUB_FOLDER}{$nc_core->HTTP_ROOT_PATH}add.php?inside_admin=1&cc=$cc')",
                 );
 
-                // РєРЅРѕРїРєРё РїР°РєРµС‚РЅРѕР№ РѕР±СЂР°Р±РѕС‚РєРё РЅСѓР¶РЅС‹ С‚РѕР»СЊРєРѕ РµСЃР»Рё РµСЃС‚СЊ РѕР±СЉРµРєС‚С‹
+                // кнопки пакетной обработки нужны только если есть объекты
                 if ($totRows != 0) {
                     //  button "delete all"
                     $UI_CONFIG->actionButtons[] = array(
@@ -2488,7 +2511,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $f_AdminButtons = "";
     }
 
-    $row_ids = array(); // РјР°СЃСЃРёРІ, РІ РєРѕС‚РѕСЂС‹Р№ Р±СѓРґСѓС‚ СЃРєР»Р°РґС‹РІР°С‚СЊСЃСЏ ID РІСЃРµС… СѓР·Р»РѕРІ
+    $row_ids = array(); // массив, в который будут складываться ID всех узлов
     $res_key = $user_table_mode ? 'User_ID' : 'Message_ID';
     for ($i = 0; $i < $rowCount; $i++) {
         $row_ids[] = $res[$i][$res_key];
@@ -2520,7 +2543,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $result .= $f_AdminCommon;
     }
 
-    // РµСЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚, РІРЅСѓС‚СЂРё Р°РґРјРёРЅРєРё РЅСѓР¶РЅРѕ РїРѕРєР°Р·Р°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ "РЅРµС‚ РѕР±СЉРµРєС‚РѕРІ"
+    // если список пуст, внутри админки нужно показать сообщение "нет объектов"
     if ($inside_admin && $totRows == 0 && !nc_strlen(trim($result))) {
         $result.= nc_print_status(NETCAT_MODERATION_NO_OBJECTS_IN_SUBCLASS, 'info', null, 1);
     }
@@ -2532,7 +2555,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
             extract(nc_get_arrays_multifield_for_nc_object_list_and_full_php($multifile_fileds, $row_ids));
         }
 
-        // РїРѕР»СѓС‡Р°РµРј РІСЃРµ С„Р°Р№Р»С‹ РІС‹Р±СЂР°РЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
+        // получаем все файлы выбранных объектов
         $nc_fields_files = $component->get_fields(6, 0);
         $nc_files_in_class = array();
         if (!empty($nc_fields_files)) {
@@ -2556,7 +2579,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         }
     }
 
-    // С‚СЂРµР±СѓРµС‚СЃСЏ РїРѕР»СѓС‡РёС‚СЊ РІСЃРµ РіСЂСѓРїРїС‹ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№
+    // требуется получить все группы пользователей
     if ($user_table_mode && !empty($row_ids)) {
         $nc_user_group = $db->get_results("SELECT ug.`User_ID`, ug.`PermissionGroup_ID`, g.`PermissionGroup_Name`
                                        FROM `User_Group` AS ug,`PermissionGroup` AS g
@@ -2570,7 +2593,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         unset($nc_user_group);
     }
 
-    // =========================  Р›РёСЃС‚РёРЅРі РѕР±СЉРµРєС‚РѕРІ ======================================
+    // =========================  Листинг объектов ======================================
     $cache_vars = array();
     $iteration_RecordTemplate = array();
 
@@ -2582,11 +2605,11 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
 
         if ($fetch_row[$f_RowNum] instanceof Iterator) {
             extract($fetch_row[$f_RowNum]->to_array(), EXTR_PREFIX_ALL, 'f');
-            //РґРѕР±С‹РІР°РµРј СЃС‚Р°СЂС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
+            //добываем старые переменные
             extract($component->get_old_vars($fetch_row[$f_RowNum]->to_array()), EXTR_PREFIX_ALL, 'f');
         } else {
             extract($fetch_row[$f_RowNum], EXTR_PREFIX_ALL, 'f');
-            //РґРѕР±С‹РІР°РµРј СЃС‚Р°СЂС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
+            //добываем старые переменные
             extract($component->get_old_vars($fetch_row[$f_RowNum]), EXTR_PREFIX_ALL, 'f');
         }
 
@@ -2609,13 +2632,13 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
 
         $Hidden_URL = $f_Hidden_URL;
         /*
-         * fix fulllink РґР»СЏ СЃРёСЃС‚РµРјРЅС‹С… С‚Р°Р±Р»РёС†, Сѓ РєРѕС‚РѕСЂС‹С… РІ old_vars РЅРµ РїРѕРїР°РґР°РµС‚ EnglishName
+         * fix fulllink для системных таблиц, у которых в old_vars не попадает EnglishName
          */
         if ($user_table_mode) {
             $f_EnglishName = $cc_env['EnglishName'];
         }
-        /*РїРµСЂРµРѕРїСЂРµРґРµР»РµРЅРёРµ $subLink Рё $cc_keyword, С‡С‚РѕР±С‹ СЃСЃС‹Р»РєРё $fullLink РІРµР» РІ СЃР°Р±РєР»Р°СЃСЃ, РІ РєРѕС‚РѕСЂРѕРј Р±С‹Р» РґРѕР±Р°РІР»РµРЅ РѕР±СЉРµРєС‚
-        РёРЅР°С‡Рµ Р±СѓРґРµС‚ РІРµСЃС‚Рё РІ СЃР°Р±РєР»Р°СЃСЃ, РІ РєРѕС‚РѕСЂРѕРј РѕР±СЉРµРєС‚ РІС‹РІРѕРґРёС‚СЃСЏ.
+        /*переопределение $subLink и $cc_keyword, чтобы ссылки $fullLink вел в сабкласс, в котором был добавлен объект
+        иначе будет вести в сабкласс, в котором объект выводится.
          */
         if (!$ignore_link && !$mirror_env['SrcMirror']) {
             $subLink = $SUB_FOLDER . $f_Hidden_URL;
@@ -2644,14 +2667,14 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
 
         // Multiselect
         if (!empty($multilist_fileds)) {
-            // РїСЂРѕСЃРјРѕС‚СЂ РєР°Р¶РґРѕРіРѕ РїРѕР»СЏ С‚РёРїР° multiselect
+            // просмотр каждого поля типа multiselect
             foreach ($multilist_fileds as $multilist_filed) {
-                // С‚Р°Р±Р»РёС†Сѓ СЃ СЌР»РµРјРµРЅС‚Р°РјРё РјРѕР¶РЅРѕ РІР·СЏС‚СЊ РёС… РєСЌС€Р°, РµСЃР»Рё РµРµ С‚Р°Рј РЅРµС‚ - С‚Рѕ РґРѕР±Р°РІРёС‚СЊ
+                // таблицу с элементами можно взять их кэша, если ее там нет - то добавить
                 if (!$_cache['classificator'][$multilist_filed['table']]) {
                     $db_res = $db->get_results("SELECT `" . $multilist_filed['table'] . "_ID` AS ID, `" . $multilist_filed['table'] . "_Name` AS Name, `Value`
                                        FROM `Classificator_" . $multilist_filed['table'] . "`", ARRAY_A);
                     if (!empty($db_res)) {
-                        foreach ($db_res as $v) { // Р·Р°РїРёСЃСЊ РІ РєСЌС€
+                        foreach ($db_res as $v) { // запись в кэш
                             $_cache['classificator'][$multilist_filed['table']][$v['ID']] = array($v['Name'], $v['Value']);
                         }
                     }
@@ -2661,12 +2684,12 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                 ${"f_" . $multilist_filed['name'] . "_id"} = array();
                 ${"f_" . $multilist_filed['name'] . "_value"} = array();
 
-                if (($value = ${"f_" . $multilist_filed['name']})) { // Р·РЅР°С‡РµРЅРёРµ РёР· Р±Р°Р·С‹
+                if (($value = ${"f_" . $multilist_filed['name']})) { // значение из базы
                     ${"f_" . $multilist_filed['name']} = array();
                     ${"f_" . $multilist_filed['name'] . "_id"} = array();
                     $ids = explode(',', $value);
                     if (!empty($ids)) {
-                        foreach ($ids as $id) { // РґР»СЏ РєР°Р¶РґРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РїРѕ id РѕРїСЂРµРґРµР»СЏРµРј РёРјСЏ Рё Р·РЅР°С‡РµРЅРёРµ
+                        foreach ($ids as $id) { // для каждого элемента по id определяем имя и значение
                             if ($id) {
                                 array_push(${"f_" . $multilist_filed['name']}, $_cache['classificator'][$multilist_filed['table']][$id][0]);
                                 array_push(${"f_" . $multilist_filed['name'] . "_value"}, $_cache['classificator'][$multilist_filed['table']][$id][1]);
@@ -2709,7 +2732,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                     continue;
                 }
 
-                //file_data - РјР°СЃСЃРёРІ СЃ РѕСЂРёРі.РЅР°Р·РІР°РЅРёРµРј, С‚РёРїРѕРј, СЂР°Р·РјРµСЂРѕРј, [РёРјРµРЅРµРј_С„Р°Р№Р»Р°_РЅР°_РґРёСЃРєРµ]
+                //file_data - массив с ориг.названием, типом, размером, [именем_файла_на_диске]
                 $file_data = explode(':', ${"f_" . $field_name});
                 $filetable_path = ($user_table_mode ? "u" : $f_Subdivision_ID . "/" . $f_Sub_Class_ID);
                 ${"f_" . $field_name . "_name"} = $file_data[0];
@@ -2723,12 +2746,12 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                     list($Virt_Name, $Real_Name, $nc_download) = $nc_files_in_class[$f_RowID][$field_id];
                 }
 
-                if ($Virt_Name) { // С„Р°Р№Р»РѕРІР°СЏ СЃРёСЃС‚РµРјР° c Filetable
+                if ($Virt_Name) { // файловая система c Filetable
                     ${"f_" . $field_name} = $SUB_FOLDER . $HTTP_FILES_PATH . $filetable_path . "/h_" . $Virt_Name;
                     ${"f_" . $field_name . "_url"} = $SUB_FOLDER . $HTTP_FILES_PATH . $filetable_path . "/" . $Virt_Name;
                     ${"f_" . $field_name . "_download"} = $nc_download;
                 } else {
-                    if ($file_data[3]) { // С„Р°Р№Р»РѕРІР°СЏ СЃРёСЃС‚РµРјР° "Original"
+                    if ($file_data[3]) { // файловая система "Original"
                         ${"f_" . $field_name} = ${"f_" . $field_name . "_url"} = $SUB_FOLDER . $HTTP_FILES_PATH . $file_data[3];
                     } else {
                         $ext = substr($file_data[0], strrpos($file_data[0], "."));
@@ -2777,35 +2800,35 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
             $fullLink = nc_get_fullLink($admin_url_prefix, $catalogue, $_db_sub, $_db_cc, $f_RowID);
             $fullDateLink = nc_get_fullDateLink($fullLink, $dateLink);
 
-            // ID РѕР±СЉРµРєС‚Р° РІ С€Р°Р±Р»РѕРЅРµ
+            // ID объекта в шаблоне
             $f_AdminButtons_id = $f_RowID;
 
-            // РџСЂРёРѕСЂРёС‚РµС‚ РѕР±СЉРµРєС‚Р°
+            // Приоритет объекта
             $f_AdminButtons_priority = $f_Priority;
 
-            // ID РґРѕР±Р°РІРёРІС€РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+            // ID добавившего пользователя
             $f_AdminButtons_user_add = $f_UserID;
 
-            // ID РёР·РјРµРЅРёРІС€РµРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+            // ID изменившего пользователя
             $f_AdminButtons_user_change = nc_get_AdminButtons_user_change($f_LastUserID);
 
-            // РєРѕРїРёСЂРѕРІР°С‚СЊ РѕР±СЉРµРєС‚
+            // копировать объект
             $f_AdminButtons_copy = nc_get_AdminButtons_copy($ADMIN_PATH, $catalogue, $sub, $cc, $classID, $f_RowID);
 
-            // РёР·РјРµРЅРёС‚СЊ
+            // изменить
             $f_AdminButtons_change = nc_get_AdminButtons_change($SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $f_RowID, $curPos);
             $editLink = $f_AdminButtons_change;
 
-            // СѓРґР°Р»РёС‚СЊ
+            // удалить
             $f_AdminButtons_delete = nc_get_AdminButtons_delete($SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $f_RowID, $curPos);
             $deleteLink = $f_AdminButtons_delete;
             $dropLink = nc_get_dropLink($deleteLink, $nc_core);
 
-            // РІРєР»СЋС‡РёС‚СЊ-РІС‹РєР»СЋС‡РёС‚СЊ
+            // включить-выключить
             $f_AdminButtons_check = nc_get_AdminButtons_check($f_Checked, $any_url_prefix, $SUB_FOLDER, $HTTP_ROOT_PATH, $catalogue, $sub, $cc, $classID, $f_RowID, $curPos, $admin_mode, $admin_url_prefix, $nc_core);
             $checkedLink = $f_AdminButtons_check;
 
-            // РІС‹Р±СЂР°С‚СЊ СЃРІСЏР·Р°РЅРЅС‹Р№ (JS РєРѕРґ!!!) -- РєРѕРіРґР° СЃРїРёСЃРѕРє РІС‹Р·РІР°РЅ РІ popup РґР»СЏ РІС‹Р±РѕСЂР° СЃРІСЏР·Р°РЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
+            // выбрать связанный (JS код!!!) -- когда список вызван в popup для выбора связанного объекта
             $f_AdminButtons_select = nc_get_AdminButtons_select($f_AdminButtons_id);
 
             if ($list_mode == 'select') {
@@ -2817,7 +2840,7 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                 } else {
                     $f_AdminButtons_buttons = nc_get_AdminButtons_buttons($f_RowID, $f_Checked, $f_AdminButtons_check, $f_AdminButtons_copy, $f_AdminButtons_change, $f_AdminButtons_delete, $classID);
                     $f_AdminButtons = nc_get_AdminButtons_prefix($f_Checked, $cc);
-                    // РїСЂРѕРІРµСЂРєР° РїСЂР°РІ
+                    // проверка прав
                     if ($modPerm || ($changePerm && $f_AdminButtons_user_add == $AUTH_USER_ID)) {
                         $f_AdminButtons.= nc_get_AdminButtons_modPerm($classID, $f_RowID, $f_AdminButtons_id, $f_AdminButtons_priority, $f_AdminInterface_user_add, $f_AdminButtons_user_add, $f_AdminInterface_user_change, $f_AdminButtons_user_change, $f_AdminButtons_buttons, $cc);
                     } else {
@@ -2852,15 +2875,15 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
             }
 
             if ($catalogue == $current_catalogue['Catalogue_ID']) {
-                $fullLink = $subLink . $msgLink . ".html"; // РїРѕР»РЅС‹Р№ РІС‹РІРѕРґ
+                $fullLink = $subLink . $msgLink . ".html"; // полный вывод
                 $fullRSSLink = $cc_env['AllowRSS'] ? $subLink . $msgLink . ".rss" : ""; // rss
                 $fullXMLLimk = $cc_env['AllowXML'] ? $subLink . $msgLink . ".xml" : "";
-                $fullDateLink = $subLink . $dateLink . $msgLink . ".html"; // РїРѕР»РЅС‹Р№ РІС‹РІРѕРґ СЃ РґР°С‚РѕР№
-                $editLink = $subLink . "edit_" . $msgLink . ".html"; // ccС‹Р»РєР° РґР»СЏ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ
-                $deleteLink = $subLink . "delete_" . $msgLink . ".html"; // СѓРґР°Р»РµРЅРёСЏ
-                $dropLink = $subLink . "drop_" . $msgLink . ".html" . ($nc_core->token->is_use('drop') ? "?" . $nc_core->token->get_url() : ""); // СѓРґР°Р»РµРЅРёСЏ Р±РµР· РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ
-                $checkedLink = $subLink . "checked_" . $msgLink . ".html"; // РІРєР»СЋС‡РµРЅРёСЏ\РІС‹РєР»СЋС‡РµРЅРёСЏ
-                $subscribeMessageLink = $subLink . "subscribe_" . $msgLink . ".html"; // РїРѕРґРїРёСЃРєР° РЅР° РѕР±СЉРµРєС‚
+                $fullDateLink = $subLink . $dateLink . $msgLink . ".html"; // полный вывод с датой
+                $editLink = $subLink . "edit_" . $msgLink . ".html"; // ccылка для редактирования
+                $deleteLink = $subLink . "delete_" . $msgLink . ".html"; // удаления
+                $dropLink = $subLink . "drop_" . $msgLink . ".html" . ($nc_core->token->is_use('drop') ? "?" . $nc_core->token->get_url() : ""); // удаления без подтверждения
+                $checkedLink = $subLink . "checked_" . $msgLink . ".html"; // включения\выключения
+                $subscribeMessageLink = $subLink . "subscribe_" . $msgLink . ".html"; // подписка на объект
             } else {
                 $fullLink = $subLink . $msgLink . ".html";
                 $fullRSSLink = $cc_env['AllowRSS'] ? $subHost . $subLink . $msgLink . ".html" : "";
@@ -2870,10 +2893,10 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
                 $deleteLink = $subHost . "delete_" . $msgLink . ".html";
                 $dropLink = $subHost . "drop_" . $msgLink . ".html";
                 $checkedLink = $subHost . "checked_" . $msgLink . ".html";
-                $subscribeMessageLink = $subHost . "subscribe_" . $msgLink . ".html"; // РїРѕРґРїРёСЃРєР° РЅР° РѕР±СЉРµРєС‚
+                $subscribeMessageLink = $subHost . "subscribe_" . $msgLink . ".html"; // подписка на объект
             }
 
-            // Р•СЃР»Рё СЌС‚Рѕ РїСЂРµРІСЊСЋ РґР°РЅРЅРѕРіРѕ РєРѕРјРїРѕРЅРµРЅС‚Р° С‚Рѕ, РјС‹ РґРѕР±Р°РІР»СЏРµРј РїРµСЂРµРЅРјРµРЅРЅСѓСЋ Рє СЃСЃС‹Р»РєР°Рј РЅР° РїРѕР»РЅС‹Р№ РїСЂРѕСЃРјРѕС‚СЂ РѕР±СЉРµРєС‚Р°
+            // Если это превью данного компонента то, мы добавляем перенменную к ссылкам на полный просмотр объекта
             if ($classPreview == $cc_env["Class_ID"]) {
                 $fullLink .= "?classPreview=" . $classPreview;
                 $fullDateLink .= "?classPreview=" . $classPreview;
@@ -2978,10 +3001,10 @@ function nc_objects_list_file($sub, $cc, $query_string, $show_in_admin_mode) {
         $nc_field_path = null;
     }
 
-    // РґРѕР±Р°РІРёС‚СЊ СЃРєСЂРёРїС‚ РґР»СЏ D&D
+    // добавить скрипт для D&D
 
     if ($inside_admin && !$user_table_mode && $perm->isSubClassAdmin($cc)) {
-        // РїСЂРёРѕСЂРёС‚РµС‚ РїРѕР·РІРѕР»СЏС‚СЊ РјРµРЅСЏС‚СЊ С‚РѕР»СЊРєРѕ РµСЃР»Рё РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРѕ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (Priority DESC)
+        // приоритет позволять менять только если отсортировано по умолчанию (Priority DESC)
         $change_priority = $cc_env['SortBy'] || $query_order ? 'false' : 'true';
         $result .= "<script type='text/javascript' language='Javascript'>";
         $result .= "if (typeof formAsyncSaveEnabled!='undefined') messageInitDrag(" . nc_array_json(array($classID => $row_ids)) . ", " . $change_priority . ");";

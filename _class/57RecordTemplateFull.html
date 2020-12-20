@@ -31,12 +31,123 @@ $f_AdminCommon."
 	<td class='maincol2' valign='top'>
 	<div id='lcol2'>
 
+<style>
+div.slider-arrow {
+  width: 22px;
+  height: 40px;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0.6;
+  z-index: 4;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: Tahoma, Arial, sans-serif;
+  color: black;
+  -webkit-transform: scaleY(3);
+  -ms-transform: scaleY(3);
+  transform: scaleY(3);
+}
+
+div.slider-arrow.left {
+  left: 10px;
+  top: 45%;
+  display: block;
+  text-shadow: white -1px 0px 0px, white -2px 0px 0px, white -3px 0px 0px;
+}
+
+div.slider-arrow.right {
+  right: 10px;
+  top: 45%;
+  display: block;
+  text-shadow: white 1px 0px 0px, white 2px 0px 0px, white 3px 0px 0px;
+}
+
+div.slider-arrow:hover {
+  opacity: 1.0;
+}
+div#simple-slider > a > img {
+  border: 1px solid white;
+}
+div#simple-slider > a .active {
+  border: 1px dotted gray;
+}
+</style>
+
 <h2 class='hh2'>$f_Name</h2>
-".opt($f_Image, "<p><a href='$f_Image_url' target='_blank'><img src='$f_Image_url' alt='Фотография, картинка, $f_Name' title='Фотография, картинка, $f_Name' width='670' class='img_preview clear'></a></p>")."
+	".opt($f_Image, "<div style='width: 670px; display: block; overflow: hidden; position: relative;'>
+		<a id='full-view' href='$f_Image_url' target='_blank'>
+			<img id='full-slide' src='$f_Image_url' alt='Фотография, картинка, $f_Name' title='Фотография, картинка, $f_Name' width='670' class='img_preview clear'>
+		</a>
+		<div class='slider-arrow left'><</div>
+		<div class='slider-arrow right'>></div>
+		</div>")."
+<br>
+<div id='simple-slider'>
+	".opt($f_Image,     "<a><img src='$f_Image_url'     alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+	".opt($f_addImage1, "<a><img src='$f_addImage1_url' alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+	".opt($f_addImage2, "<a><img src='$f_addImage2_url' alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+	".opt($f_addImage3, "<a><img src='$f_addImage3_url' alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+	".opt($f_addImage4, "<a><img src='$f_addImage4_url' alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+	".opt($f_addImage5, "<a><img src='$f_addImage5_url' alt='$f_Name' title='$f_Name' class='img_preview' width='23%' /></a>")."
+</div>
+
+<script>
+const slider_fullv = document.getElementById('full-view');
+const slider_fulls = document.getElementById('full-slide');
+const slider_slides = document.getElementById('simple-slider').querySelectorAll('.img_preview');
+let   slider_current = 0;
+
+for (let ix = 0; ix < slider_slides.length; ix++) {
+	slider_slides[ix].setAttribute('slide-ix', ix);
+	slider_slides[ix].addEventListener('click', function() {
+		slider_fulls.src = slider_fullv.href = this.src;
+		slider_slides[slider_current].classList.remove('active');
+		slider_current = this.getAttribute('slide-ix');
+		slider_slides[slider_current].classList.add('active');
+	});
+}
+
+slider_slides[slider_current].click();
+
+document.querySelectorAll('.slider-arrow').forEach(function(node) {
+	node.addEventListener('click', function(e) {
+		e = e || window.event;
+		let target = e.target || e.srcElement;
+		let isIE = document.all;
+		e.preventDefault();
+		let current = slider_current;
+		if (target.classList.contains('left')) {
+			current--;
+			if (current < 0) current = slider_slides.length-1;
+		} else {
+			current++;
+			if (current >= slider_slides.length) current = 0;
+		}
+		slider_slides[current].click();
+	});
+});
+</script>
 ";
+
 if ($f_status=='есть на складе') {
-	echo "<div style='padding:20px;text-align:center;'>
-	<a class='btn_cart_red' data-toggle='modal' data-target='#quickOrder' href='#'>Купить в 1 клик</a></div>";
+	echo 
+"
+<center><table style='margin:10px; padding:20px; text-align:center;'><tr>
+	<td style='padding: 0 20px 0 20px;'>
+		<a class='btn_cart' data-toggle='modal' data-target='#quickCart'
+			onclick=\"
+				cart_key = 'cart[$classID][$f_RowID]'; 
+				cart_add = 'Товар: ".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')." <br>Цена: $Price';
+				cart_uri = location.href;
+				yaCounter2308948.reachGoal('ADDTOCART'); return true;\"
+		>В корзину</a>
+	</td>
+	<td style='padding: 0 20px 0 20px;'>
+		<a class='btn_cart_red' data-toggle='modal' data-target='#quickOrder'
+		>Купить в 1 клик</a>
+	</td>
+</tr></table></center>
+";
 }
 //echo $f_series;
 if ($f_series!="") {
@@ -75,7 +186,7 @@ for ($i=0; $i<count($res1); $i++) { //>
 }		
 echo "
 <p class='hh2'>Характеристики:</p>
-		<table style='width:98%;'>
+<table style='width:98%;'>
 <tr>
 <td valign='top' width='50%'>
 <table>
@@ -92,26 +203,15 @@ echo "
 </td><td valign='top'>
 <table>
 ".opt($f_weight, 	"<tr><td width='60%'>Вес (без ножен):</td><td> <b>$f_weight</b></td></tr>")."
-".opt($f_handle, 	"<tr><td>Материал рукояти:</td><td><b> $f_handle</b></td></tr>")."
+".opt($f_handlem, 	"<tr><td>Материал рукояти:</td><td><b> $f_handlem</b></td></tr>")."
+".opt($f_handle, 	"<tr><td>Описание рукояти:</td><td><b> $f_handle</b></td></tr>")."
 ".opt($f_hose, 		"<tr><td>Материал ножен:</td><td><b> $f_hose</b></td></tr>")."
 ".opt($f_country, 	"<tr><td>Страна изготовитель:</td><td><b> $f_country</b></td></tr>")."
 ".opt($f_Vendor, 	"<tr><td>Производитель:</td><td><b> <a href='/Manufacturer/Manufacturer-".$man_id."/'>$f_Vendor</a></b></td></tr>")."
-<tr><td colspan='2'> <div class='share42init'></div>
-<script type='text/javascript' src='/share42/share42.js'></script> </td></tr>
 </table>
 </td></tr></table>
 <br />
-
 ".opt($f_deliverytime, 	"$f_deliverytime")."
-</form>
-	
-	<p class='hh2'>Изображения</p>
-	".opt($f_addImage1, "<a target='_blank' href='$f_addImage1_url'><img src='$f_addImage1_url' alt='$f_Name' title='$f_Name' class='img_preview' width='200' /></a>")."
-	".opt($f_addImage2, "<a target='_blank' href='$f_addImage2_url'><img src='$f_addImage2_url' alt='$f_Name' title='$f_Name' class='img_preview' width='200' /></a>")."
-	".opt($f_addImage3, "<a target='_blank' href='$f_addImage3_url'><img src='$f_addImage3_url' alt='$f_Name' title='$f_Name' class='img_preview' width='200' /></a>")."
-	".opt($f_addImage4, "<a target='_blank' href='$f_addImage4_url'><img src='$f_addImage4_url' alt='$f_Name' title='$f_Name' class='img_preview' width='200' /></a>")."
-	".opt($f_addImage5, "<a target='_blank' href='$f_addImage5_url'><img src='$f_addImage5_url' alt='$f_Name' title='$f_Name' class='img_preview' width='200' /></a>")."
-	
 ".opt($f_Details, "<p class='hh2'>Описание</p>$f_Details");
 echo opt($f_videobig, 	"<div class='cntr'>$f_videobig</div>");
 if ($f_analog) {
@@ -131,7 +231,6 @@ for ($i=0; $i<count($res); $i++){
 $tt=explode(":",$res[$i]->Preview);
 
 echo "<div class='item'>
-<form method=post action='/netcat/modules/netshop/post.php' style='margin:0'>
 <table border=0 cellspacing=0 cellpadding=0 width='100%'>
 <tr valign=top>
 <td colspan='2' align='center' height='40'>
@@ -148,17 +247,30 @@ echo "<div class='item'>
 <b class='price'>".$res[$i]->Price." руб.</b>  
 </td>
 <td> 
-<input type='hidden' name='redirect_url' value=''>
-<input type='hidden' name='cart_mode' value='add'>
-<input type='hidden' name='cart[57][".$res[$i]->Message_ID."]' value='1'>
 ".($res[$i]->status=='3' ? "" : 
-	  ($res[$i]->status=='1' ? "<button style='width:75px; background:transparent;' type='submit'><span style='color:#FF6803;text-decoration:underline;'>под заказ</span></button>" :
-	     	"<button style='width:75px; background:transparent;' type='submit' onClick=\"yaAddCart('".$f_ItemID."', '".htmlspecialchars($f_Name)."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);\"><span class='btn_cart1'>в корзину</span></button>")."")."
-<!--button style='width:75px; background:transparent;' type='submit'><span class='btn_cart1'>в корзину</span></button-->
+	  ($res[$i]->status=='1' ? 
+		"<a style='width:75px; background:transparent; style='color:#FF6803;text-decoration:underline;'
+			data-toggle='modal' data-target='#quickCart'
+			onClick=\"
+				cart_key = 'cart[57][".$res[$i]->Message_ID."]';
+				cart_add = 'Товар: ".htmlspecialchars($res[$i]->Name,ENT_QUOTES,'cp1251')." <br>Цена: ".$res[$i]->Price."';
+				cart_uri = '".$res[$i]->URL."';
+			\">
+			под заказ
+		</a>" :
+	    "<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+			data-toggle='modal' data-target='#quickCart'
+			onClick=\"
+				cart_key = 'cart[57][".$res[$i]->Message_ID."]';
+				cart_add = 'Товар: ".htmlspecialchars($res[$i]->Name,ENT_QUOTES,'cp1251')." <br>Цена: ".$res[$i]->Price."';
+				cart_uri = '".$res[$i]->URL."';
+				yaAddCart('".$res[$i]->ItemID."', '".htmlspecialchars($res[$i]->Name,ENT_QUOTES,'cp1251')."', ".($res[$i]->$Price - $res[$i]->$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+			\">
+			в корзину
+		</a>"))."
 </td>
 </tr>
 </table>
-</form>
 </div>";	
 }
 }
@@ -175,28 +287,32 @@ echo "
 </div>
 </td>
 
-	<td valign='top' class='rightcol2'>
+<td valign='top' class='rightcol2'>
 	<div>
-		<p>Артикул: <span class='artic'>$f_ItemID</span></p><br />
-		<hr /><br />
+		<p>Артикул: <span class='artic'>$f_ItemID</span></p>
+		<hr>
 		<p><b>Цена:    <span class='price'>". $shop->FormatCurrency($Price-$discount, $Currency, true, "")."</span></b></p><br />
 		".(($discount!=0) ? "<p>Старая цена: <strike>".$shop->FormatCurrency($Price, $Currency, true, "")."</strike></p><br />" : "")."
-		".($f_status=='нет' ? "" : "<form method=post action='".$SUB_FOLDER.$HTTP_ROOT_PATH."modules/netshop/post.php' style='margin:0'>
-	          <input type=hidden name=redirect_url value='$GLOBALS[uri_path]'>
-	          <input type=hidden name=cart_mode value=add>
-	          <input type=hidden name='cart[$classID][$f_RowID]' value=1> 
-	          <center>
-	          <input type='submit' onclick=\"yaAddCart('".$f_ItemID."', '".htmlspecialchars($f_Name)."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);\" class='btn_cart' style='background:url(/images/buttons/btn_cart.gif) no-repeat top left; color:#fff; text-decoration:none; font-weight:bold;' value='В корзину'>
-	      	  </center>
-	        </form>")."
-		<hr /><br />
-		<p>Наличие:<br /><br /><center>
+		".($f_status=='нет' ? "" : 
+			"<div style='margin:0'>
+				<center>
+				<a class='btn_cart' data-toggle='modal' data-target='#quickCart'
+					onclick=\"
+						cart_key = 'cart[$classID][$f_RowID]'; 
+						cart_add = 'Товар: ".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')." <br>Цена: $Price';
+						cart_uri = '$GLOBALS[uri_path]'; 
+						yaAddCart('".$f_ItemID."', '".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+					\" 
+					>В корзину</a>
+				</center>
+	        </div>")."
+		<hr />
+		<p>Наличие:<br><center>
 		".($f_status=='есть на складе' ? "<span style='color:#00BF1B; font-size:16px;'><b>$f_status</b>" : "")."
 			".($f_status=='нет' ? "<span style='color:#f80000; font-size:16px;'><b>нет на складе</b>" : "")."
 		".($f_status=='под заказ' ? "<span style='color:#FF6803; font-size:16px;'>Товара нет на складе, но его можно заказать" : "")."
-		
 		</span>
-		</center></p><br />
+		</center></p><br>
 </div>
 <img src='/images/backgrounds/bg_sepitem.jpg'>
 	<div>
@@ -225,7 +341,7 @@ $res = (array) $nc_core->db->get_results($sql);
 for ($i=0; $i<count($res); $i++){
 	$tt=explode(":",$res[$i]->Preview);
 			echo "<div style='width:150px;margin:0;padding:0;'>
-			<form method=post action='/netcat/modules/netshop/post.php' style='margin:0;padding:0;'>
+			<div style='margin:0;padding:0;'>
 				<table border=0 cellspacing=0 cellpadding=0 width='150' style='margin:0;padding:0;'>
 <tr valign=top>
 <td colspan='2' align='center' height='40'>
@@ -242,16 +358,31 @@ for ($i=0; $i<count($res); $i++){
 <b class='price'>".$res[$i]->Price." руб.</b>  
 </td>
 <td> 
-<input type='hidden' name='redirect_url' value=''>
-<input type='hidden' name='cart_mode' value='add'>
-<input type='hidden' name='cart[57][".$res[$i]->Message_ID."]' value='1'>
 ".($res[$i]->status=='3' ? "" : 
-	  ($res[$i]->status=='1' ? "<button style='width:75px; background:transparent;' type='submit'><span style='color:#FF6803;text-decoration:underline;'>под заказ</span></button>" :
-	     	"<button style='width:75px; background:transparent;' type='submit' onclick=\"yaCounter2308948.reachGoal('ADDTOCART'); return true;\"><span class='btn_cart1'>в корзину</span></button>")."")."
+	($res[$i]->status=='1' ? 
+		"<a style='width:75px; background:transparent; style='color:#FF6803;text-decoration:underline;'
+			data-toggle='modal' data-target='#quickCart'
+			onClick=\"
+				cart_key = 'cart[57][".$res[$i]->Message_ID."]';
+				cart_add = 'Товар: ".htmlspecialchars($res[$i]->Name,ENT_QUOTES,'cp1251')." <br>Цена: ".$res[$i]->Price."';
+				cart_uri = '".$res[$i]->URL."';
+			\">
+			под заказ
+		</a>" :
+	    "<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+			data-toggle='modal' data-target='#quickCart'
+			onClick=\"
+				cart_key = 'cart[57][".$res[$i]->Message_ID."]';
+				cart_add = 'Товар: ".htmlspecialchars($res[$i]->Name,ENT_QUOTES,'cp1251')." <br>Цена: ".$res[$i]->Price."';
+				cart_uri = '".$res[$i]->URL."';
+				yaAddCart('".$f_ItemID."', '".htmlspecialchars($f_Name,ENT_QUOTES,'cp1251')."', ".($Price-$discount).", '".s_browse_path_range (-1,$sub_level_count-1,$browse_globalnl)."', 1);
+			\">
+			в корзину
+		</a>"))."
 </td>
 </tr>
 </table>
-</form>
+</div>
 <br>
 </div>";
 }
@@ -475,12 +606,19 @@ dataLayer.push({
 
 if (!$admin_mode) {
 echo "
+<link rel='stylesheet' href='/popup-win/modal.css'>
 <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js' integrity='sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ' crossorigin='anonymous'></script>
 <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js' integrity='sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm' crossorigin='anonymous'></script>
-<!-- 
-<script src='/popup-win/js/jquery.maskedinput.min.js'></script>
--->
+<style>
+.form-group {
+    margin-bottom: 0;
+}
+.modal-header,
+.modal-body {
+	padding: 10px;
+}
+</style>
 ";
 
 $quickorder_name = $NETCAT_FOLDER."popup-win/quickorder_popup.inc.html";
@@ -501,7 +639,24 @@ echo "
 	document.querySelector('#itemprice').value='".($Price-$discount)."';
 	document.querySelector('#itemorprice').value='".$Price."';
 </script>
-<script src='/popup-win/js/main.js'></script>
+<script src='/popup-win/js/main.js'></script>";
+
+$quickcart_name = $NETCAT_FOLDER."popup-win/quickcart_popup.inc.html";
+$quickcart_form = file_get_contents($quickcart_name);
+
+echo "<!-- Загрузка формы добавления в корзину (".$quickcart_name.") размер:".strlen($quickcart_form)." -->
+"; 
+if ($quickcart_form) {
+	echo $quickcart_form;
+}
+
+echo "	
+<script type=\"text/javascript\">
+	let cart_key = null,
+		cart_add = null,
+		cart_uri = null; 
+</script>
+<script src='/popup-win/js/quick_cart_popup.js'></script>
 ";
 }
 echo "

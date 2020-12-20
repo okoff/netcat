@@ -1,0 +1,205 @@
+".( $warnText ? "<div class='warnText'>$warnText</div>" : NULL )."
+<h3>$f_ItemID $f_Name</h3>
+<form name='adminForm' id='adminForm' enctype='multipart/form-data' method='post' action='/netcat/message.php'>
+<div id='nc_moderate_form'><div class='nc_clear'></div><input name='admin_mode' type='hidden' value='$admin_mode'>
+<input name='catalogue' type='hidden' value='$catalogue'>
+<input name='cc' type='hidden' value='$cc'>
+<input name='sub' type='hidden' value='$sub'>
+<input name='message' type='hidden' value='$message'>
+<input name='posting' type='hidden' value='1'>
+<input name='curPos' type='hidden' value='$curPos'>
+<input name='f_Parent_Message_ID' type='hidden' value='$f_Parent_Message_ID'>
+".( $admin_mode && !$systemTableID ? "<div id='nc_moderate_settings'>
+	".($admin_mode ? "<div class='left'>
+		".CONTROL_CONTENT_SUBDIVISION_FUNCS_MAINDATA_KEYWORD." <input name='f_Keyword' type='text' size='20' maxlength='255' value='".$f_Keyword."'>
+	</div>
+	<div class='left'>
+		<img src='/netcat/admin/images/prior.gif' width='16' height='16' align='left' alt='?????????' title='?????????'>
+		<input name='f_Priority' type='text' size='3' maxlength='3' value='".$f_Priority."'>
+	</div>" : "")."
+	".(CheckUserRights( $current_cc['Sub_Class_ID'], "moderate", $posting )? "
+	<div class='left_checkbox'>
+		<input id='chk' name='f_Checked' type='checkbox' value='".($f_Checked ? 1 : 0)."' ".($f_Checked ? "checked" : "")."> <label for='chk'>".NETCAT_MODERATION_TURNON."</label>
+	</div>"
+	: "<!--input id='chk' name='f_Checked' type='hidden' value='".($f_Checked ? 1 : 0)."'-->")."
+	</div>
+" : NULL )."".($admin_mode ? "<div id='nc_moderate_info'><table border='0' cellpadding='0' cellspacing='0' align='right'><tr><td>".CLASS_TAB_CUSTOM_ADD.":</td><td><div class='nc_moderate_info_date'>".$f_Created."</div></td><td><div class='nc_idtab_adduser nc_moderate_info_user'>".( $f_newAdminInterface_user_add ? $f_newAdminInterface_user_add : $f_AdminButtons_user_add )."</div>(".$f_IP.")</td></tr>".( $f_LastUserID ?"<tr valign='top'><td>".CLASS_TAB_CUSTOM_EDIT.":</td><td><div class='nc_moderate_info_date'>".$f_LastUpdated."</div></td><td><div class='nc_moderate_info_user nc_idtab_adduser'>".( $f_newAdminInterface_user_change ? $f_newAdminInterface_user_change : $f_AdminButtons_user_change )."</div>(".$f_LastIP.")</td></tr>": NULL )."</table></div>" : "")." <div class='nc_clear'></div>
+</div>
+
+<div style='text-align:right;'>
+<input class='nc_admin_metro_button' type='submit' value='Сохранить'  style='font-size:16px; padding:5px; color: black; background-color: #EEEEEE; border: 2px solid #00f800;cursor:pointer;' />
+</div>
+
+<div style='display:block; float:right; width:350px; border:1px solid #ccc; padding:10px;margin-top:5px;background:#faf2cc;'>
+<b>Этот товар в отложенных заказах</b>
+<div>".nc_int_field("backcount", "maxlength='12' size='12'", $classID, 1)."</div>
+<div style='margin-top:3px;'>".nc_string_field("backcomment", "maxlength='255' size='50'", $classID, 1)."</div>
+<hr style='margin:5px 0;'>
+<div>".nc_bool_field("showrkfive", "", $classID, 1)."</div>
+<hr style='margin:5px 0;'>
+<div>".nc_bool_field("onfoldingknives", "", $classID, 1)."</div>
+<div>".nc_bool_field("newfoldingknives", "", $classID, 1)."</div>
+<div>".nc_bool_field("specialfolgingknives", "", $classID, 1)."</div>
+<hr style='margin:5px 0;'>
+".nc_bool_field("special", "", $classID, 1)."<br>
+".nc_bool_field("new", "", $classID, 1)."<br>
+".nc_bool_field("showtop", "", $classID, 1)."<br>		
+</div>
+".nc_string_field("ItemID", "maxlength='255' size='50'", $classID, 1)."<br><br>
+".nc_string_field("shtrihcode", "maxlength='255' size='50'", $classID, 1)."<br><br>	
+".nc_string_field("Name", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_int_field("StockUnits", "maxlength='12' size='12'", $classID, 1)."<br>
+<br>
+".nc_list_field("status", "", $classID, 1)."<br>
+<br>
+	".nc_float_field("Price", "maxlength='10' size='10'", $classID, 1)."
+	Цена со скидкой: ".($f_Price - $shop->ItemDiscountSum($sub, $classID, $message, $f_Price, $f_Currency))."<br>
+	".nc_float_field("PriceMinimum", "maxlength='6' size='6'", $classID, 1)."
+	<i>Должна быть меньше цены со скидкой!</i>	
+<br><br>
+".nc_list_field("Currency", "", $classID, 1)."<br>
+<!--br>
+<".nc_bool_field("onfoldingknives", "", $classID, 1)."<br>
+<br>
+<br>
+".nc_float_field("PriceMinimum", "maxlength='12' size='12'", $classID, 1)."<br>
+<br>
+".nc_list_field("CurrencyMinimum", "", $classID, 1)."<br-->
+<br>
+
+".nc_list_field("Vendor", "", $classID, 1)."<br>
+<br>
+".nc_list_field("supplier", "", $classID, 1)." <i>только для администратора</i><br>
+<br>
+".nc_text_field("Description", "", $classID, 1)."<br>
+<br>
+".nc_text_field("Details", "", $classID, 1)."<br>
+<br>
+".nc_file_field("Image", "size='50'", $classID, 1)."<br>
+<br>
+".nc_list_field("Units", "", $classID, 1)."<br>
+<br>
+".nc_float_field("VAT", "maxlength='12' size='12'", $classID, 1)."<br>
+<br>
+".nc_string_field("knifelength", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("klinoklength", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_list_field("bladelen", "", $classID, 1)."<br>
+<br>
+".nc_list_field("locktype", "", $classID, 1)."<br>
+<br>
+".nc_string_field("klinokwide", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("hoselength", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("Hvostlength", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("obuh", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_list_field("steel", "", $classID, 1)."<br>
+<br>
+".nc_string_field("strong", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("handle", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>";
+$sql="SELECT * FROM Classificator_Handle ORDER BY Handle_ID ASC";
+echo "Материал рукояти: <select name='f_handlem'>
+<option value='0' id='f1399'>-- выбрать --</option>";
+$armdls = $nc_core->db->get_results($sql, ARRAY_A);
+if (!empty($armdls)) {
+	foreach ($armdls as $am) {
+	echo "<option value='{$am['Handle_ID']}' ".(($am['Handle_ID']==$f_handlem) ? "selected" : "").">{$am['Handle_Name']}</option>";
+	}
+}
+echo "</select> 
+<br><br>
+".nc_string_field("hose", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>";
+$sql="SELECT * FROM Classificator_Country ORDER BY Country_Name ASC";
+echo "Страна изготовитель: <select name='f_country'>
+<option value='0' id='f13690'>-- выбрать --</option>";
+$armdls = $nc_core->db->get_results($sql, ARRAY_A);
+if (!empty($armdls)) {
+	foreach ($armdls as $am) {
+	echo "<option value='{$am['Country_ID']}' ".(($am['Country_ID']==$f_country) ? "selected" : "").">{$am['Country_Name']}</option>";
+	}
+}
+echo "</select> 
+<br><br>";
+echo nc_string_field("weight", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+".nc_string_field("fullweight", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+<!--".nc_bool_field("availability", "", $classID, 1)."<br>
+<br-->
+".nc_string_field("additional", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+
+".nc_text_field("deliverytime", "", $classID, 1)."<br>
+
+<table width='100%'>
+	<tr><td>
+".nc_file_field("addImage1", "size='50'", $classID, 1)."<br>
+<br>
+
+".nc_file_field("addImage2", "size='50'", $classID, 1)."<br>
+
+<br>
+".nc_file_field("addImage3", "size='50'", $classID, 1)."<br>
+<br>
+".nc_file_field("addImage4", "size='50'", $classID, 1)."<br>
+<br>
+".nc_file_field("addImage5", "size='50'", $classID, 1)."<br>
+</td><td>
+<strong>Второй набор фотографий:</strong><br>
+".nc_file_field("SecImage", "size='50'", $classID, 1)."<br><br>
+".nc_file_field("SecaddImage1", "size='50'", $classID, 1)."<br><br>
+".nc_file_field("SecaddImage2", "size='50'", $classID, 1)."<br><br>
+".nc_file_field("SecaddImage3", "size='50'", $classID, 1)."<br><br>
+".nc_file_field("SecaddImage4", "size='50'", $classID, 1)."<br><br>
+".nc_file_field("SecaddImage5", "size='50'", $classID, 1)."
+</td>
+</tr></table>
+<br>
+".nc_bool_field("video", "", $classID, 1)."<br>
+<br />
+".nc_text_field("videobig", "", $classID, 1)."<br />
+<br />
+".nc_text_field("videosmall", "", $classID, 1)."<br />
+<br />
+".nc_date_field("videocreated", "", $classID, 1)."<br />
+<br />
+	".nc_string_field("complect", "maxlength='255' size='50'", $classID, 1)."<br>
+<br>
+<br>".NETCAT_MODERATION_INFO_REQFIELDS."<br><br>
+".nc_string_field("analog", "maxlength='255' size='50'", $classID, 1)."<br><br>
+".nc_multilist_field("additcharacter", "", "", $classID, 1)."<br /><br />
+".nc_list_field("series", "", $classID, 1)." <br><br>
+<!--".nc_list_field("model", "", $classID, 1)."--> 
+<span style='' id='nc_capfld_1369'>Модель:</span>";
+$sql="SELECT * FROM Classificator_model WHERE Checked=1 AND manufacturer_id=".$f_Vendor." ORDER BY model_Name ASC";
+echo "<!--".$sql."-->";
+echo "<select name='f_model'>
+<option value='0' id='f1369'>-- выбрать --</option>";
+$armdls = $nc_core->db->get_results($sql, ARRAY_A);
+if (!empty($armdls)) {
+	foreach ($armdls as $am) {
+	echo "<option value='{$am['model_ID']}' ".(($am['model_ID']==$f_model) ? "selected" : "").">{$am['model_Name']}</option>";
+	}
+}
+echo "</select> 
+<br><br>
+
+".nc_string_field("vendor_itemid", "maxlength='255' size='50'", $classID, 1)."<br><br>	
+".nc_string_field("vendor_shtrihcode", "maxlength='255' size='50'", $classID, 1)."<br><br>
+".nc_string_field("code1c", "maxlength='255' size='50'", $classID, 1)."<br><br>
+".nc_bool_field("unsaled", "", $classID, 1)."<br /><br>
+".nc_bool_field("yamarket", "", $classID, 1)."<br />
+<br />
+<br>
+<!--".nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE)."-->
+	<input class='nc_admin_metro_button' type='submit' value='Сохранить'  style='font-size:16px; padding:5px; color: black; background-color: #EEEEEE; border: 2px solid #00f800;cursor:pointer;' />
+<p style='text-align:right;'><b><a href='/netcat/?inside_admin=1&cc=$cc'>вернуться в список товаров</a></b></p>
+</form>

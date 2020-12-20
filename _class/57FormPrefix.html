@@ -1,0 +1,30 @@
+$f_AdminCommon
+".(!$admin_mode ? 
+  ((
+    ($_SERVER['REQUEST_URI']!="/") && 
+	($_SERVER['REQUEST_URI']!="/Netshop/catalogue/") && 
+    (!strstr($_SERVER['REQUEST_URI'], "/steel/")) && 
+	(!strstr($_SERVER['REQUEST_URI'], "/Manufacturer/"))
+   ) ?
+    ((($sub==141)||($sub==103)||($sub==138)||($sub==102)||($sub==139)||($sub==106)||($sub==109)||($sub==147)||($sub==140)||($sub==151)||($sub==153)||($sub==157)||($sub==161)) ? 
+      ($totRows>$recNum && !$nc_title  ? 
+        "<br clear='both' /><div class='nc_pagination'>Страницы: ".
+        (browse_messages($cc_env, 5) ? 
+          browse_messages($cc_env, 5) 
+          : "1").
+        "</div><br />" 
+      : "")
+    : "")
+  : "")
+:
+"<table border=1 cellspacing=0 cellpadding=3 width='100%'>
+<tr valign='top'>
+	<td width='40'>ID</td>
+	<td width='40'>Артикул</td>
+  	<td width='160'>Название</td>
+     	<td width='60' nowrap>Цена</td>
+	<td width='40'>На складе</td>
+	<td colspan='2'>Действия</td>
+</tr>
+"
+).opt($RowNum = 0, "")."
