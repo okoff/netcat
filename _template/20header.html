@@ -44,10 +44,6 @@ echo "<title>".(( $current_sub['ncTitle']!="") ? $current_sub['ncTitle'] : $titl
 	
 	"")."
 	".(($current_sub['Subdivision_ID']==1) ? "<meta name=\"yandex-verification\" content=\"109ce59b29206a9f\" />" : "")."
-	".(((strpos($_SERVER['REQUEST_URI'], '.html')>0)&&(strpos($_SERVER['REQUEST_URI'],"add_Order")==0)) ? 
-		"<link rel='stylesheet' href='/popup-win/modal.css'>" : "" )."
-	
-
 </head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->

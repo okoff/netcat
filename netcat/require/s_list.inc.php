@@ -102,17 +102,17 @@ function printItemById($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Prev
 	".(($discount!=$Price) ? "<br><span style='text-decoration:line-through;'>".number_format($Price,0,'.',' ')."</span>&nbsp;{$currency}" : "")."&nbsp;&nbsp;	
 	</td>
 	<td> 
-		".($status==4 ? "" : 
-	     	($status==3 ? 
-				"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+		".($status==3 ? "" : 
+	     	($status==4 ? 
+				"<a style='width:75px; background:transparent; color:#FF6803; text-decoration:underline;'
 					data-toggle='modal' data-target='#quickCart'
 					onclick=\"
 						cart_key = 'cart[57][$RowID]'; 
 						cart_add = 'Товар: ".htmlspecialchars($Name,ENT_QUOTES,'cp1251')."<br>Цена: $Price';
 						cart_uri = '';
-					\">".getItemStatus(3)."
+					\">".getItemStatus(4)."
 				</a>" :
-				"<a style='width:75px; background:transparent; text-decoration:underline;'
+				"<a class='btn_cart1' style='width:75px; background:transparent; text-decoration:underline;'
 					data-toggle='modal' data-target='#quickCart'
 					onclick=\"
 						cart_key = 'cart[57][$RowID]'; 
@@ -236,8 +236,8 @@ function printItemByIdb($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Pre
 	".(($discount!=$Price) ? "<br><span style='text-decoration:line-through;'>".number_format($Price,0,'.',' ')."</span>&nbsp;{$currency}" : "")."&nbsp;&nbsp;	
 	</td>
 	<td> 
-		".($status==4 ? "" : 
-	     	($status==3 ? 
+		".($status==3 ? "" : 
+	     	($status==4 ? 
 				"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
 					data-toggle='modal' data-target='#quickCart'
 					onclick=\"
@@ -246,7 +246,7 @@ function printItemByIdb($RowID,$sub,$classID,$ItemID,$Name,$url,$StockUnits,$Pre
 						cart_uri = '';
 					\">".getItemStatus(3)."
 				</a>" :
-				"<a style='width:75px; background:transparent; text-decoration:underline;'
+				"<a class='btn_cart1' style='width:75px; background:transparent; text-decoration:underline;'
 					data-toggle='modal' data-target='#quickCart'
 					onclick=\"
 						cart_key = 'cart[57][$RowID]'; 

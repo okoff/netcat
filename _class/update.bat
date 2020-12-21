@@ -20,8 +20,8 @@
 @fart.exe -q -B -b -- __*.sql "\\" "\\\\"
 @fart.exe -q -B -b -- __*.sql """" "\\""
 @fart.exe -q -B -b -- __*.sql "'" "\'"
-@copy /Y _pre1.sql + __field.sql + _pre2.sql $query.sql > nul
+@copy /Y _pre1.sql + __field.sql + _pre2.sql %class%%field%.sql > nul
 @del _*.sql
-@echo Полный запрос в $query.sql
-@D:\work\OpenServer\modules\database\MySQL-5.5\bin\mysql -u root -proot russianknife_kn < $query.sql
+@echo Полный запрос в %class%%field%.sql
+@D:\work\OpenServer\modules\database\MySQL-5.5\bin\mysql -u root -proot russianknife_kn < %class%%field%.sql
 @echo код завершения mysql:%errorlevel%

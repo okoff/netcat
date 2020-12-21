@@ -101,7 +101,7 @@ $f_AdminButtons
 				"<a href='$fullLink'><b>Подробнее...</b></a>" :
 				($f_status=='нет' ? "" : 
 					($f_status=='под заказ' ? 
-						"<a style='width:75px; background:transparent; color:#FF6803;text-decoration:underline;'
+						"<a style='width:75px; background:transparent; color:#FF6803; text-decoration:underline;'
 							data-toggle='modal' data-target='#quickCart'
 							onclick=\"
 								cart_key = 'cart[$classID][$f_RowID]'; 
@@ -109,7 +109,7 @@ $f_AdminButtons
 								cart_uri = '$GLOBALS[uri_path]';
 							\">под заказ
 						</a>" :
-						"<a style='width:75px; background:transparent; text-decoration:underline;'
+						"<a class='btn_cart1' style='width:75px; background:transparent; text-decoration:underline;'
 							data-toggle='modal' data-target='#quickCart'
 							onclick=\"
 								cart_key = 'cart[$classID][$f_RowID]'; 
