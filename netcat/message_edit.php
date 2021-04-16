@@ -35,10 +35,7 @@ if ($systemTableID) {
 $result = nc_fields_form($action);
 
 if ($result) {
-    if (
-		!$systemTableID ||
-		$systemTableID == 3
-	) {
+    if (!$systemTableID || 	$systemTableID == 3) {
 		$result = nc_prepare_message_form($result, $action, $admin_mode, $systemTableID, $systemTableID, $current_cc, $f_Checked, $f_Priority, $f_Keyword, $f_ncTitle, $f_ncKeywords, $f_ncDescription);
 	}
     eval("echo \"$result\";");

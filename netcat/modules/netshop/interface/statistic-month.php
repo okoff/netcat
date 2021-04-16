@@ -181,22 +181,11 @@ if ((!isset($_SESSION['admstat'])) || ($_SESSION['admstat']!=1)) {
 			</select></td>
 			<td><select name="year" id="year">
 			<?php
-				if (date("m")>11) {
-					echo "<option value=\"".(date("Y")+1)."\" ". (((isset($incoming['year']))&&($incoming['year']==(date("Y")+1))) ? "selected" : "" ).">".(date("Y")+1)."</option>";
-				}
-				if (date("Y")>2017) {
-					echo "<option value=\"".date("Y")."\" ". (((isset($incoming['year']))&&($incoming['year']==date("Y"))) ? "selected" : "" ).">".date("Y")."</option>";
-				
+				$y = date("Y");
+				for ($o = $y; $o > $y-5; $o--) {
+					echo "<option value=\"".$o."\" ". (((isset($incoming['year']))&&($incoming['year']==$o)) ? "selected" : "" ).">".$o."</option>";
 				}
 			?>
-			
-				<option value="2017" <?php echo (((isset($incoming['year']))&&($incoming['year']==2017)) ? "selected" : "" );?>>2017</option>
-				<option value="2016" <?php echo (((isset($incoming['year']))&&($incoming['year']==2016)) ? "selected" : "" );?>>2016</option>
-				<option value="2015" <?php echo (((isset($incoming['year']))&&($incoming['year']==2015)) ? "selected" : "" );?>>2015</option>
-				<option value="2014" <?php echo (((isset($incoming['year']))&&($incoming['year']==2014)) ? "selected" : "" );?>>2014</option>
-				<option value="2013" <?php echo (((isset($incoming['year']))&&($incoming['year']==2013)) ? "selected" : "" );?>>2013</option>
-				<option value="2012" <?php echo (((isset($incoming['year']))&&($incoming['year']==2012)) ? "selected" : "" );?>>2012</option>
-				<option value="2011" <?php echo (((isset($incoming['year']))&&($incoming['year']==2011)) ? "selected" : "" );?>>2011</option>
 			</select></td>
 		</tr>
 		<tr><td colspan="2"><input type="submit" value="Показать"></td></tr>

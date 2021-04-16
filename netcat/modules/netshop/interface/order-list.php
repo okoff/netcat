@@ -11,7 +11,7 @@ function selectOrderDomain($sel="") {
 	$res="<select name='domain' id='domain'>
 		<option value=''>---</option>";
 	$sql="
-SELECT DISTINCT
+SELECT
     LEFT(
         RIGHT(
             `href` ,
@@ -23,12 +23,17 @@ SELECT DISTINCT
                 length(`href`) - (position('//' IN `href`) + 1)
             )
         ) - 1
-    ) AS domain
+    ) AS domain,
+	COUNT(*) refs
 FROM
 	Message51
 WHERE
-	LENGTH(IFNULL(href,''))>0
+	LENGTH(IFNULL(href,''))>0 AND
+	POSITION('knife.ru' IN href)=0
+GROUP BY
+	domain
 ORDER BY
+	refs DESC,
 	domain";
 	if ($result=mysql_query($sql)) {
 		while($row = mysql_fetch_array($result)) {
