@@ -290,6 +290,7 @@ echo "
 <td valign='top' class='rightcol2'>
 	<div>
 		<p>Артикул: <span class='artic'>$f_ItemID</span></p>
+		<p style='margin-top: 4px;'>SKU: <span>".sprintf("%d%05d", $classID, $f_RowID)."</span></p>
 		<hr>
 		<p><b>Цена:    <span class='price'>". $shop->FormatCurrency($Price-$discount, $Currency, true, "")."</span></b></p><br />
 		".(($discount!=0) ? "<p>Старая цена: <strike>".$shop->FormatCurrency($Price, $Currency, true, "")."</strike></p><br />" : "")."

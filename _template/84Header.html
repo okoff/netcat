@@ -1,0 +1,340 @@
+%Header
+";
+							
+if ($AUTH_USER_ID==1) {
+//print_r($_GET);
+echo "
+<div style='margin:10px 0; padding:10px; border:1px solid #909090;'>
+<!-- форма поиска -->
+<form action='".($admin_mode ? "".$HTTP_ROOT_PATH."index.php?" : "/price-list/" )."' method='get' name='frm_filter'>
+<input type='hidden' name='action' value='index' />
+<input type='hidden' name='admin_mode' value='".$admin_mode."' />
+ ".( $inside_admin ? "<input type='hidden' name='inside_admin' value='1' />
+<input type='hidden' name='cc' value='".$cc."' />
+" : "")." 
+<table>
+<tr>
+	<td style='vertical-align:top;'><a href='/price-list/?action=index&admin_mode=1&ch=1'>только вкл.</a>|
+	<a href='/price-list/?action=index&admin_mode=1&ch=0'>все</a></td>
+
+<td>
+<div style='padding:0px 0 0 30px;'>В наличии:<br><input type='radio' name='srchPat[15]' id='t15_2' value='2' ".(($_GET[srchPat][15]==2) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_2'>да</label> &nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_3' value='3' ".(($_GET[srchPat][15]==3) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_3'>нет</label>&nbsp;&nbsp;<input type='radio' name='srchPat[15]' id='t15_1' value='1' ".(($_GET[srchPat][15]==1) ? "checked" : "" )." style='vertical-align:middle'><label for='t15_1'>под заказ</label> <input type='radio' name='srchPat[15]' id='t15_0' value='' ".(($_GET[srchPat][15]=="") ? "checked" : "" )." style='vertical-align:middle'><label for='t15_0'>все</label></div>
+</td>
+<td><div style='padding:0px 0 0 30px;'>
+	Сортировать по названию <a href='/price-list/?action=index&admin_mode=1&orname=1".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "&srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['nosort']!="") ? "&nosort=".$_GET['nosort'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>возр.</a> | 
+	<a href='/price-list/?action=index&admin_mode=&orname=2".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['nosort']!="") ? "&nosort=".$_GET['nosort'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>убыв.</a>	
+&nbsp;&nbsp;&nbsp;
+	цене <a href='/price-list/?action=index&admin_mode=1&orprice=1".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['nosort']!="") ? "&nosort=".$_GET['nosort'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>возр.</a> | 
+	<a href='/price-list/?action=index&admin_mode=1&orprice=2".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['nosort']!="") ? "&nosort=".$_GET['nosort'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>убыв.</a>	
+	</div>
+</td>
+</tr>
+</table>
+<br>
+<div>Производитель: <br>
+	<select name='srchPat[1]' size='1'>
+	<option value='' ".(($_GET[srchPat][1]=='') ? "selected" : "" ).">---</option>
+	<option value='0' ".(($_GET[srchPat][1]=='0') ? "selected" : "0" ).">(не указан)</option>";
+$query="SELECT Manufacturer_ID, Manufacturer_Name FROM Classificator_Manufacturer WHERE Checked=1 ORDER BY Manufacturer_Name ASC";
+$res = (array) $nc_core->db->get_results($query);
+for ($i=0; $i<count($res); $i++) { //>
+	echo "<option value='{$res[$i]->Manufacturer_ID}' ".(($_GET[srchPat][1]==$res[$i]->Manufacturer_ID) ? "selected" : "" ).">{$res[$i]->Manufacturer_Name}</option>";
+}
+echo "</select></div>
+
+<br>
+	Сортировать по разделам <a href='/price-list/?action=index&admin_mode=1&nosort=0".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['orname']!="") ? "&orname=".$_GET['orname'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>да</a> | 
+	<a href='/price-list/?action=index&admin_mode=1&nosort=1".(($_GET['ch']==1) ? "&ch=1" : "").(($_GET['srchPat'][15]!="") ? "srchPat[15]=".$_GET['srchPat'][15] : "" ).(($_GET['orname']!="") ? "&orname=".$_GET['orname'] : "" ).(($_GET['srchPat'][1]!="") ? "&srchPat[1]=".$_GET['srchPat'][1] : "" )."'>нет</a>
+<br><br>
+	<div>Показывать на сайте knivesshop.ru: &nbsp;&nbsp;<input type='radio' name='srchPat[43]' id='t43_1' value='0' style='vertical-align:middle' ".((($_GET[srchPat][43]==0)||($_GET[srchPat][43]=="")||(!isset($_GET[srchPat][43]))) ? "checked" : "" )."><label for='t43_1'>не важно</label> &nbsp;&nbsp;
+			<input type='radio' name='srchPat[43]' id='t43_2' value='1' ".(($_GET[srchPat][43]==1) ? "checked" : "" )."><label for='t43_2'>Да</label> &nbsp;&nbsp;
+			<input type='radio' name='srchPat[43]' id='t43_3' value='2' ".(($_GET[srchPat][43]==2) ? "checked" : "" )."><label for='t43_3'>Нет</label></div>
+<div>Залежалый товар: &nbsp;&nbsp;<input type='radio' name='srchPat[44]' id='t44_1' value='' style='vertical-align:middle' checked><label for='t44_1'>не важно</label> &nbsp;&nbsp;<input type='radio' name='srchPat[44]' id='t44_2' value='1' style='vertical-align:middle'><label for='t44_2'>Да</label> &nbsp;&nbsp;<input type='radio' name='srchPat[44]' id='t44_3' value='0' style='vertical-align:middle'><label for='t44_3'>Нет</label></div>
+
+	<br><br>
+<input value='".NETCAT_SEARCH_FIND_IT."' type='submit' onclick='return checkFilter();' />
+</form>
+<!-- // форма поиска -->	
+<br><br>
+	<p><span style='background:#f38080;'>Не было продаж последние 6 мес.</span></p>
+</div><br><br>
+";
+
+$strWhere="";
+$strOrder=" ORDER BY m.ItemID ASC";
+if (isset($_GET)) {
+	if ($_GET['ch']==1) {
+		$strWhere.=" AND m.Checked=1 ";
+	} 
+	if ($_GET['srchPat'][15]!='') {
+		if (is_numeric($_GET['srchPat'][15])) {
+			$strWhere .= " AND m.Status=".$_GET['srchPat'][15];
+		}
+	}
+	if (isset($_GET['srchPat'][43])) {
+		if (is_numeric($_GET['srchPat'][43])) {
+			if ($_GET['srchPat'][43]==1) {
+				$strWhere .= " AND m.showrkfive=1";
+			}
+			if ($_GET['srchPat'][43]==2) {
+				$strWhere .= " AND m.showrkfive=0";
+			}
+		}
+	}
+	if (isset($_GET['srchPat'][44])) {
+		if (is_numeric($_GET['srchPat'][44])) {
+			if ($_GET['srchPat'][44]==1) {
+				$strWhere .= " AND m.unsaled=1";
+			}
+			if ($_GET['srchPat'][44]==2) {
+				$strWhere .= " AND m.unsaled=0";
+			}
+		}
+	}
+	if ($_GET['srchPat'][1]!='') {
+		if (is_numeric($_GET['srchPat'][1])) {
+			$strWhere .= " AND m.Vendor=".$_GET['srchPat'][1];
+		}
+	}
+	if ($_GET['orname']==1) {
+		$strOrder=" ORDER BY m.Name ASC";
+	}
+	if ($_GET['orname']==2) {
+		$strOrder=" ORDER BY m.Name DESC";
+	}
+	if ($_GET['orprice']==1) {
+		$strOrder=" ORDER BY m.Price ASC";
+	}
+	if ($_GET['orprice']==2) {
+		$strOrder=" ORDER BY m.Price DESC";
+	}
+}
+							
+if ((isset($_GET['nosort'])) && ($_GET['nosort']==1)) {
+	echo "<table cellpadding='0' cellspacing='0' border='1' width='96%' style='margin:0 auto;'>";							
+	echo "<tr><td colspan='7'><p class='hh2'>".$categories[$k]["name"]."</p>";
+	$query = "SELECT
+		m.Message_ID,
+		m.Name, m.ItemID, m.Price, m.Status, m.StockUnits,
+		m.Checked, m.video, m.unsaled, m.special, m.model, m.showrkfive, m.yamarket,
+		CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+	FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+	WHERE s.`Subdivision_ID` = m.`Subdivision_ID`
+		AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+		AND u.`Subdivision_ID` = m.`Subdivision_ID` ".$strWhere.$strOrder;
+	$res = (array) $nc_core->db->get_results($query);
+	echo "
+		<p>Товаров: ".count($res)."</p></td></tr>
+	<tr><td style='padding:3px;'><b>Артикул</b></td>
+		<td style='padding:3px;'><b>SKU</b></td>
+		<td style='padding:3px;'><b>Статус</b></td>
+		<td style='padding:3px;'><b>Видео</b></td>
+		<td style='padding:3px;'><b>Спец. пред.</b></td>
+		<td style='padding:3px;'><b>knivesshop.ru</b></td>
+		<td style='padding:3px;'><b>Я.маркет</b></td>
+		<td style='padding:3px;'><b>Название</b></td>
+		<td style='padding:3px;'><b>Кол.</b></td>
+		<td style='padding:3px;'><b>Цена, руб.</b></td></tr>
+		";
+	$i=0;
+	for ($i=0; $i<count($res); $i++) { 	// >
+		$bg="";
+		if ($res[$i]->Status==1) {
+			$bg="background:#ffff00;";
+		}
+		if ($res[$i]->Status==2) {
+			$bg="background:#00f300;";
+		}
+		if ($res[$i]->unsaled==1) {
+			$bg="background:#f38080;";
+		}
+		echo "<tr>
+		<td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->ItemID."</a>&nbsp;</td>
+		<td style='padding:3px;'>".sprintf('%d%05d', 57, $res[$i]->Message_ID)."</td>
+		<td style='padding:3px;white-space: nowrap; ".$bg."'>".(($res[$i]->Status==1) ? "под заказ" : "").(($res[$i]->Status==2) ? "на&nbsp;складе" : "").(($res[$i]->Status==3) ? "нет" : "")."</td>
+		<td style='padding:3px;text-align:center;".(($res[$i]->model) ? "background:#F4FF7C;" : "")."'>".(($res[$i]->video==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->special==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->showrkfive==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->yamarket==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;'>".(($res[$i]->Checked==1) ? "<a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->Name."</a>" : $res[$i]->Name )."</td>
+		<td style='padding:3px; text-align:center;'>".$res[$i]->StockUnits."</td>
+		<td style='padding:3px; text-align:right;white-space: nowrap;'>".$res[$i]->Price."</td></tr>";
+	}
+
+							
+							
+// get image url
+//$image_arr = explode(":", $res[0]->Image);
+//$image_url = "/netcat_files/".$image_arr[3];
+						
+echo "</table>";
+} else {
+// массив разделов	
+$categories=array();
+$sql="SELECT * FROM Subdivision, Sub_Class 
+			WHERE Sub_Class.Subdivision_ID = Subdivision.Subdivision_ID 
+			AND Sub_Class.Class_ID IN (57) 
+			ORDER BY Subdivision.Priority";
+$rs=(array) $nc_core->db->get_results($sql);
+$k=0;
+for ($i=0; $i<count($rs); $i++) { 	// >
+	if ($rs[$i]->Parent_Sub_ID==57) {
+		$categories[$k]=array("id"=>$rs[$i]->Subdivision_ID, "name"=>$rs[$i]->Sub_Class_Name);
+		$k=$k+1;
+		// второй уровень каталога
+		for ($ii=0; $ii<count($rs); $ii++) { //>
+			if ($rs[$ii]->Parent_Sub_ID==$rs[$i]->Subdivision_ID) {
+				$categories[$k]=array("id"=>$rs[$ii]->Subdivision_ID, "name"=>$rs[$ii]->Sub_Class_Name);
+				$k=$k+1;
+			}
+		}
+	}
+}
+				
+$disquery="SELECT Name, Description, UserGroups, Goods, ValidFrom, ValidTo, `Condition`,
+                 Function, FunctionDestination, FunctionOperator, StopItem
+            FROM Message54
+           WHERE AppliesTo = 1
+             AND ((ValidFrom IS NULL AND ValidTo IS NULL) OR
+                  (ValidFrom <= NOW() AND ValidTo >= NOW()))
+             AND Checked = 1
+           ORDER BY Priority DESC";	
+$disres=(array) $nc_core->db->get_results($disquery);	
+
+echo "<table cellpadding='0' cellspacing='0' border='1' width='96%' style='margin:0 auto;'>";							
+		
+for($k=0; $k<count($categories); $k++) { //>
+	echo "<tr><td colspan='8'><p class='hh2'>".$categories[$k]["name"]."</p>";
+	$query = "SELECT m.Message_ID,m.Name, m.ItemID, m.Price, m.Status, m.StockUnits, m.Checked,m.unsaled,m.video,m.special,m.model,m.showrkfive,m.yamarket,CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+		FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+		WHERE s.`Subdivision_ID` = m.`Subdivision_ID`
+		AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+		AND u.`Subdivision_ID` = m.`Subdivision_ID` AND s.`Subdivision_ID`=".$categories[$k]["id"].$strWhere.$strOrder;
+	
+	//echo $query;
+
+	$res = (array) $nc_core->db->get_results($query);
+	echo "
+		<p>Товаров в разделе: ".count($res)."</p></td></tr>
+		<tr><td style='padding:3px;'><b>Артикул</b></td>
+			<td style='padding:3px;'><b>SKU</b></td>
+			<td style='padding:3px;'><b>Статус</b></td>
+			<td style='padding:3px;'><b>Видео</b></td>
+			<td style='padding:3px;'><b>Спец. пред.</b></td>
+			<td style='padding:3px;'><b>knivesshop.ru</b></td>
+			<td style='padding:3px;'><b>Я.маркет</b></td>
+			<td style='padding:3px;'><b>Название</b></td><td style='padding:3px;'><b>Кол.</b></td><td style='padding:3px;'><b>Цена, руб.</b></td></tr>
+		";
+	$i=0;
+	for ($i=0; $i<count($res); $i++) { 	// >
+		$bg="";
+		if ($res[$i]->Status==1) {
+			$bg="background:#ffff00;";
+		}
+		if ($res[$i]->Status==2) {
+			$bg="background:#00f300;";
+		}
+		if ($res[$i]->unsaled==1) {
+			$bg="background:#f38080;";
+		}
+		$disco=0;
+							
+		for ($j=0; $j<count($disres); $j++){
+							//echo strpos($disres[$j]->Goods,"57:".$res[$i]->Message_ID.",");
+			$tmp=explode(",", $disres[$j]->Goods);
+			foreach ($tmp as $t) {
+				if ($t=="57:".$res[$i]->Message_ID) {
+					if ($disres[$j]->FunctionOperator=="*=") {
+						$disco=$res[$i]->Price*$disres[$j]->Function;
+						break;
+					}
+					if ($disres[$j]->FunctionOperator=="-=") {
+						$disco=$res[$i]->Price-$disres[$j]->Function;
+						break;
+					}
+				}
+			}
+		}
+							
+		echo "<tr>
+		<td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->ItemID."</a>&nbsp;</td>
+		<td style='padding:3px;'>".sprintf('%d%05d', 57, $res[$i]->Message_ID)."</td>
+		<td style='padding:3px;white-space: nowrap; ".$bg."'>".(($res[$i]->Status==1) ? "под заказ" : "").(($res[$i]->Status==2) ? "на складе" : "").(($res[$i]->Status==3) ? "нет" : "")."</td>
+		<td style='padding:3px;text-align:center;".(($res[$i]->model) ? "background:#F4FF7C;" : "")."'>".(($res[$i]->video==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->special==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->showrkfive==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;text-align:center;'>".(($res[$i]->yamarket==1) ? "<img src='/images/icons/ok.png'>" : "&nbsp;" )."</td>
+		<td style='padding:3px;'>".(($res[$i]->Checked==1) ? "<a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->Name."</a>" : $res[$i]->Name )."</td>
+		<td style='padding:3px; text-align:center;'>".$res[$i]->StockUnits."</td>
+		<td style='padding:3px;text-align:right;white-space:nowrap;'>".(($disco)? $disco." <strike>".$res[$i]->Price."</strike>" : $res[$i]->Price)."</td></tr>";
+	}
+}
+							
+							
+// get image url
+//$image_arr = explode(":", $res[0]->Image);
+//$image_url = "/netcat_files/".$image_arr[3];
+						
+
+echo "</table>";
+							
+}
+} else {
+	echo "<table cellpadding='0' cellspacing='0' border='1' width='96%' style='margin:0 auto;'>";							
+							//echo "<tr><td colspan='7'><p class='hh2'>".$categories[$k]["name"]."</p>";
+	$query = "SELECT 
+		m.Message_ID,m.Name,m.ItemID,m.Price,m.Status,
+		CONCAT( u.Hidden_URL, s.EnglishName, '_', m.Message_ID, '.html' ) AS URL
+	FROM (`Message57` AS m, `Subdivision` AS u, `Sub_Class` AS s)
+	WHERE m.Checked=1 AND s.`Subdivision_ID` = m.`Subdivision_ID`
+		AND s.`Sub_Class_ID` = m.`Sub_Class_ID`
+		AND u.`Subdivision_ID` = m.`Subdivision_ID` ORDER BY ItemID ASC";
+	$res = (array) $nc_core->db->get_results($query);
+	echo "<tr>
+	<td style='padding:3px;'><b>Артикул</b></td>
+	<td style='padding:3px;'><b>SKU</b></td>
+	<td style='padding:3px;'><b>Статус</b></td>
+	<td style='padding:3px;'><b>Название</b></td>
+	<td style='padding:3px;'><b>Цена,&nbsp;руб.</b></td>
+	</tr>";
+	$i=0;
+	$disquery="SELECT Name, Description, UserGroups, Goods, ValidFrom, ValidTo, `Condition`,
+                 Function, FunctionDestination, FunctionOperator, StopItem
+            FROM Message54
+           WHERE AppliesTo = 1
+             AND ((ValidFrom IS NULL AND ValidTo IS NULL) OR
+                  (ValidFrom <= NOW() AND ValidTo >= NOW()))
+             AND Checked = 1
+           ORDER BY Priority DESC";	
+	$disres=(array) $nc_core->db->get_results($disquery);	
+							
+	for ($i=0; $i<count($res); $i++) { 	// >
+		$disco=0;
+							
+		for ($j=0; $j<count($disres); $j++){
+							//echo strpos($disres[$j]->Goods,"57:".$res[$i]->Message_ID.",");
+			$tmp=explode(",", $disres[$j]->Goods);
+			foreach ($tmp as $t) {
+				if ($t=="57:".$res[$i]->Message_ID) {
+					if ($disres[$j]->FunctionOperator=="*=") {
+						$disco=$res[$i]->Price*$disres[$j]->Function;
+						break;
+					}
+					if ($disres[$j]->FunctionOperator=="-=") {
+						$disco=$res[$i]->Price-$disres[$j]->Function;
+						break;
+					}
+				}
+			}
+		}
+		echo "<tr>
+		<td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->ItemID."</a>&nbsp;</td>
+		<td style='padding:3px;'>".sprintf('%d%05d', 57, $res[$i]->Message_ID)."</td>
+		<td style='padding:3px;white-space: nowrap;'>".(($res[$i]->Status==1) ? "под заказ" : "").(($res[$i]->Status==2) ? "на&nbsp;складе" : "").(($res[$i]->Status==3) ? "нет" : "")."</td>
+		<td style='padding:3px;'><a href='".$res[$i]->URL."' target='_blank'>".$res[$i]->Name."</a></td>
+		<td style='padding:3px;text-align:right;white-space:nowrap;'>".(($disco)? $disco." <strike>".$res[$i]->Price."</strike>" : $res[$i]->Price)."</td></tr>";
+	}
+
+echo "</table>";	
+}
+echo "<!-- Header 84-->

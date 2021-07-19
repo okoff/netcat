@@ -191,13 +191,15 @@ if (!empty($armdls)) {
 }
 echo "</select> 
 <br><br>
-
 ".nc_string_field("vendor_itemid", "maxlength='255' size='50'", $classID, 1)."<br><br>	
 ".nc_string_field("vendor_shtrihcode", "maxlength='255' size='50'", $classID, 1)."<br><br>
 ".nc_string_field("code1c", "maxlength='255' size='50'", $classID, 1)."<br><br>
-".nc_bool_field("unsaled", "", $classID, 1)."<br /><br>
-".nc_bool_field("yamarket", "", $classID, 1)."<br />
-<br />
+".nc_bool_field("unsaled", "", $classID, 1)."<br><br>
+".nc_bool_field("yamarket", "", $classID, 1)."<br><br>
+".nc_bool_field("toozon", "", $classID, 1)."<br><br>
+".nc_bool_field("tomarket", "", $classID, 1)."<br><br>
+".nc_string_field("dimensions", "maxlength='60' size='30'", $classID, 1)."<br><br>
+<br>
 <br>
 <!--".nc_submit_button(NETCAT_MODERATION_BUTTON_CHANGE)."-->
 	<input class='nc_admin_metro_button' type='submit' value='Сохранить'  style='font-size:16px; padding:5px; color: black; background-color: #EEEEEE; border: 2px solid #00f800;cursor:pointer;' />

@@ -26,6 +26,10 @@ function showItemList($incoming) {
 	if ((isset($incoming['item_id'])) && ($incoming['item_id'])) {
 		$where = "ItemID LIKE '%".$incoming['item_id']."%'";
 	}
+	if ((isset($incoming['item_sku'])) && ($incoming['item_sku'])) {
+		$where.=($where) ? " AND " : "";
+		$where.="Message57.Message_ID LIKE '%".ltrim(substr($incoming['item_sku'],2),'0')."%'";
+	}
 	if ((isset($incoming['item_name'])) && ($incoming['item_name'])) {
 		$where.=($where) ? " AND " : "";
 		$where.="Name LIKE '%".$incoming['item_name']."%'";
@@ -33,21 +37,24 @@ function showItemList($incoming) {
 	if ((isset($incoming['supplier'])) && ($incoming['supplier'])) {
 		$where.=($where) ? " AND " : "";
 		$where.="supplier=".$incoming['supplier'];
-	} /*else {
-		$where.=($where) ? " AND " : "";
-		$where.="supplier=0";
-	}*/
+	}
 	$sql="SELECT Message57.*, Message57_p.Price AS PriceOtp FROM Message57 
 		LEFT JOIN Message57_p ON (Message57.Message_ID=Message57_p.Message_ID)
 	".($where ? " WHERE " :" " ).$where." ORDER BY ItemID ASC";
 	$result=mysql_query($sql);
-	//echo $sql;
-	$res.="<table cellpadding='2' cellspacing='0' border='1'>
-	<tr><td><b>Артикул</b></td><td><b>Списания</b></td><td><b>Название</b></td><td><b>Кол.</b></td>
-		<td><b>Поставщик</b></td>
-		<td><b>Модель</b></td>
-		<td><b>Цена</b></td>
-		<td><b>Цена отпускная</b></td><td><b>% наценки</b></td><td><b>Статус</b></td><td><b>Изменить отпускную цену</b></td></tr>";
+//	echo $sql;
+	$res.="<table cellpadding='2' cellspacing='0' border='1'><tr>
+	<td><b>Артикул</b></td>
+	<td><b>SKU</b></td>
+	<td><b>Списания</b></td>
+	<td><b>Название</b></td><td><b>Кол.</b></td>
+	<td><b>Поставщик</b></td>
+	<td><b>Модель</b></td>
+	<td><b>Цена</b></td>
+	<td><b>Цена отпускная</b></td><td><b>% наценки</b></td>
+	<td><b>Статус</b></td>
+	<td><b>Изменить отпускную цену</b></td>
+	</tr>";
 	$status="";
 	while ($row = mysql_fetch_array($result)) {	
 		switch ($row['status']) {
@@ -57,17 +64,19 @@ function showItemList($incoming) {
 			default:break;
 		}
 		$discount=getDiscount($row['Message_ID'], $row['Price']);
-		$res.="<tr><td>{$row['ItemID']}</td>
-		<td style='text-align:center;'><a target='_blank' href='/netcat/modules/netshop/interface/statistic-item.php?action=history&id={$row['Message_ID']}'>&gt;&gt;&gt;</a></td>
-		<td><a target='_blank' href='/netcat/message.php?catalogue=1&sub={$row['Subdivision_ID']}&cc={$row['Sub_Class_ID']}&message={$row['Message_ID']}'>{$row['Name']}</a></td><td>{$row['StockUnits']}</td>
-		<td>".printVendor($row['supplier'])."</td>
-		<td>".printModel($row['model'])."</td>
-		<td>".(($discount!=$row['Price']) ? "<strike>".$row['Price']."</strike> ".$discount : $row['Price'] )."</td>
-		<td>".(($row['PriceOtp']) ? $row['PriceOtp'] : "<a target='_blank' href='/netcat/modules/netshop/interface/item-addprice.php?itm={$row['Message_ID']}'>добавить</a>")."</td>
-		<td>".(($row['PriceOtp']) ? number_format(($row['Price']*100/$row['PriceOtp'] - 100), 2) : "&nbsp;")."</td>
-		<td>{$status}</td>
-		<td style='text-align:center;'><a href='/netcat/modules/netshop/interface/item-addprice.php?itm={$row['Message_ID']}'>&gt;&gt;&gt;</a></td>
-		</tr>";		
+		$res.="<tr>
+	<td>{$row['ItemID']}</td>
+	<td>".sprintf('%d%05d', 57, $row['Message_ID'])."</td>
+	<td style='text-align:center;'><a target='_blank' href='/netcat/modules/netshop/interface/statistic-item.php?action=history&id={$row['Message_ID']}'>&gt;&gt;&gt;</a></td>
+	<td><a target='_blank' href='/netcat/message.php?catalogue=1&sub={$row['Subdivision_ID']}&cc={$row['Sub_Class_ID']}&message={$row['Message_ID']}'>{$row['Name']}</a></td><td>{$row['StockUnits']}</td>
+	<td>".printVendor($row['supplier'])."</td>
+	<td>".printModel($row['model'])."</td>
+	<td>".(($discount!=$row['Price']) ? "<strike>".$row['Price']."</strike> ".$discount : $row['Price'] )."</td>
+	<td>".(($row['PriceOtp']) ? $row['PriceOtp'] : "<a target='_blank' href='/netcat/modules/netshop/interface/item-addprice.php?itm={$row['Message_ID']}'>добавить</a>")."</td>
+	<td>".(($row['PriceOtp']) ? number_format(($row['Price']*100/$row['PriceOtp'] - 100), 2) : "&nbsp;")."</td>
+	<td>{$status}</td>
+	<td style='text-align:center;'><a href='/netcat/modules/netshop/interface/item-addprice.php?itm={$row['Message_ID']}'>&gt;&gt;&gt;</a></td>
+	</tr>";		
 	}
 	$res.="</table>";
 	return $res;
@@ -320,18 +329,13 @@ if ((!isset($_SESSION['admstat'])) || ($_SESSION['admstat']!=1)) {
 	<form name="frm1" id="frm1" action="/netcat/modules/netshop/interface/statistic-item.php" method="post">
 	<input type="hidden" name="action" id="action" value="filter">
 	<table cellpadding="2" cellspacing="0" border="1">
-		<!--tr><td colspan="2">
-		<table cellpadding="0" cellspacing="5" border="0"><tr>
-				<td>с</td>
-				<td><input name="min" value="<?php echo isset($incoming['min']) ? date("d.m.Y", strtotime($incoming['min'])) : "01.".date("m.Y") ?>" class="datepickerTimeField"></td>
-				<td>по</td>
-				<td><input name="max" value="<?php echo isset($incoming['max']) ? date("d.m.Y", strtotime($incoming['max'])) : "01.".date("m.Y") ?>" class="datepickerTimeField"></td>
-		</tr></table>
-		</td></tr-->
-		
 		<tr>
 			<td style="text-align:right;">Артикул:</td>
 			<td><input type="text" value="<?php echo (isset($incoming['item_id']) ? $incoming['item_id'] : "" ); ?>" name="item_id" id="item_id"></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">SKU:</td>
+			<td><input type="text" value="<?php echo (isset($incoming['item_sku']) ? $incoming['item_sku'] : "" ); ?>" name="item_sku" id="item_sku"></td>
 		</tr>
 		<tr>
 			<td style="text-align:right;">Название:</td>
